@@ -1,0 +1,6 @@
+# version: 1
+Given the user query, write a single comprehensive paragraph answering the query hypothetical content as if found in an authoritative reference document. Do not include meta-commentary or introduction.
+
+Query: {query}
+
+Hypothetical Document Excerpt:

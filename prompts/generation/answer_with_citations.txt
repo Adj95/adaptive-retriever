@@ -1,0 +1,9 @@
+# version: 1
+Answer the question based strictly on the provided context below. Cite every fact using the exact bracketed chunk ID like [chunk_id]. If the context is insufficient to answer the question, state explicitly that the context is insufficient.
+
+Context:
+{context}
+
+Question: {query}
+
+Answer:

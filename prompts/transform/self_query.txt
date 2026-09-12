@@ -1,0 +1,6 @@
+# version: 1
+Extract metadata filters and semantic query text from the user query. Output JSON matching the schema with keys 'filters' and 'query'. Allowable filter keys: doc_class, date_refs, entities, page_numbers.
+
+User Query: {query}
+
+JSON Output:

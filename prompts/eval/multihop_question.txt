@@ -1,0 +1,15 @@
+# version: 2
+Write a multi-hop search question that requires connecting facts from Text A and Text B below.
+STRICT RULES:
+- Output ONLY the question.
+- The question MUST be standalone and self-contained.
+- DO NOT reference "the provided text", "the passage", "the excerpt", "this chunk", "the document", or "according to the text".
+- DO NOT include any preamble, lead-in sentence, or conversational filler.
+
+Text A:
+{passage_a}
+
+Text B:
+{passage_b}
+
+Multi-Hop Question:

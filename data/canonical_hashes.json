@@ -1,0 +1,3854 @@
+{
+  "bdfaa68d8984f0dc": {
+    "source_path": "data\\corpus\\arxiv_1706.03762.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "aa43c830a2d8e4256e13e3813055554ddec397e2c9319448a06d64beac8de098",
+    "char_count": 42308,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5692a5514787a8c6": {
+    "source_path": "data\\corpus\\arxiv_1810.04805.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "1d256a546569bdc196976a6cc880948c50ff7e78c58398eec3c8034a2ad3568a",
+    "char_count": 64131,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2e663675ae36ad12": {
+    "source_path": "data\\corpus\\arxiv_2302.13971.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "e79b7d15a65514a6751673fa266c950c37fcaa0afef40d418d8d9d1952aabbd4",
+    "char_count": 87896,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e9a0d3128767db61": {
+    "source_path": "data\\corpus\\arxiv_2106.09685.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "af5af557d74010122e7ef534af6eabb6915b0ed6cf736a69ebb4044784e9dd0c",
+    "char_count": 90118,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ad07e47cedf437a4": {
+    "source_path": "data\\corpus\\arxiv_1910.10683.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "872ef6b513cfa8239918fe8caf246eda806bc79b573636775a717fa867322370",
+    "char_count": 206449,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a41bd7877fd1a6bc": {
+    "source_path": "data\\corpus\\arxiv_2001.08361.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "a60d5cb307375a0a5e1c8ac15a94fd5f2ef64f0e1b3900a9ef785a5f448f837e",
+    "char_count": 88787,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7d9f878c23b460e4": {
+    "source_path": "data\\corpus\\arxiv_2201.11903.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "1ffe750cfbedd1eb45a8b818850c5c1036d199b2bb174f5beca7151c3fa03974",
+    "char_count": 135711,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3fd3632a8ef48171": {
+    "source_path": "data\\corpus\\arxiv_2203.15556.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "7abfdcc4dcee5d0440429dacc0a5b1f6b0507037734acc8d3299a84b7e69a52c",
+    "char_count": 96722,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "97fd272f1fdfc186": {
+    "source_path": "data\\corpus\\arxiv_2005.14165.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "2e14d8d3c5bb1796fcb06655ce2066fbd7a2f421117d9b8ebe4036238b1805e6",
+    "char_count": 269677,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "79c5237e3f63953a": {
+    "source_path": "data\\corpus\\arxiv_2305.10601.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "5a080a8497fa865c656a6336feef1d239b139429e21aa73b5d14bae3d470f435",
+    "char_count": 54895,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1e88f1f3027cd1ab": {
+    "source_path": "data\\corpus\\arxiv_2204.02311.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "3b1b5c445e907dafe201f02faeaed7c674846f092f84f58e2c96efc6fd3326f0",
+    "char_count": 288602,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2e487d9b96e3c2e5": {
+    "source_path": "data\\corpus\\arxiv_2004.12832.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "6d2d6364e4506c2c127e1581f70f94fb3c5a207234881f62388f9fa02c80cc62",
+    "char_count": 61295,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ca7f9fda10b90fc0": {
+    "source_path": "data\\corpus\\arxiv_2205.14135.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "64c0032215a1d240e51a7baafa132c4fc02ad57fd80a159f6b4f37bf88a0d7f3",
+    "char_count": 108845,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c33a66dadca2388d": {
+    "source_path": "data\\corpus\\arxiv_2303.08774.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "6f02cf831e196bc128dbbf6ff78737c72bc5fddac0f5889ac8f588701f12a4d9",
+    "char_count": 284081,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "73557d0130695ac4": {
+    "source_path": "data\\corpus\\arxiv_2401.00004.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "0b12d449e7112666c59898a5f55ac5e6d53abc2090d1d20f6493fc69ad68f17c",
+    "char_count": 39666,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ded937bcba4e9a6b": {
+    "source_path": "data\\corpus\\arxiv_2401.00002.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "a1827ac68a5c626de5b3392d55afb37dc3d7f19c758e443a800559b73bddcd92",
+    "char_count": 23156,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fa464f32898118cd": {
+    "source_path": "data\\corpus\\arxiv_2401.00008.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "86b4605c1d39aba006e6833045722b27a9b2eef694f4c2ac6b4e1753dd4ddc17",
+    "char_count": 26286,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9f62221fb9cc21a3": {
+    "source_path": "data\\corpus\\arxiv_2401.00005.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "e9f641a51bc013a691c7964bb61977368832bc34dd110d9b613ba971190a796d",
+    "char_count": 72470,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f26f4b7113e053da": {
+    "source_path": "data\\corpus\\arxiv_2401.00009.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "330720392e5c134cb7e97a3af07961f5b582e3219ad55f6433b4b278ed317463",
+    "char_count": 64998,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "65cc1e346eb5436e": {
+    "source_path": "data\\corpus\\arxiv_2401.00007.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "7ebbab5341c9daff4a6c7ff520945db375f4f2dd86e6162da587ca8e32b756cc",
+    "char_count": 62017,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a70fa2bf30083d24": {
+    "source_path": "data\\corpus\\arxiv_2401.00010.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "f856b20dc8ff8db9934bb6eb43499151b7f309179417253811d129614d303ca5",
+    "char_count": 51333,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3b8271a5103c0ae1": {
+    "source_path": "data\\corpus\\arxiv_2401.00001.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "95637afae454902bcb737b9f6e416b79ea50dc6d3beb9539ca6f9fafe0425110",
+    "char_count": 27124,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b2a483915e3822c5": {
+    "source_path": "data\\corpus\\arxiv_2401.00011.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ca52faa2965ca85764e2dae22357d9ff73146cfd733be3c9e389e17173dd8db2",
+    "char_count": 78661,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ae61353fc282523a": {
+    "source_path": "data\\corpus\\arxiv_2401.00014.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "6c220fe2706457399b38bb6f3814bed1aa05bfeab6eb541c5fea3bbbda9614a5",
+    "char_count": 57118,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a535af8eed57482a": {
+    "source_path": "data\\corpus\\arxiv_2401.00013.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "bb8066e967fd3179d51756d3088a36a8fe88ee0ea3018a8092db0f571f2d2649",
+    "char_count": 132303,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5ffe6e8721b1247c": {
+    "source_path": "data\\corpus\\arxiv_2401.00012.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "64d5dd096ec9fe0883ea24bb7d3d4c617964e1906e88d6740fd09085019a89a8",
+    "char_count": 45306,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "77d0f704383f1c44": {
+    "source_path": "data\\corpus\\arxiv_2401.00006.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "99236b4956c50c54e37a0ddba99b8546d45d8f8dddf1d1b0e007ba52dd216fd7",
+    "char_count": 107651,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e9a952fe41025cde": {
+    "source_path": "data\\corpus\\arxiv_2401.00019.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "2edf2f472d9ec236f967be5bf74a114ec071a839887327606ec76e7b4a924ece",
+    "char_count": 39458,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "dc267e67d292235a": {
+    "source_path": "data\\corpus\\arxiv_2401.00017.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "0618e28dcf40d8a94b2b8fe80f65871f33f9dc09f26720b4416696cd504ec2b0",
+    "char_count": 43863,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b805ea6f4d3bd66a": {
+    "source_path": "data\\corpus\\arxiv_2401.00018.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "492c6393d124e66143407d6ef898bacf2d5b3ec0a2eb5bc475dc37b2d228ebf2",
+    "char_count": 63064,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f1087048f658ed36": {
+    "source_path": "data\\corpus\\arxiv_2401.00015.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "1b8b65dc7e7be9aedfd545e8fea7103d49d7f5ddb1bfac8502e008fc27215ada",
+    "char_count": 59105,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0082440bb3f88c5c": {
+    "source_path": "data\\corpus\\arxiv_2401.00022.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "548961f6ecb83a6f02b0ef04541c24eaf1dd88766cdad2a89b01184e6530a4ce",
+    "char_count": 6878,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a13552d161f3c0f1": {
+    "source_path": "data\\corpus\\arxiv_2401.00021.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "9844ca7548870138d8dc460b836473d44b24569bc933da4bae0a91893bc6cefb",
+    "char_count": 70299,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b8da5f72f205ed7f": {
+    "source_path": "data\\corpus\\arxiv_2401.00023.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "b040a923e55f00fe42b6da5f836740ce39bb7c27119a238ef60ec82b5236ec2b",
+    "char_count": 28004,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "bf40633fa1631bbb": {
+    "source_path": "data\\corpus\\arxiv_2401.00026.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ca6469dfc21cb8134710fad0a8a2b084afa19cfa3b85692c165f4cd17df40a27",
+    "char_count": 6010,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1df284ce95f78300": {
+    "source_path": "data\\corpus\\arxiv_2307.09288.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "b62a7ff633a2752b4bec6ae3a2649e179e3e4410ce489cfd830f5c7cae38daff",
+    "char_count": 284959,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7cda313164ba9f44": {
+    "source_path": "data\\corpus\\arxiv_2401.00024.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "5ac6c1e2a9e33ed4bfbc697ada4e78238017d9439db1ac3d5f8e63f11408be61",
+    "char_count": 58735,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "95cecdc835d9a2f6": {
+    "source_path": "data\\corpus\\arxiv_2401.00030.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "e1eb38b33a045c57eb4763457133d54672f63d347e7d436302f640408895c3d6",
+    "char_count": 23597,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a16b55d73450e525": {
+    "source_path": "data\\corpus\\arxiv_2401.00031.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "47e3f3a9215c94a1e3ca9c74697001d798311f5a1af7fb8c5e9f24a2e14c88a1",
+    "char_count": 52647,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "75a193618770a92b": {
+    "source_path": "data\\corpus\\arxiv_2401.00028.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "36b4d3ad8ce19e9a9f8189d84c263e826a627b59898b6e7ccf84cfd139f5aa82",
+    "char_count": 75426,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "521116c8ebce37e4": {
+    "source_path": "data\\corpus\\arxiv_2401.00025.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "3d35516f83f12502b52b616a10efbd407919306fe17737ebe8744fcfe5d41001",
+    "char_count": 70497,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "81720e0aabe364b1": {
+    "source_path": "data\\corpus\\arxiv_2401.00033.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "7258e22a4dc5d4ac05cdad1c52acf8c3583272c973378c1ad0d6412691ad4f7a",
+    "char_count": 103115,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "60d82cba74d87c0c": {
+    "source_path": "data\\corpus\\arxiv_2401.00034.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "dd6d2046439321cdb06c0cbc20e4740fb5c4ec9a3a3f51556b7662ba81e17aea",
+    "char_count": 84066,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a7a058d45fc91026": {
+    "source_path": "data\\corpus\\arxiv_2401.00032.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "c3fdbaddce270334e38e4af09d0f9a1e5f6c82c7ad0f5d341a61a1793553084c",
+    "char_count": 52939,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a3949811a2218f9d": {
+    "source_path": "data\\corpus\\arxiv_2401.00037.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "004790ece74cdfd5daf00a066e582989da9d87e7c9ec4e4c937ab1dfd10bb3c1",
+    "char_count": 49036,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fcbc15f9b8ff9bda": {
+    "source_path": "data\\corpus\\arxiv_2401.00035.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "59f6b4e634a9ec5200faaf518c63c8d2d3a3e85cc8ab35d4054de525aae2aed2",
+    "char_count": 97480,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "10f7ae781163acf7": {
+    "source_path": "data\\corpus\\arxiv_2401.00038.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "be7cafd4fe74da3546abcc9ee6a61a23901329d6036a0d00b4a70c49f26c70bc",
+    "char_count": 86883,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7eac7d1204ba48e4": {
+    "source_path": "data\\corpus\\arxiv_2401.00029.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "c4fd4484dd58426b4e5b9774efa776bea177aad5f4b7e186412322399e2fe2f0",
+    "char_count": 57478,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "af87c367daf4cb3c": {
+    "source_path": "data\\corpus\\arxiv_2401.00039.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "69178487a68566140605c88ec071f948ae45176663f397ff663930b147c337a6",
+    "char_count": 80816,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5a4f6a3754880a5f": {
+    "source_path": "data\\corpus\\arxiv_2401.00040.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "f40a8745f806ef7f3b4a10795a7b3a3851b0aaf57a95db5e99fe66f1bc34351e",
+    "char_count": 144397,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c25a6597cb970553": {
+    "source_path": "data\\corpus\\arxiv_2401.00042.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "3f156c9fd5ea34be4e10ce037169908702bdecc5291ab4a5cf01c7e95a6db54f",
+    "char_count": 41977,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "91832a5aeec4f27d": {
+    "source_path": "data\\corpus\\arxiv_2401.00027.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "a6b4ec22326f655171aae7fa8daf223851fc09746880d75ac61921e208bebdda",
+    "char_count": 43975,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "6748a91013e057bf": {
+    "source_path": "data\\corpus\\arxiv_2401.00044.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "fc181c507349d1437c4f9350eb06566e7945b1baac95acf9ca25e37e67d5d9c0",
+    "char_count": 46637,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "41bf3dc486e14765": {
+    "source_path": "data\\corpus\\arxiv_2401.00046.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "959e8167b860ff2930c11f728b3d726b35462f1eecac322794727bc59cfcc6ff",
+    "char_count": 39242,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fc8ff9810810e659": {
+    "source_path": "data\\corpus\\arxiv_2401.00020.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "8aa84ce8a6bc525be8846b2f2f07116b8ce4f4587b985e1c464f81b80fcdfd8d",
+    "char_count": 148012,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "6045752788499dcf": {
+    "source_path": "data\\corpus\\arxiv_2401.00045.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "d31d8806704ea5c98d3be98c415b01bc95343939769f25362415229dd7360b8e",
+    "char_count": 84469,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1e7cc23fc5c7301e": {
+    "source_path": "data\\corpus\\arxiv_2401.00047.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "a243cdeae669cdb046a271b767cb2c247f4be8b67ef865a7d2e1e7ba334a6f5d",
+    "char_count": 77774,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9dd813fb008ff04c": {
+    "source_path": "data\\corpus\\arxiv_2401.00041.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "11c672c719a87b627af0630bdc3dd987d4b46f7ae38b5824aac2b44eea2a6d8a",
+    "char_count": 237296,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9cd67b83f6f6919f": {
+    "source_path": "data\\corpus\\arxiv_2401.00049.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "7e1f06a9bdada53e75cf1e17754d2bf26e91890a5ba70bf448e3340fb17e6919",
+    "char_count": 79874,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "69087e044ca8c798": {
+    "source_path": "data\\corpus\\arxiv_2401.00050.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "7a4c7531b06eeaec6f4ae6ab42844d6c5a6ade67ea95348ea34d6b4c594ac88a",
+    "char_count": 53136,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "569dfa37a1caece0": {
+    "source_path": "data\\corpus\\arxiv_2401.00043.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ac2e0a5e4703ddd90504c70f21fcf485c19d00b621e825b8d3d9255e865a8d00",
+    "char_count": 284716,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "68fa6f463db7e038": {
+    "source_path": "data\\corpus\\arxiv_2401.00036.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "6f6dfeff4d52ad26323d142ea784ca400b50b95590dd08c6906d75922b75643e",
+    "char_count": 65523,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e6e5fbd94409ffbd": {
+    "source_path": "data\\corpus\\arxiv_2401.00003.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "e11c1ae7863e81a75e6e9fec80726b5a44f119a6f2a28aa3e3feb372d98efca2",
+    "char_count": 102524,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "01f91f3d38d114c6": {
+    "source_path": "data\\corpus\\arxiv_2401.00052.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "8efe9da78a7cd99b41c675abc8b76321b20b1da5e6875f082c8b44bc9a77bdea",
+    "char_count": 30283,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "20a6097cff0ac353": {
+    "source_path": "data\\corpus\\arxiv_2401.00048.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "369aa2840ecc47c982b123e72d7e3107b9299b7634c51d397af56f57740a94f3",
+    "char_count": 218451,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "01691ae6e9b93937": {
+    "source_path": "data\\corpus\\arxiv_2401.00051.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "4004b859f5476ad281b98e914097d03ef614cf6b4a50e39e7494efee29330f3f",
+    "char_count": 19691,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fa4ad472bd67ddfe": {
+    "source_path": "data\\corpus\\arxiv_2401.00053.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "239edba450f8997dd8f7d805ee39de33ccee4e0529c7bfd77d376e34488f4952",
+    "char_count": 75706,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "6efaf89e7cc845b8": {
+    "source_path": "data\\corpus\\arxiv_2401.00055.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "b47601bdf98190f35826ed73d579ded03bc54e459e18cdc62094ca1a4d33589c",
+    "char_count": 26822,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2fc985d83b3cf40e": {
+    "source_path": "data\\corpus\\arxiv_2401.00059.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "29db4964c53307ee61e3d0846aab4df617118874d7088529f1f3b77df8d3bac0",
+    "char_count": 69975,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "006cd302f17bddfb": {
+    "source_path": "data\\corpus\\arxiv_2401.00060.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "49c9ab16bbf5a25ed723a468b22030d6c38aed3a4dc09f3a309b7fa1d5838695",
+    "char_count": 99544,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a93e6f062a4ef407": {
+    "source_path": "data\\corpus\\arxiv_2401.00057.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "541b30630325cdb42716abfbe430eee5d7048b0897f7d54f9f5653e7814459b3",
+    "char_count": 18808,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7417dc5a34d38b41": {
+    "source_path": "data\\corpus\\arxiv_2401.00058.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "28dcc155a81c8e4acf26616b1b6888764aef9681bfd9e65a00a57b950a4c9498",
+    "char_count": 56613,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "548ae59778cf08ee": {
+    "source_path": "data\\corpus\\sec_10k_0000320193_000032019325000079.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "8ff42345270612cfdea94b47ef5ed535a48acd8edd41c895b8abe95270187b91",
+    "char_count": 227956,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "24a830a0f1256e37": {
+    "source_path": "data\\corpus\\sec_10k_0000320193_000032019324000123.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "751b9a86cd091ce386a0e53baed6b014107d85a405baf0870180af01ed042043",
+    "char_count": 225244,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "bda1f34435199672": {
+    "source_path": "data\\corpus\\sec_10k_0000320193_000032019323000106.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "a9051c7dacdf55cd7d195028bd08d6852e338c54713fb971d8cc2098e42cdf04",
+    "char_count": 223955,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "456745504768ea64": {
+    "source_path": "data\\corpus\\arxiv_2401.00054.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "1ea4c87e9fe88b4aafab1522f6153a418aa48d5388e8549f0a9ed6ad3f165172",
+    "char_count": 253106,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c2f6301004f35411": {
+    "source_path": "data\\corpus\\sec_10k_0001652044_000165204426000018.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "879d1bb12cd3c020433299e85c542ccb2969b281417f3f00279109273c906a1a",
+    "char_count": 400186,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a70a2cc584744e7d": {
+    "source_path": "data\\corpus\\sec_10k_0001652044_000165204425000014.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "46c798184da879eb6d58895b6266bb5ce606f006fb99d2f7894aee40d17f065f",
+    "char_count": 400040,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "99d693f6c1544144": {
+    "source_path": "data\\corpus\\sec_10k_0000789019_000095017025100235.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "de625552bdf96ef9fb714a207a5c798304a619a55676d0c90dea06575e647eda",
+    "char_count": 432803,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "787dd59d770312b2": {
+    "source_path": "data\\corpus\\sec_10k_0001652044_000165204424000022.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "f05544dd115a9dcfc09e2158d2f092665b62718a6ce00c8e2afe549183d9ccc6",
+    "char_count": 388431,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "43829a12cc9cd719": {
+    "source_path": "data\\corpus\\sec_10k_0000789019_000095017024087843.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "549e71f19a989df3e63ad99627efd56ba97998086645cbbd690fa946656d60ea",
+    "char_count": 340604,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4bcf2da2871acc19": {
+    "source_path": "data\\corpus\\sec_10k_0000789019_000119312526323660.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "dc544f26b29a091f2b6fef541f7b5cdddee122b9939ebc69e64554e52097b7c5",
+    "char_count": 447779,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "beb1bfc28558135e": {
+    "source_path": "data\\corpus\\sec_10k_0001018724_000101872426000004.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "471c1637bb0f9a8dda84baf4f73dc4b8aae12fa9c183b2ed6f70ee159bfd3e43",
+    "char_count": 326166,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "094e0f2aa1d58203": {
+    "source_path": "data\\corpus\\sec_10k_0001018724_000101872425000004.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "ab79224f614ae40a2b40a33c4806f5e401d970684ebd953ed418ef6fe3db4949",
+    "char_count": 320905,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a469a0feca6dd572": {
+    "source_path": "data\\corpus\\sec_10k_0001018724_000101872424000008.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "425b393d26f6b44fa5ec580ba6c0518030a23798eccb6d55d9658cdb59fc89d9",
+    "char_count": 324229,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "73d81f5a111abcf7": {
+    "source_path": "data\\corpus\\sec_10k_0001045810_000104581026000021.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "6eee0ba115965e8194afe4773a0501a25a180f5a69e13e0e2a6eea82dba5058f",
+    "char_count": 374031,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "dae19486be264fd2": {
+    "source_path": "data\\corpus\\sec_10k_0001045810_000104581025000023.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "7836a6ed06af745720be44488e9d58ed1f51e0c3c102b165dee28afa08f77281",
+    "char_count": 383122,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3ee6c75beb947d9e": {
+    "source_path": "data\\corpus\\sec_10k_0001045810_000104581024000029.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "21447d36b298ad978f82f1d11c5f1ea1ccc2cfc0ae90c447ef541a5a558d0ab7",
+    "char_count": 378181,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3591db2246ab14c5": {
+    "source_path": "data\\corpus\\sec_10k_0000034088_000003408826000045.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "d56cb58d5d0304f49de07cb5c6ae7825fbf1b6d01756fc60198a5c005e74ce5c",
+    "char_count": 537497,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ef8063b86ee33c8b": {
+    "source_path": "data\\corpus\\sec_10k_0000034088_000003408825000010.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "0be12fe73b52fa608c0e04c3860a581fb577326269629dba722f7386b53c75e3",
+    "char_count": 594916,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "29d225db9f83e060": {
+    "source_path": "data\\corpus\\sec_10k_0000034088_000003408824000018.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "2113791eb6d0c710514efb21b3bbcb67b7c990985f560b06fec54b53d0d7da1b",
+    "char_count": 562878,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "83359d3ca5566ed9": {
+    "source_path": "data\\corpus\\sec_10k_0000200406_000020040624000013.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "5395fc4681dee9570578fabd0ce16deba7028c163aa7c171718f6e830f800844",
+    "char_count": 541185,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "60ce747c6aada896": {
+    "source_path": "data\\corpus\\sec_10k_0000200406_000020040625000038.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "9d7efd723a4866c36a026865e18418b1971717601279c6bbd78a7cb8a2c0e4d1",
+    "char_count": 548010,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "082f4e489d4c19f5": {
+    "source_path": "data\\corpus\\sec_10k_0000200406_000020040626000016.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "730bd9b00cd9d658cce2bc36a9b556cd766a8b76ec13ca014ede77bf7dbdee8f",
+    "char_count": 549863,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "67af52d83cdc32a0": {
+    "source_path": "data\\corpus\\sec_10k_0000050863_000005086326000011.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "d4d9a6942061ef8c80842bf75dcf7662a6e6db95b9defacda3642ee17f6b7199",
+    "char_count": 604928,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4d9febdbc2038dcd": {
+    "source_path": "data\\corpus\\sec_10k_0000019617_000162828026008131.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "9d026d44f10cff5300300ed69baddc23de571c3f9d546f53365984f0942dc80f",
+    "char_count": 1554504,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "60e9b3e88bb1cf3f": {
+    "source_path": "data\\corpus\\sec_10k_0000050863_000005086325000009.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "5d9d05e2f5ad16ba74b94d1582c5ca1f16353875f7341508ebb2f2c6bde1f62e",
+    "char_count": 560493,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3cbfebb819e981fd": {
+    "source_path": "data\\corpus\\sec_10k_0000050863_000005086324000010.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "f7cad4f7bb1daeb8c2d5c32d6335a9758c56bb01e93eef018c4ba9aed36f7592",
+    "char_count": 564538,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "eba2b2a9b395e555": {
+    "source_path": "data\\corpus\\sec_10k_0000093410_000009341026000078.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "e512fd01638e03885dcd710ac9be450883d3e1ca139c707de50840107a399cde",
+    "char_count": 623747,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b20160992ba1fb3e": {
+    "source_path": "data\\corpus\\arxiv_2401.00056.pdf",
+    "doc_class": "digital_prose",
+    "canonical_parser": "pymupdf",
+    "text_hash": "e5179f7b3cf801e61b3de51f683d9b66b0cc53859958ddc30138bbfff6cd539c",
+    "char_count": 50348,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "37a2e3811927a450": {
+    "source_path": "data\\corpus\\sec_10k_0000080424_000008042426000103.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "a2fdad6f8a768ed8edee3cfe2c84d9970ddaac29d961015e7522af894dbd6ad5",
+    "char_count": 357259,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "771cbdd953a63a34": {
+    "source_path": "data\\corpus\\sec_10k_0000080424_000008042425000076.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "f7dccbba76e7c37924aa5bbc3997f82121747a538ae81b2e02b77969d72dee26",
+    "char_count": 352615,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "783e4588c24217cd": {
+    "source_path": "data\\corpus\\sec_10k_0000320193_000032019322000108.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "04813d58f85ed528be6f4b1a2a66e150a123aaaa8e76725cfd5e38329d74090b",
+    "char_count": 240736,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f1689d83592bd041": {
+    "source_path": "data\\corpus\\sec_10k_0000093410_000009341025000009.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "642f3b32e57da2af5deda04ad72eb0d2c78a9f6b991a4f628fb4a86a8f0a383f",
+    "char_count": 608347,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4e8830c4480b1480": {
+    "source_path": "data\\corpus\\sec_10k_0000093410_000009341024000013.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "1ca3ef16f4dc714c3d202055540a985fea443a8a520e5e7e9ec96c52b0cc96db",
+    "char_count": 602691,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "65e13f87e364fce9": {
+    "source_path": "data\\corpus\\sec_10k_0000080424_000008042424000083.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "84dc32b1a515e389c1e0d483a91738c302fa0d2ecb30d0118b69ce5d16eca836",
+    "char_count": 347445,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a4c77324eba4a3d8": {
+    "source_path": "data\\corpus\\sec_10k_0001045810_000104581023000017.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "0bc1d15c9c5f81c346565475c56260e212dbce3c10c98329db201f6f37de8115",
+    "char_count": 356340,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fdb8e47076ef9ce0": {
+    "source_path": "data\\corpus\\sec_10k_0001018724_000101872423000004.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "caef9d6cbce828f87c05dcff3a3174ca5f3ddff394810f1b0edcda7b858cb880",
+    "char_count": 308491,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a73b722fd7c8998c": {
+    "source_path": "data\\corpus\\sec_10k_0000040545_000004054526000008.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "05d5945cfbbc5b38aadcd849a9a66bd64b1ba8569d27f884f7658f0597eae9b7",
+    "char_count": 481604,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d4afbf861ecaf6a9": {
+    "source_path": "data\\corpus\\sec_10k_0000310158_000031015826000063.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "02f32847138a44c2a7c7533be207da5cb9ecd42f118a63c0755737ed8d92a6cb",
+    "char_count": 814282,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "53bc55998f298d75": {
+    "source_path": "data\\corpus\\sec_10k_0000040545_000004054525000015.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "01b0535f3f6b3703826a859376f503c585941c5ac7e82faf86590bf47ca4a813",
+    "char_count": 507455,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3ff27830f1620281": {
+    "source_path": "data\\corpus\\sec_10k_0000310158_000162828025007732.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "b36a418de5fb4efca14c7038d627094eb0ed430945da975d15cae3a6ec1d0680",
+    "char_count": 788909,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "db7709bba22e1ce1": {
+    "source_path": "data\\corpus\\sec_10k_0000040545_000004054524000027.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "70f29ff9826965fda1a85fa7b85cf8ef119cd59308177d16edaf426e01761d00",
+    "char_count": 545258,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d2018e3ada77d507": {
+    "source_path": "data\\corpus\\sec_10k_0000310158_000162828024006850.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "4f40e2d4a84d7f89659b5565e86abf6986ea0dc1b58c7f7417f01b4b42a5a498",
+    "char_count": 780293,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "997ea49fc960f676": {
+    "source_path": "data\\corpus\\sec_10k_0000050863_000005086323000006.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "a20a386e8fdd2867bcdfad84af8390f0aee9239078ed7f5b9b58ea24485b650b",
+    "char_count": 511346,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "892d566da38b16c8": {
+    "source_path": "data\\corpus\\sec_10k_0000732712_000073271226000007.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "b7601f783a9d179f41edf78b84e82b84d31f91ff6344ff98c2d9db2f56b03701",
+    "char_count": 583976,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d4669e1c5c4536b8": {
+    "source_path": "data\\corpus\\sec_10k_0000051143_000005114326000010.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c8853ab4ac9c2a234b01421e1eaaecf1693d4161170a0e3ae4a037198aff456e",
+    "char_count": 194804,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4a2d79751837266a": {
+    "source_path": "data\\corpus\\sec_10k_0000051143_000005114325000015.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "2265bc68bff2452d67da92390b31df53baa21ed3264cdb356458a7f736fb94f9",
+    "char_count": 209173,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9f9da347ca0b3ff0": {
+    "source_path": "data\\corpus\\sec_10k_0000732712_000073271225000006.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "2a3ca51fc1b8d66da83867c16a41966b982fda3e0bff8c98b5bd6816fe0443b8",
+    "char_count": 591686,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b1f90966eebd81b5": {
+    "source_path": "data\\corpus\\sec_10k_0000051143_000005114324000012.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "b8e34cc24fd3256c81cbb1189642c22bcb8bb9cae1ec7329b96f5644911ba875",
+    "char_count": 204303,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ee8b1d39223f1533": {
+    "source_path": "data\\corpus\\sec_10k_0000732712_000073271224000010.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "f9e6ee9c030965d7893ef26f5f98c98b65537d0b4d4f37421798caeb60fb9e5b",
+    "char_count": 581463,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "faf5cf790f6c3d8b": {
+    "source_path": "data\\corpus\\sec_10k_0000093410_000009341023000009.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "54c5279ed40479597a45389ccc644aea2bb409e9f11e60ae30984954f2765e17",
+    "char_count": 580338,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1b8b608edfafed14": {
+    "source_path": "data\\corpus\\sec_10k_0000066740_000006674026000014.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c94f49caf9f2aa9d906f929572ddd013050f38d4d2b81d7398ea36658cdeff74",
+    "char_count": 600063,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f6b1e4e25332c589": {
+    "source_path": "data\\corpus\\sec_10k_0000066740_000006674025000006.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c95156335bc3814a1715f6b5c5313a4dc78fe2da71d5fd8ac23d90500b3d2a7e",
+    "char_count": 663283,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5368813fd21746c6": {
+    "source_path": "data\\corpus\\sec_10k_0000731766_000073176625000063.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "4dcbafcae6747c1292eb2af5a13b1a1694dca83cd21b4c83cdd96e43eade85fb",
+    "char_count": 361070,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "52ec7cb1c85bc9a0": {
+    "source_path": "data\\corpus\\sec_10k_0000066740_000006674024000016.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "ed437fdc096611ca5d4d4288c270a60db08d4d4dfbe41f7c451b439e9f536422",
+    "char_count": 638762,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "22efb76f101ba624": {
+    "source_path": "data\\corpus\\sec_10k_0000080424_000008042423000073.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "29f8925f9b5211eaa953f5009be3c41ccd382d1d01d9f904c34c5bf97118c822",
+    "char_count": 335503,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ac66517766674908": {
+    "source_path": "data\\corpus\\sec_10k_0000731766_000073176626000062.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "fb90f4b5fd9a8c83996267ca8b8c77f98e280eb59b2a87f72bdc3b41512ae40c",
+    "char_count": 383908,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "63f0906ae441374e": {
+    "source_path": "data\\corpus\\sec_10k_0000072971_000007297126000133.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "71f0771ef8ba2235663314e4d304c456f23a31f9d174a5880ea8a6e9ae3e1e21",
+    "char_count": 87145,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5a5d68aa5a839be3": {
+    "source_path": "data\\corpus\\sec_10k_0000731766_000073176624000081.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "6f1fcb30258bd69db2c0acf3df80c7e9105cf3eaaaf2428345b8a10aa4eee96a",
+    "char_count": 353409,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "cc3b4e39f4a59435": {
+    "source_path": "data\\corpus\\sec_10k_0000034088_000003408823000020.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "dde7d64a7574989f6516f888e61c558339b23333d8d7ef83d7bf7b7e83dbf995",
+    "char_count": 554921,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "247b08e661e15f3c": {
+    "source_path": "data\\corpus\\sec_10k_0000002488_000000248826000018.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "ca6fc61f4ddf27f5d122300756a03ca0f72bbc7b65de4f8f66f719a75d2d6583",
+    "char_count": 421926,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0e9d83bd98b81b70": {
+    "source_path": "data\\corpus\\sec_10k_0000002488_000000248824000012.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "5bd34b3a8e644adaccb526ec006fdf6146edc789b4ce28722f7e79dbe6c668fd",
+    "char_count": 423059,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a56e68cfe5f9cbb8": {
+    "source_path": "data\\corpus\\sec_10k_0000002488_000000248825000012.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c419f2b2b9d30df3122e1042acf371ee2b52cc87ced490453f135836ae9c0238",
+    "char_count": 405220,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "551696bda9705ddc": {
+    "source_path": "data\\corpus\\sec_10k_0000067716_000006771626000014.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "59dd4f48ee4d0f9573c092d5ef0653ebbd38306b97d145da937cdca32a45189f",
+    "char_count": 514433,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "685959b2d6853ddf": {
+    "source_path": "data\\corpus\\sec_10k_0000310158_000162828023005061.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "5e2743fbe6b63e98371c75f259c79ac7ae7c3941a80b6dedd4df7766a837b31f",
+    "char_count": 786713,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fbd367b765b43481": {
+    "source_path": "data\\corpus\\sec_10k_0000067716_000006771625000016.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "d465bdcf3499f49a680a1ef500e685b01bc039033544b43329dc43a3a7c9bab2",
+    "char_count": 546616,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e2040608d8cd3238": {
+    "source_path": "data\\corpus\\sec_10k_0000067716_000006771624000017.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "34191b0bd4350b5849b73acd3db6d988aaa1a9eb92d3e5592d7a7afb75dfeb3f",
+    "char_count": 642214,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2eb8ddc284750ad8": {
+    "source_path": "data\\corpus\\sec_10k_0000200406_000020040623000016.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "e74b8c8ece0c40abfa41e737f3db76e7b5650b46c8f2d8d8d15c82f4def6c11b",
+    "char_count": 594572,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "47f992a70276ea6a": {
+    "source_path": "data\\corpus\\sec_10k_0001065280_000106528026000034.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "89da42b123ad29e8392ad04043ddd6c5612be04f21d7252815519c38ecd19164",
+    "char_count": 328537,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e4f3a5c33b351723": {
+    "source_path": "data\\corpus\\sec_10k_0001065280_000106528025000044.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "70ac490c8cb674cae21a917d9352d93c9c012e653290a9643dbfdd519e9982df",
+    "char_count": 299787,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "58c9eda6c3d3c4ca": {
+    "source_path": "data\\corpus\\sec_10k_0001065280_000106528024000030.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "ad3b21c7eaafd51dcdc84444152048d820af2fc8921d0ce05e8a6c2adc1293a3",
+    "char_count": 271928,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "931517fc551d51ce": {
+    "source_path": "data\\corpus\\sec_10k_0001326801_000132680125000017.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "6ca116b3e3e2065e353c73446ef7c138b155b0601169e09c220911707f646cd4",
+    "char_count": 535226,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "90d5d2bc4057df41": {
+    "source_path": "data\\corpus\\sec_10k_0001318605_000162828026003952.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "a667b7c4bfc1e6cbb2b6ba8032d8b13c5a085a0b8785bc48899fc019b0c373fb",
+    "char_count": 449473,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "97d1a65e8f28c8d2": {
+    "source_path": "data\\corpus\\sec_10k_0001326801_000162828026003942.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "04bd2731f54cd8acd1241f17899b619990448a30755cda67dff1c787ed12cbdb",
+    "char_count": 548901,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "839a1185a4d111c6": {
+    "source_path": "data\\corpus\\sec_10k_0000051143_000155837023002376.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "4f0cec603f22fdbc0b94fe940d7686a46b7e89d2aab6169feada3b44b7fd1d72",
+    "char_count": 73202,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2a5dc10024afd96c": {
+    "source_path": "data\\corpus\\sec_10k_0001318605_000162828025003063.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "423768d33746f2303b5ccd4bbf00212d8211699f5ea882f23127d11d6cfbd3d3",
+    "char_count": 426607,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b14dc117f67a9c03": {
+    "source_path": "data\\corpus\\sec_10k_0001318605_000162828024002390.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "79a707ef07adce445abeb8996b029712a038a9d8b7a539b8c60c3d1acca18eb7",
+    "char_count": 438984,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a03c867e90932022": {
+    "source_path": "data\\corpus\\sec_10k_0001090872_000109087225000087.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "1e2cf4a3c8c5e6e78f7a5d8ca8c61f403097f3f6e416ec1b651f905e66724d31",
+    "char_count": 610396,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "30a4ce8edd7bdd9b": {
+    "source_path": "data\\corpus\\wikipedia_artificial_intelligence.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "f558575685c66136a53cfda7f4ae4d2c5fb649c7a025e8aa2b70e0f16ac6f09a",
+    "char_count": 87930,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "89858f7b26cf1268": {
+    "source_path": "data\\corpus\\wikipedia_photosynthesis.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "287844b44c2961734c2e3d25f097bd92a5927ad016e92760db4d2ea302317548",
+    "char_count": 46794,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2df23d6c5d722138": {
+    "source_path": "data\\corpus\\sec_10k_0001090872_000109087224000049.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "5810bb730987d1d6ce673ab42ec14fb0428b39a08b00d593f3501991ad720c0c",
+    "char_count": 592129,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1db691bf2f64dfa8": {
+    "source_path": "data\\corpus\\wikipedia_quantum_computing.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "513a8d3bf0a2d57a6a29ccc353319a675f6a2358a852969ee2ef72445bd27075",
+    "char_count": 44990,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "af3a8bc0b2261e3a": {
+    "source_path": "data\\corpus\\sec_10k_0001090872_000109087223000020.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "96f2054168178918dbaf9f2a121c8e3e1d41fbdfa2e890f1b845e2c4a0f41449",
+    "char_count": 557898,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e7ce6550ee76f9d1": {
+    "source_path": "data\\corpus\\sec_10k_0001318605_000095017023001409.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "4a1967a2013a6a151fb2bd7f35c578698f9f9abed58d5495275b80e2f324e066",
+    "char_count": 353039,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "967cde328a76a773": {
+    "source_path": "data\\corpus\\wikipedia_plate_tectonics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "a6be094b3c881898f4745c979dcd1f3b0f6e196be1b84529e39043f027f4f40d",
+    "char_count": 53081,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "949230575cf22cec": {
+    "source_path": "data\\corpus\\wikipedia_renaissance.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "6cdf6365a43726dd0093bdcdc36e4cf38d8ced41356dc76540f5f732f7bc28ed",
+    "char_count": 70845,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a820f28543e7b22c": {
+    "source_path": "data\\corpus\\wikipedia_thermodynamics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "a1d6f4b7a07d19497dce6ff0e0e840724519a322f813fd693d4b22106ed22bad",
+    "char_count": 27397,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "6f77467d69f7aed0": {
+    "source_path": "data\\corpus\\wikipedia_machine_learning.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "fba5203c36b5d2e57c815d0e993ca5694d479d7feda421abf4dcd5a808097f84",
+    "char_count": 61291,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "27f04890f6ef3105": {
+    "source_path": "data\\corpus\\wikipedia_neuroscience.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "d89e77841748c65ee68b6806e64c233d645427e7da8938f1327ed9608b5fa3e5",
+    "char_count": 41359,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4e8f08ae7ee7b8ef": {
+    "source_path": "data\\corpus\\wikipedia_industrial_revolution.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "8898d4b798afff63e02b61a3638aca3ac031ff474fc2ab458802e2dc40643635",
+    "char_count": 110630,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f1f696f750b7292d": {
+    "source_path": "data\\corpus\\wikipedia_microbiology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "dfdf7b345548502c2107c5bd6140431298627cbe9faeb8511b87013d26c22291",
+    "char_count": 12024,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d34c0eb9ebac5821": {
+    "source_path": "data\\corpus\\wikipedia_cryptography.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "1a748dc8fca87d4257f89ab173d986861da7ab9d12a9c62e20c6e98c8e143f03",
+    "char_count": 52210,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "070d8b1a4dab0b9c": {
+    "source_path": "data\\corpus\\wikipedia_philosophy_of_mind.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "7887b2d01172253d1078670d6b9f87ed9b1ae81a073178eb9ae35564437a7da5",
+    "char_count": 57737,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ad2fc2332594b47d": {
+    "source_path": "data\\corpus\\wikipedia_astrophysics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "fe4510750ba31c8d4bc465f0df1df53ae5dcdc97e0accd606b3d71f192515113",
+    "char_count": 15052,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c283630d10bf1511": {
+    "source_path": "data\\corpus\\wikipedia_economics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "e7734900d1c64cacedb4170d4ac59908c57c0b615b3b955a66f1a53f0c55f8c5",
+    "char_count": 69392,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ae78e2763d59c2a3": {
+    "source_path": "data\\corpus\\wikipedia_natural_language_processing.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "325475e9b8fe8ca146b0fdefc93ff69361dbcc15d63105ff9fbe2799df45b051",
+    "char_count": 6612,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0d8a88268de54a73": {
+    "source_path": "data\\corpus\\wikipedia_solar_system.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "39685f9250c7e86ff50c4255113b557d840c1f609448e085382e3169687289cf",
+    "char_count": 73392,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "28fbd4d586488216": {
+    "source_path": "data\\corpus\\wikipedia_computer_vision.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "bb93a6c7663ff9a43ea32b87c5e7f400d538c152c00cbb4cd05bf4749cf29ff5",
+    "char_count": 25899,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d574721d07bd409c": {
+    "source_path": "data\\corpus\\wikipedia_deep_learning.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "415894a5fec1d1ed6d6b65a45dafcdb8fbbb73570220aaeab372e6fc46defd3e",
+    "char_count": 58110,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fccd98cc42433162": {
+    "source_path": "data\\corpus\\wikipedia_algorithm.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "463bb130076115382f6475438b3de31a9ae0a14b84df7d0b387ec8ab554a29ac",
+    "char_count": 35239,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "8be7a88729e25fab": {
+    "source_path": "data\\corpus\\wikipedia_robotics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "a838c509460a717863114db535b85712b4676383964ece53b298bb59f38188fa",
+    "char_count": 28843,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "12add1daa21033f3": {
+    "source_path": "data\\corpus\\sec_10k_0000066740_000006674023000014.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "e2424b2433cf5279401e21615aae30484ebe2a71223bcf97f41c4399e3260b0e",
+    "char_count": 724945,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "23c85f3ea885f841": {
+    "source_path": "data\\corpus\\wikipedia_data_structure.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "fce211696a2ee454ae371bec1a061cfd1ff7500e8b6dbd563ccb336a092907a4",
+    "char_count": 5354,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "048144add3d200d7": {
+    "source_path": "data\\corpus\\wikipedia_operating_system.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "fd50b2ebc84ad83a95853b98b0e38eef71282c3dcffa09467dbf240bdaaa0736",
+    "char_count": 37381,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2a82095a9f110947": {
+    "source_path": "data\\corpus\\wikipedia_database.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "181436e015db715255ad30ea482b11c0d4ed6e875fdc8085f66ea323a9cb453d",
+    "char_count": 44030,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a40a59937302e1ec": {
+    "source_path": "data\\corpus\\wikipedia_cloud_computing.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "d663e449d875ddb50a7326a8ea2ade1423c4f384adfafc46ddb53f4641971996",
+    "char_count": 33087,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a040180a7aa2171c": {
+    "source_path": "data\\corpus\\wikipedia_computer_network.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "6b6b132bb3449752a9b053c877484189d1b3c79fe28f2cf67f6d016735baade1",
+    "char_count": 49444,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "03f656464a7a0b75": {
+    "source_path": "data\\corpus\\wikipedia_cybersecurity.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "9f2a5cddb88d8ae57a71451a111779318b0949459538882ec2488ed60459cfc6",
+    "char_count": 91662,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4e4ccb93de33226f": {
+    "source_path": "data\\corpus\\wikipedia_genomics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "24052cfdfe6660e3a50f81c55227d2f3aaad5c5129cf66c604c161a073f7b334",
+    "char_count": 27965,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3fcc8d686c79a3f4": {
+    "source_path": "data\\corpus\\wikipedia_software_engineering.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c707dafcb8c1e216e65f6cfee7cf167c1113471da282b9d485dc802f4003ea42",
+    "char_count": 25089,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "28637264b8224767": {
+    "source_path": "data\\corpus\\wikipedia_bioinformatics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "0ce89265a2c7baca1317e7c619ba62959f356ce8996bac69d20643408d15d087",
+    "char_count": 33965,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "68bc3763187ccb4c": {
+    "source_path": "data\\corpus\\wikipedia_biochemistry.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "d381e034b8c69390ceadb36fa4a87c7ea54fdc8ca80d85c791095f928ce98b5e",
+    "char_count": 29202,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fac2ecf7963ffb52": {
+    "source_path": "data\\corpus\\wikipedia_organic_chemistry.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "0527ece4e85f101206d9fe1e2c1e2c56d4fa36c48c9962b69182d402a7f4e317",
+    "char_count": 23835,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "741b3589847d85a3": {
+    "source_path": "data\\corpus\\wikipedia_ecology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "769d65b8415f42d5e9ae219b514fdee99261f8482f1325d38ad04b3b1f5ea492",
+    "char_count": 45636,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "61b4fde32d3769ee": {
+    "source_path": "data\\corpus\\wikipedia_evolution.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "78f04689220267525e8012a942af602aa95bfa9d570520dabc509afa128b20f5",
+    "char_count": 69543,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d7c973d9ed3f447f": {
+    "source_path": "data\\corpus\\wikipedia_particle_physics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c30eee5ad1deaad51b9fe9fe1f679013a0f590d400c21e6327a1db03cc6440ff",
+    "char_count": 16191,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3b23eeb0c2e31401": {
+    "source_path": "data\\corpus\\wikipedia_quantum_mechanics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "cedc121e633eac30d4b580acba94d98ef40b475147fab7c69e5d04e5a3c2d6e8",
+    "char_count": 44011,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ba6a9b0c4690d5aa": {
+    "source_path": "data\\corpus\\wikipedia_condensed_matter_physics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "95573b096689f3bbe5832bc586fe8c2368bd6768ea58a6981eea836289205a12",
+    "char_count": 28004,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "149287c3aba3f57f": {
+    "source_path": "data\\corpus\\wikipedia_general_relativity.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "1e98584ab204d3bc3f2c581572120bded953474721b162eb9a1ce17fa52c0e65",
+    "char_count": 61669,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b60412df39068347": {
+    "source_path": "data\\corpus\\wikipedia_fluid_dynamics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "6f6156c1ed5c52118782436f151bf67500fcbc517284f619256c49ff7b422556",
+    "char_count": 19825,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "02481130e9203640": {
+    "source_path": "data\\corpus\\wikipedia_optics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c92d3d9243b68ce0d0386aaa06978e4c06c858b328dadd88e7a345d3238dbfb0",
+    "char_count": 61478,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "37e41efd4923ece0": {
+    "source_path": "data\\corpus\\wikipedia_electromagnetism.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "8397ee7880c7eca040ffd88dcda809c2eae70e88c5e1447a72bad88daa02d6fb",
+    "char_count": 19424,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "6506060f3f928e31": {
+    "source_path": "data\\corpus\\sec_10k_0000789019_000095017023035122.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c14915f9fca8b3f984a5aaa06a2d1e76418e94dc3d3b9290041ed0bc0137d3d0",
+    "char_count": 329950,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "eaef10baaab39f4b": {
+    "source_path": "data\\corpus\\wikipedia_nanotechnology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "d283333d333722d8271a855571fa6dc96b471fc47729596f4fd4813dc00fe200",
+    "char_count": 28493,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "85eb7a7e978409b7": {
+    "source_path": "data\\corpus\\wikipedia_materials_science.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "0144fdae999e0f10cc28c3f5d6d2e9a8ffc7de581328bc178121f76170705856",
+    "char_count": 35530,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "da7bac06a201349f": {
+    "source_path": "data\\corpus\\wikipedia_space_exploration.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "2fd4a7eea675d8cef6224764381aa8dbde97baec647321bd97567fb7dde3f99f",
+    "char_count": 42458,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2290894764c2b45f": {
+    "source_path": "data\\corpus\\wikipedia_nuclear_power.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "bde703d6387f4ad7865a7be7916833d16451d1948838853d02f7c78c610bdb6a",
+    "char_count": 69113,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4dbf36acd9e5a388": {
+    "source_path": "data\\corpus\\wikipedia_cosmology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "8759f21088b0e1d427855df724a560a1828d7b8bbb28dc523bc2643bb919d53d",
+    "char_count": 29203,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "63179d6bf62c598b": {
+    "source_path": "data\\corpus\\wikipedia_renewable_energy.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "0014e3f4bf897afa6c3d6b5d87dc18b4f0e47763bbf9d37695a2b8b3b740a770",
+    "char_count": 72109,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1dfc44eaee0b7419": {
+    "source_path": "data\\corpus\\wikipedia_exoplanet.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "b34c0c376eda17cc39b2ae9ae3fec61b65fcf3fa3fe817bda78f14657822f367",
+    "char_count": 42386,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "be17c7e96652cdd8": {
+    "source_path": "data\\corpus\\wikipedia_oceanography.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "384a6a4d5176373d14d67268c3483c5cb8de02a0149ecf27166c91a0f517a581",
+    "char_count": 22190,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ee0f82679f100965": {
+    "source_path": "data\\corpus\\wikipedia_geology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "61e89b33cdd26a4b6ff603ec13feef78555c8fd8f8329de19c3eeba0b9ad2cf4",
+    "char_count": 45203,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e726e7fd14701e23": {
+    "source_path": "data\\corpus\\wikipedia_hydrology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "4654bc0c0b760b58637a1f0377bd147d22702da210b8d716d894abfcdbf3e8a6",
+    "char_count": 11726,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e4b7822db46e8851": {
+    "source_path": "data\\corpus\\wikipedia_meteorology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "6aef089016595a7089478d640a114e74083ee23125acef7f4953a5c2a5bd4509",
+    "char_count": 45874,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "df9626a9ff9435f9": {
+    "source_path": "data\\corpus\\wikipedia_climate_change.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "758584979ae250aa04266b3727771834347c0857aa4b293fc8609d677585b783",
+    "char_count": 68598,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0dc58c8be70d0793": {
+    "source_path": "data\\corpus\\wikipedia_volcanology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "ddd8b0ef51821ac886ff2fcb0297aeda05cb8c2deee440c2dac2ee4e6e7c04a9",
+    "char_count": 14249,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "dbaef39221246565": {
+    "source_path": "data\\corpus\\wikipedia_seismology.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "6715109504ec823c52dae2b9cb698f3076ff1d5ec74be55dfd5ce51acb10d905",
+    "char_count": 15250,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c721b66a47e26223": {
+    "source_path": "data\\corpus\\wikipedia_microeconomics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "518ffe2184a7f20c68468cd50a2940bd73ba7122db34c764e59b9156e92b4d21",
+    "char_count": 27605,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "cf60f0117e4e73e6": {
+    "source_path": "data\\corpus\\wikipedia_macroeconomics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "f3804eae1d994644c48e17fe9493fe7dca2e6ebf766183dbaed2f863a2fc21f4",
+    "char_count": 39074,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "af555929adf806d6": {
+    "source_path": "data\\corpus\\wikipedia_econometrics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "627967625b95e5ec50815810b5dc3966afd907d4a7c7aa3a3971639e210d006f",
+    "char_count": 20952,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "79964e60d92caf37": {
+    "source_path": "data\\corpus\\wikipedia_financial_economics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "95d4fe6c645bc9c1a93745baa595cf304f1d0cc8661b3b4234f6bc6a31108541",
+    "char_count": 54963,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "23e3797925cbc5d8": {
+    "source_path": "data\\corpus\\wikipedia_fiscal_policy.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "5e2d1a84ea8e324b6b5dd1181d2fc5106ab9b8e1e7d3a2f5c5267ed08764011e",
+    "char_count": 13874,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "59d7ba01e1ce1f01": {
+    "source_path": "data\\corpus\\wikipedia_monetary_policy.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "b1fdb06f122e158b2dd1f711858bb316d90471f799413bc9cd8e055b1d17ffc2",
+    "char_count": 51332,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "25c3db702d49a2fb": {
+    "source_path": "data\\corpus\\wikipedia_international_trade.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "d981fc942d80c03343fb9abf3ef2917ec720631133bb18808625919d7bf37e04",
+    "char_count": 13605,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "eb52b3ce7c7bc546": {
+    "source_path": "data\\corpus\\wikipedia_game_theory.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "1e73ca226589f9cb50a70fbd49a9fe5414436ff7ab32b27f77edf37f76a33232",
+    "char_count": 59131,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "204f02b74a427ec6": {
+    "source_path": "data\\corpus\\wikipedia_behavioral_economics.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "918f148f1497dc21de61dbc3babde832c8fe7026028ddef49b6ddfdc0e613d90",
+    "char_count": 49668,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "675410428e51765b": {
+    "source_path": "data\\corpus\\wikipedia_inflation.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "7caca9218cd55048eeb5270d528adda99a5a85d4bc0a40ec61c74a847c82a49f",
+    "char_count": 54298,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "df0ad96c282b7eab": {
+    "source_path": "data\\corpus\\sec_10k_0000002488_000000248823000047.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "678a262fdc2af89d37d328122c8fe5afc48140fc6acab7a766fd834c98b09ae6",
+    "char_count": 423923,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "bf5f02b99d0e246e": {
+    "source_path": "data\\corpus\\wikipedia_economic_growth.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "ae3d4bad9661c91418a36ef44804c802e236f704a060e4a595acf9f5a80a1d5e",
+    "char_count": 63025,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9d75770ca613784f": {
+    "source_path": "data\\corpus\\wikipedia_stock_market.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "b731f3e80e02ae9386b1fe3005be6d61880857f144a75cec095f67ac6309462b",
+    "char_count": 37546,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9d44e97a82b546bf": {
+    "source_path": "data\\corpus\\wikipedia_central_bank.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "cc448744df046f8dfc48754371c6ac3e11fe4ffacbf0c4804fc09f162ab4fd44",
+    "char_count": 40558,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "232925d6cd6afe97": {
+    "source_path": "data\\corpus\\wikipedia_corporate_finance.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "e2766a78e0fd3cc65ce33bd38c477f5121b93f1ff69f3ec663c93a4a4673b009",
+    "char_count": 33295,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b8e84d7a16cc4e4a": {
+    "source_path": "data\\corpus\\wikipedia_algorithmic_trading.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "7022bc833cb31f484732778da78a367f1258693da7d43842b5edb4f192d2552a",
+    "char_count": 49606,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "20f0f3a6fd036cf7": {
+    "source_path": "data\\corpus\\wikipedia_unemployment.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "c48bb83ba5a3d4e3ef7de571660232f1c89c1c2ef5a0937f37330c05ee8b64f9",
+    "char_count": 70562,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4d15480ac046f089": {
+    "source_path": "data\\corpus\\github_psf_requests_api.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "4d15480ac046f089209798e8650476ef4a28ebe6f81b400758f8ef42ec6b5509",
+    "char_count": 7152,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7b554023eb222b0c": {
+    "source_path": "data\\corpus\\wikipedia_probability_theory.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "50e84d4ad58480ab1ee719d84d6548ea41bd01f68ea355ddc9ec665018374d01",
+    "char_count": 14392,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a3351c3c12a86bf5": {
+    "source_path": "data\\corpus\\github_psf_requests_models.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "a3351c3c12a86bf5ed211533875350bc4791e9327a685f8c19ba54343e471e26",
+    "char_count": 41462,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3d2089736ced93b2": {
+    "source_path": "data\\corpus\\github_psf_requests_sessions.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "3d2089736ced93b2b405624a943f866d22652b17df06a85eb010f86272fc3e7d",
+    "char_count": 34072,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "30ccf13a361aea60": {
+    "source_path": "data\\corpus\\wikipedia_information_theory.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "abf808e46080d736fceba5214dc95f33b93a03ee1df7f811414d782b03185247",
+    "char_count": 27989,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "57e6b0949d3dbf13": {
+    "source_path": "data\\corpus\\wikipedia_graph_theory.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "a148df9a5665210d4835ea87659428f92f1c81ad91373c0c471e31607415039c",
+    "char_count": 32916,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "eb2ca44276c03df9": {
+    "source_path": "data\\corpus\\wikipedia_linear_algebra.html",
+    "doc_class": "html",
+    "canonical_parser": "trafilatura",
+    "text_hash": "33397ff3d3ba7c1ac5a66f7889928d537f2f8965b0c11ba0a52a202a92501f3c",
+    "char_count": 32712,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "05d12b965c76f229": {
+    "source_path": "data\\corpus\\github_psf_requests_cookies.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "05d12b965c76f229803e17aef1c9969d712e4f4d0f6a06c05e0a47212fd5b417",
+    "char_count": 21504,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fdc8bb34a8a5a088": {
+    "source_path": "data\\corpus\\github_psf_requests_auth.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "fdc8bb34a8a5a088b169ca13277d107b0bc94ee63ed5e89dd4f5569d9b2bb04c",
+    "char_count": 12107,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "cc9b1b02694fee03": {
+    "source_path": "data\\corpus\\github_psf_requests_adapters.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "cc9b1b02694fee0353481fbad84fe3ddbedec4441dba54df7914c63f2aa85937",
+    "char_count": 27992,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c5864ebd5aa93916": {
+    "source_path": "data\\corpus\\sec_10k_0000731766_000073176623000008.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "24814318767b9caa05bd6074371144af194733358d7749e2662563ebdd27ea3f",
+    "char_count": 349008,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c5e18f3352454968": {
+    "source_path": "data\\corpus\\github_psf_requests_exceptions.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "c5e18f3352454968e337bb3056f0867df2f37c0a0d2c1a77dc05e7e0b3c0411b",
+    "char_count": 4564,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ebd8a02475d31a0e": {
+    "source_path": "data\\corpus\\github_psf_requests_hooks.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "ebd8a02475d31a0e473a8f553e9501ff43645b9563885ad52844e7a63f0d76ab",
+    "char_count": 1138,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a79404da5635f062": {
+    "source_path": "data\\corpus\\github_pallets_flask_blueprints.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "a79404da5635f0622d6ddaff44a46967c0e8d7b8343ef4062206644940e15f69",
+    "char_count": 4541,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ba9460c39078f25e": {
+    "source_path": "data\\corpus\\github_psf_requests_structures.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "ba9460c39078f25e6f1d2a24ac941ac6f8d2ee97197fa8c8d0c262d8a1e67a02",
+    "char_count": 4134,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "975de70f74626460": {
+    "source_path": "data\\corpus\\github_pallets_flask_app.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "975de70f74626460f7afd2f16e3a513cbc2fe65cbd961f95c2f92eec4f7ecff8",
+    "char_count": 65472,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "eaec68e1cd30b00d": {
+    "source_path": "data\\corpus\\github_pallets_flask_cli.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "eaec68e1cd30b00d184c347d86dfbe21755901b19d415c41fc53b124de08126d",
+    "char_count": 36836,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b879cb3f671cf1c2": {
+    "source_path": "data\\corpus\\github_psf_requests_utils.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "b879cb3f671cf1c28e8ff9b2b02151bcdb8974b4820a514cfdd1f5a038443cd2",
+    "char_count": 36061,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3e2a85d033da9ba1": {
+    "source_path": "data\\corpus\\github_pallets_flask_config.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "3e2a85d033da9ba1d6d051f8087d61a574c17b7d0d4b38cf10ec2bcf56fa92dd",
+    "char_count": 13219,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e21952d044159438": {
+    "source_path": "data\\corpus\\github_pallets_flask_ctx.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "e21952d044159438765eb27848b0fe4c75f83faee8645181a09a1eccb1d5cab7",
+    "char_count": 18261,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f2c33758c4ee6e2d": {
+    "source_path": "data\\corpus\\github_pallets_flask_logging.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "f2c33758c4ee6e2d5c05bd9cfe53e45a937427c74c02aae029160b2e2d5d0952",
+    "char_count": 2377,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d0d5ceecd1175331": {
+    "source_path": "data\\corpus\\github_pallets_flask_views.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "d0d5ceecd117533169c924cdbb01ea5bb0ee74b7b1c4b22855f73f0e4dea0ee7",
+    "char_count": 6971,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7590b89bcae6c437": {
+    "source_path": "data\\corpus\\github_pallets_flask_helpers.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "7590b89bcae6c437b621a315854d8401bc38b5439ec95c9be7cc4c909f9e9221",
+    "char_count": 24628,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "924cb2668bbe7b7f": {
+    "source_path": "data\\corpus\\github_django_django_base.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "924cb2668bbe7b7f55bfe204528984bd484398f0e0911d1fbfa9967438f809ea",
+    "char_count": 100029,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "96e0a533d1baf273": {
+    "source_path": "data\\corpus\\github_django_django_forms.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "96e0a533d1baf2738c6aba616a24b1d876062a5b41b607612f79a1cfdedb410a",
+    "char_count": 16112,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b508ab0390a82003": {
+    "source_path": "data\\corpus\\github_django_django_request.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "b508ab0390a82003e7c968d258d45c5d74dfa14b11d463ac2989e6bc9cfc7610",
+    "char_count": 30579,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a00beb269d355a88": {
+    "source_path": "data\\corpus\\github_django_django_response.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "a00beb269d355a885c644c6b961303ac1f50e24fa8780d49574ed860bbfa1cc0",
+    "char_count": 26926,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "72cb2344fb0d8ee0": {
+    "source_path": "data\\corpus\\github_django_django_text.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "72cb2344fb0d8ee0c0f425071def8f6c04e8bfbb165feb07973ea2329f79fb4d",
+    "char_count": 15161,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "04fab2a961cd37be": {
+    "source_path": "data\\corpus\\github_django_django_client.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "04fab2a961cd37be3f5b05df1627fd4a338a3dd6e03f2df984334665f5c07dc3",
+    "char_count": 56500,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c7c927aff5b7bbd4": {
+    "source_path": "data\\corpus\\github_django_django_common.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "c7c927aff5b7bbd4f0ee723cfe935d288f97e4ea3274287ba8685329e51074fe",
+    "char_count": 8157,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5b7074325df5f452": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn_pipeline.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "5b7074325df5f4527df9e489343eaa63e3c5466e794057cf0d2383a4a82cb33a",
+    "char_count": 88768,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "fb5cc235be494dcb": {
+    "source_path": "data\\corpus\\github_django_django_models.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "fb5cc235be494dcb49c52bbcb716e5d8e741729162ca54cdd31846d90f107fb9",
+    "char_count": 21479,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ff5dd28da53337f8": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn_base.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "ff5dd28da53337f80e92925542e6a07d1aa49cb325b7f5636cd9c56d5f26b44f",
+    "char_count": 49206,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "be9dfcf0457a3442": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn__base.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "be9dfcf0457a3442f1f4da2038d32d913ab604e50be1012b4f1c1f5afabda1a8",
+    "char_count": 31048,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d7c9e061aa6b8888": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn_validation.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "d7c9e061aa6b8888e1d2a5027c21d9b76094008564f03a4f1a700daef224287c",
+    "char_count": 112248,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ff5e7d3e333699a6": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn__kmeans.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "ff5e7d3e333699a6ee9012677e816bc4822105377bc5f5668b857b577e616c2c",
+    "char_count": 82531,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "09dd123949e2d119": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn__classification.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "09dd123949e2d11979207e2e6f854e8ae46d111c2d8c97cefb8e4bf4636e2fab",
+    "char_count": 155867,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "78072f5c87abc9c4": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn__split.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "78072f5c87abc9c42f88d49596b0db087643737b073841f8b8b2797588418ad6",
+    "char_count": 112741,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "69f214bf11bc9c17": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn__classes.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "69f214bf11bc9c17edfd924ac304de8ca34a86eb49f193d1ff9b35e3dfbdcf73",
+    "char_count": 91022,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9d829244a41e8928": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn__data.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "9d829244a41e892876b9daba7862e1204798e520235c350b623a7645b688d027",
+    "char_count": 130762,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "26b90e6b35d0ad6d": {
+    "source_path": "data\\corpus\\github_scikit-learn_scikit-learn__forest.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "26b90e6b35d0ad6d6f1faa83374ceac0d3bc28e48d50098f5f55b04a051dfb85",
+    "char_count": 119902,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d5f34d48ae49ecf3": {
+    "source_path": "data\\corpus\\github_fastapi_fastapi_params.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "d5f34d48ae49ecf339170f85e7ff6e3b2b00d8d802fbad666f72e5ac15a9a893",
+    "char_count": 26205,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7b1ef65fb6b20944": {
+    "source_path": "data\\corpus\\github_fastapi_fastapi_routing.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "7b1ef65fb6b209445dc43be070a23324b7879aef9c6b9f63e6968234b7723b55",
+    "char_count": 255578,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "38dccb19b2a0b0b9": {
+    "source_path": "data\\corpus\\github_fastapi_fastapi_applications.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "38dccb19b2a0b0b984c8d7541263842954a37c087cf96b4463aea17873c6183c",
+    "char_count": 183785,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7d434e051748b142": {
+    "source_path": "data\\corpus\\github_fastapi_fastapi_exceptions.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "7d434e051748b142d4d139cef1a3418371e825ec89c57a7d515e83f3062ef652",
+    "char_count": 7453,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5cfba09e88c77383": {
+    "source_path": "data\\corpus\\github_fastapi_fastapi_datastructures.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "5cfba09e88c7738374ede1795e9d534e774fda032fd5f1b893ed0be1576beca7",
+    "char_count": 5321,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4cc09230eca64358": {
+    "source_path": "data\\corpus\\github_fastapi_fastapi_encoders.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "4cc09230eca6435892f6bc25a2185e214dbedfe994d5103feb63ad269137caad",
+    "char_count": 11713,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "04cec9b6267f1b88": {
+    "source_path": "data\\corpus\\github_fastapi_fastapi_responses.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "04cec9b6267f1b88f667b42f1d4cd5d4ab593e78cea027d7df946a6179590e1d",
+    "char_count": 4144,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "02826ac9e987487b": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_configuration_utils.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "02826ac9e987487b645135d8f1d747f60a7e567d1b8f72327de8514d02b6f15d",
+    "char_count": 72082,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "38c2bd02ed7af229": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_modeling_utils.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "38c2bd02ed7af229f54e2f02dae65663be7af29ed2c9498bd1c460cf60fbb62d",
+    "char_count": 268796,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2d77d6a0260f1ee3": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_modeling_gpt2.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "2d77d6a0260f1ee3779e418fef228d98914a32f33b35198be0fd3ebec9700b1a",
+    "char_count": 51001,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "52a08d21afefc9b1": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_modeling_bert.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "52a08d21afefc9b1e63af46d91ddd0cc73f048019dffde40ea583347bf673a40",
+    "char_count": 55913,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1bb62572e150a929": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_trainer.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "1bb62572e150a929b7738ea529fbd0e1decc9a08ea904387989b9a2434dbd162",
+    "char_count": 226076,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "bb558d8676be9545": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_utils.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "bb558d8676be95457126c82a32600dad206c13e4fb96b4f5d114f1f2483d7f62",
+    "char_count": 232133,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "13e65b752a9c9d8a": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_modeling_llama.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "13e65b752a9c9d8a5c22b83df73009a8940c0eefdc58c101df3eb910e3efc2f9",
+    "char_count": 20924,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d0baaf792cb7c441": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_feature_extraction_utils.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "d0baaf792cb7c441b73c11b71ac5d5e601de432b8b6d93f5c483ad88668fcee0",
+    "char_count": 30129,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "985f8bef608fa57d": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_optimization.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "985f8bef608fa57dd2c01e93869424ad193ffe82f03390f22cfd3d3ca99dad27",
+    "char_count": 55023,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b439f15d7b0f1ed3": {
+    "source_path": "data\\corpus\\github_huggingface_transformers_modeling_auto.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "b439f15d7b0f1ed3e1339c0e71cea0ebc1bac4a87ff89596d39d78e4cd1b0fd4",
+    "char_count": 112926,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ce3cd8ccfc454723": {
+    "source_path": "data\\corpus\\github_pandas-dev_pandas_series.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "ce3cd8ccfc4547232d188d6bf42b1d61faf2dd8a674c410fe3550fd04228c5c8",
+    "char_count": 341629,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "eaa83f2c53e51559": {
+    "source_path": "data\\corpus\\github_pandas-dev_pandas_indexing.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "eaa83f2c53e51559aac250cf4a86bb5655de3dc80a238093921c4796f82e500b",
+    "char_count": 137318,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c44423b39ec43767": {
+    "source_path": "data\\corpus\\github_pandas-dev_pandas_frame.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "c44423b39ec43767f1653a657b94b7ce4e069fdd8c31d2a05d900fd7c80bc9ab",
+    "char_count": 713204,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "78989b45a7852114": {
+    "source_path": "data\\corpus\\github_pandas-dev_pandas_generic.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "78989b45a785211499b7ef65c92fbf3aef37ceda0cdf1317d7dc14e61ecac7ae",
+    "char_count": 147889,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d2e4e418c7b6e837": {
+    "source_path": "data\\corpus\\github_pandas-dev_pandas_categorical.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "d2e4e418c7b6e837b5f08c95ce01f446ca31db89af6db33eb6d1e32aef2af0a4",
+    "char_count": 112919,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2915636526924a5b": {
+    "source_path": "data\\corpus\\github_pandas-dev_pandas_readers.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "2915636526924a5b813f7a648befb413b64d094d113ebabff55d010aaac19ec3",
+    "char_count": 138643,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "082714243ccbcdbf": {
+    "source_path": "data\\corpus\\github_numpy_numpy__pocketfft.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "082714243ccbcdbfa74219fdcc08b1bc1b367d0c101f3fe1273257e58b056d82",
+    "char_count": 62613,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "cae90de667b76edd": {
+    "source_path": "data\\corpus\\github_scipy_scipy__minimize.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "cae90de667b76edd7d1851405956cf4d075bbad8f88c61ef42ab0bc0a407829c",
+    "char_count": 53146,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "eb2bfbc0c2d76603": {
+    "source_path": "data\\corpus\\github_textualize_rich_table.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "eb2bfbc0c2d76603ac1a0cc40e9297a5e71740ec1c2c11cd3a7f8c61c6e8d599",
+    "char_count": 40033,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "56b93385a9c91b82": {
+    "source_path": "data\\corpus\\github_scipy_scipy__continuous_distns.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "56b93385a9c91b82bd0a55b1029be6a4829fce172cb561d637cb4b5f3811b2d3",
+    "char_count": 412412,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1d23c5f35e2fab99": {
+    "source_path": "data\\corpus\\sec_10k_0000067716_000006771623000017.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "1a9ae8d0e9f36978d0772b64d0369c890d3c4412dc844e91818ea7e759216a60",
+    "char_count": 670475,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f6c425d3484f22a1": {
+    "source_path": "data\\corpus\\github_textualize_rich_panel.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "f6c425d3484f22a1f91b68002d0a3835ea45c293f493dc13facfe03a6b39a487",
+    "char_count": 11157,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "67a633ea960edba2": {
+    "source_path": "data\\corpus\\github_textualize_rich_progress.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "67a633ea960edba2c55f1db87172af9366c45fa1648cad99e5ed9fcb406defcb",
+    "char_count": 60382,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4533fc66963623a2": {
+    "source_path": "data\\corpus\\github_textualize_rich_console.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "4533fc66963623a2a21447b501d6f51f8cfee7e14775178093a5e6eb61dc135a",
+    "char_count": 101357,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "cad81e194b7dd5f7": {
+    "source_path": "data\\corpus\\github_textualize_rich_syntax.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "cad81e194b7dd5f76bf0b68728e76468d31ec2b3d1c60a1c8b998c77730f1382",
+    "char_count": 36303,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5803a1d71c1473a2": {
+    "source_path": "data\\corpus\\sec_10k_0001090872_000109087222000026.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "1b262c468ef031189ac73d80ebdefd736ffe5e850edefe7e4dbea52c0d9c4d83",
+    "char_count": 541969,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d63ab9dee4083d04": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20240612.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ccc404338a0f1f8e6731b2c4f1d7915e734bbb7dea32ba4c0ed3b579e77c8852",
+    "char_count": 55390,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a87b8b75d7f2d646": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20240131.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "18d20d5ed0c0c888b6d655aa002d8a565a28de23c090d086b2547b6b85f6ece7",
+    "char_count": 53836,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "023c20557587b07a": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20240501.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "5656f507fa0f0ad223ba6823e750f5804783eac1ac736467f2a0a7072fc4637c",
+    "char_count": 50794,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "32abd242cf5c2f71": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20240320.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "506079248589aaff101ac7510206166c9fac357e43bc4097edd88c2b643367c2",
+    "char_count": 47700,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e54e7d5f37019c1e": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20240731.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "4023480d9f66f8c5efb73fb302d2b67249eb0e385863b7244e60ccdb8c65e23d",
+    "char_count": 49837,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2b29bc652e60f3e7": {
+    "source_path": "data\\corpus\\sec_10k_0000040545_000004054523000023.htm",
+    "doc_class": "table_heavy",
+    "canonical_parser": "trafilatura",
+    "text_hash": "ca34910e69a7d18feabf3fc48beecbb6827361da732e1c17d5bfde7d236abaee",
+    "char_count": 578208,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "8847737a52238447": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20241107.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "50adeb0a4ddfa3b7ff95f03ac88e779002747be02e7659acdecbd68a251c3b44",
+    "char_count": 44387,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0d665e1e0d732c93": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20241218.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "b521486b64ad499d702e464be6dfe7de480a5b3ad7d3cc4f13dcfe168095c91d",
+    "char_count": 56823,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "881dacf7c19105f3": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20230201.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "6234468b52eb8da73ea79caa0bd7f577b0ffc90e1be6be4e5110a008197f19e9",
+    "char_count": 46284,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3f4c181b4f1a303f": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20240918.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "b583d26ee72a4519dd24570d19204b50ffdb84e238683797ef699cb1a5c3d229",
+    "char_count": 51157,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "75d618a760f4746c": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20230322.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "fa857365fc2682199472295e3850a4fee4b517822f9178a2fabee6884939e26d",
+    "char_count": 45820,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4fb4146dd0de46a0": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20230503.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "7599e7a57f0c1e6f4a2fbbfd9e91f2ec7dfef8da5afbe4cb9cd7289aaea203bb",
+    "char_count": 51250,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "03d00fbe4d848494": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20230614.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "bac7ac2846c725c6f8e96a7064e375621e693249bc715e00d4e84eaf894b895c",
+    "char_count": 51962,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "56b328da01a2d589": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20230726.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "f5bce690efd5cf8bf628603fc10feabb17cf2df1f039c9ed1a85333333c10d42",
+    "char_count": 54391,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "194485052e5945e7": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20230920.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "78d4f3c03cffdbb748b6bc764eaaef45355f09c99862caf978eea70076c88e6a",
+    "char_count": 56661,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5323a26d2a1135e2": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20231213.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "af44d55140e1526b59a82ce463b61c48278124d70c95cbb92baff4faebb9ee4c",
+    "char_count": 46498,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f9235c23d5e4792b": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20220316.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "dc9d7f189475bca1ca8f34e4f9d63815221a668a46af0869ba70084b289ce903",
+    "char_count": 53201,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "195769dabcf0e637": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20231101.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "4f47a36273aa55534e3462cbc8671ac90a259a063ec10055e55d25775188ee7f",
+    "char_count": 53967,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9ad35850a6b2370d": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20220126.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "f197e7da6765b582da4ace8eb2876be38eb55e328daadc1117144f4dbc5735e3",
+    "char_count": 56177,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5f0a640e4b25b0ed": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20220615.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "30961a23fc8ff6485f17ddb0ed8b6de32b4a707cc42d2caa09b05efc832b6fc1",
+    "char_count": 55836,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e2191f187cab42b4": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20220504.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "42fb34bb41fdb8e4672741aa1e57e54c5575bdfbddabf300ad5b918651470db0",
+    "char_count": 47958,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "59aa00a39453a801": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20220727.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "a85c36b391e4b9f2cf0ea091c1016e55935a1b56875d37873d6cf7463f1e5646",
+    "char_count": 57053,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "908c743af933c46f": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20221102.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "cc82ec2e3a09092dbcda935b492e5f69da1a0f6153a4705f169d80efa8b9b04c",
+    "char_count": 46102,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d515b89add080b1b": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20221214.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "d0a0abfeae6d28f1f01abc1e8248341b87b07ada83a9f806c92f1e014c315f44",
+    "char_count": 46302,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "22b6c8fcea4ffcc8": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20220921.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ed2eb5bd016c17e1d0fd8cc2f4f0204c5db80983937e7f1de17188e07a218180",
+    "char_count": 42548,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9f402379b1b18784": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20210616.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "bfc7a254ede0dea4c0ecf444c3eecfda42eceb45c5660fb73124b4387402a72a",
+    "char_count": 61472,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "842a69a04dd912a4": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20210428.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "c44e4a95942538bccf92581e7a7f92a8920f84597127ede60172b7c7f17170f3",
+    "char_count": 57734,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b18b32b8b8f2499d": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20210127.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "83abbfb55ceae0eb6fe6e74789e59b272e3ecf71585c9f6fe3123186d7b85dcc",
+    "char_count": 55360,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "edf6aac534d3fb72": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20210317.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ab54b3a4ad76134b5615ecc859011e504d790247d6a7cfcb0b130e6fdbfe65d6",
+    "char_count": 60742,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f731479235161f61": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20210922.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "37e05a1425356150f06a85bfa911f7b77e202cda003c459c5ddec0ae84377428",
+    "char_count": 54526,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "bda97043b585e6bd": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20210728.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "66be8f072907f3037592076c6280d271608bc6c852a186d7cbe859fcee8b93fc",
+    "char_count": 56471,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "68ed5586fb071d7d": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20211103.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "b011568422ffb1476a975ff5f4e85826e7e89dc8f3f7173613afbc70cb2ce13c",
+    "char_count": 57191,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c364da5870dc1049": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20211215.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ff38465525047fc9c04cf95b8b5cf78b49e8cdc01a46ff485d9d51e8d470ad3e",
+    "char_count": 62983,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a8e9f41d40455cc9": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20200315.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "cd970cda504a7c6219a0cb4f71bfaf66c9b42c6a483179bad47a0610fac135d3",
+    "char_count": 42717,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "8afdbe00454a2f64": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20200129.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "a6f542dc0ac9462ddb1640325107110a2fab6b4bbc94f6e20b5174a47028e81b",
+    "char_count": 56118,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5a4dc69cd90c3133": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20200429.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "f3c27baddbc29e96a3e6ff243d8ccf7fd8f6720f0e45df1d8e8a2216dd7c6c0f",
+    "char_count": 46816,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e384a93ae832a209": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20200916.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "b003f6735b01cf7ce412b175702fd98a3b668ff0d9829001c3f774632101c40d",
+    "char_count": 64567,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "47b7cae0f1a6c856": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20200610.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "6ce878e25c12ce5681d161e06edce373ab56a71827354fd1833d40c482cf0895",
+    "char_count": 60050,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "84f525ca5edb9880": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20200729.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "63716de85752993269cf40e569db05868925f3aafd68b6aa0697e9ea5474c23b",
+    "char_count": 58406,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5a18e53ce539ccb0": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20201105.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "9ee42ca454120036352bc0523a2e7caf5dff2749a4dd9a2e2908538810daab4a",
+    "char_count": 49541,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3e5d1e960c1b8069": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20190130.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "c2fae7092a467674a3642f1f4f8c8d80b76e5608c0c3ad12890eb30018567740",
+    "char_count": 47173,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "598f933e5cd50fd3": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20201216.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "d59b48360c4cc0c5b53c83be3c22bf6201dc54256cd2dfbc01ef915255585326",
+    "char_count": 60662,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2c1ff33b4e338b59": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20190501.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "92af0a7e9d026f88917bc345199b66f7d32b5af7040b09c7133fd03fb29b4358",
+    "char_count": 40067,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "221f4473fc7679b6": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20190320.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "1c1c6c67667d7b7b096279f87d7b7d62a40dcf830fdaba8501177ee19612842b",
+    "char_count": 44995,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "bf461feeabccf47d": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20190918.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "d94652537c4948a083979745e80485bb8b93972f8c1c07d403647a869c7b2846",
+    "char_count": 52321,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7416fded1617f3f3": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20190619.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "3511cd95fe2aa0b37f5bd76282d38ed08a83f6dca21c953d7e89c8934c271822",
+    "char_count": 43567,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "6e29b65f269da720": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20191030.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ddbc158ba4c49dcfc1f3e2a873971b2e5a3857df3fa226197fa469d860e54b95",
+    "char_count": 47713,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d649542a9495c3ae": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20190731.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "f1c5e75b16913195a0078c8d5f3f821b8856a3e3ce7b19ca33bbb6b908307d15",
+    "char_count": 45503,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e5c42ffa15c38837": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20191211.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "5b266d76ad01041fa44222b8c63cb321a141af5a67e1781b9a949cefbb9af3cb",
+    "char_count": 53400,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "cfbf53d6134e54cf": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20180321.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "01c68574d5f06ed901d13f00adb4368ed34de6585c36dd159b1c5399e848aac9",
+    "char_count": 43543,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "69253abe21aa2e82": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20180613.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "94c278c23499244cfadc742a5e234565cf3711f2b4763837639f6349d4a9f862",
+    "char_count": 53198,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "64ef097e1b09638a": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20181219.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "32cc6ae89b2c511b0a3474b084f4b496dcf90db267a8f8f900f45b9875653df6",
+    "char_count": 43904,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "199ba09050dc6884": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20170614.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "22a1c39bdc0ef03aea9ea90a8c544d70bdf3480dc48998747c2c8239691b3ac8",
+    "char_count": 46472,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0977a3669011906e": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20170315.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "cdada9f96ad03165994c875d55c818723d7e09b6fc703e5a05c40376d1f7e4f6",
+    "char_count": 41884,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f06fd1040a0f52ed": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20180926.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "c27f7d6fe532474fb19c696f874126ea5152c51b8166e1c05404d8bfa28c2a8b",
+    "char_count": 58462,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e8e296cbe0ecb189": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20170920.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "b6138fdfd27daf1ef2dae088f9cbc61d1489d64342e29762ff102894265bba3a",
+    "char_count": 51361,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "3c2721ae1346a053": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20171213.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "bcaa5e7117fd8ea1a642e7fec6b2208648899c74219cc1c43dab3eb6fc443f92",
+    "char_count": 54120,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7b555d18706ec166": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20160316.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "5fcb7da501c420730368dc87f9d0f585f9f7bca0c4cdd9c1f49159d2f31ee615",
+    "char_count": 46689,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0f0783eaf2ebe6f2": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20160615.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "9d3b7433c9f69be0a9b75a02c6c0c9edcca3256886d5e67af8233eb977224c16",
+    "char_count": 42606,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "ef370533c87c8847": {
+    "source_path": "data\\corpus\\transcript_fomc_pressconf_20160921.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "21dc5e483d8cd310420d36cdab6e42791afdf78f8ad1b9e920466f85fde71ab4",
+    "char_count": 49493,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "51e9dcb5692ff48c": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20180502.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "006d9fe98c22e70a88a500957e5db9bac2394614492ec608b93a7988e14409d6",
+    "char_count": 307873,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7b651f04bd0ee80e": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20180321.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "fad38d855eb0148ead22eba4043523231eded7471e1805d4f074e246c9ad4c0b",
+    "char_count": 266734,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0b865ed3f0268908": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20180926.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "a25ec4aa3f06851563bbdd2c812230ff88bc73be1f1191a44618db4a3af3f588",
+    "char_count": 238300,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b5237b66be59e32d": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20180613.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "a4c179df22c887fefd9f3d2771b5bc180b29d5c8fd7b24f3100792a3d5b6287f",
+    "char_count": 283871,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f144a6163ca7b684": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20181108.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "9bc29a6c59cede3dc7b6e82dbb0dc550e5dc5ebb59846fe2a86cf2082f7cabfa",
+    "char_count": 404128,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c2f8930fbc56e15c": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20180801.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "9fbd3a1078602a4f956a682a066f037edaed8b81e95905e9ea51467ecfd946df",
+    "char_count": 367482,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a0c6d3c7c2c2c2fa": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20181219.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "0217062b728a62044bb86d67fecd5004172278229e7409ffd758129c08a3991a",
+    "char_count": 401797,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "85ab94176659a683": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20170315.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "75d9ecab397f14bdf3cb38494df3f25c9a734338ad0e17cf7476e7618f269e53",
+    "char_count": 436183,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "769ad4146f0ecdd8": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20170503.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "8b79dedb8776e717c8da440d00da7e187501e89623ac46a8268b56c0d8b09fab",
+    "char_count": 339185,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d2373eb07d6f98d9": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20170614.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "dc7323387e30a2ddf21e6826b93a136e6f5e676164caf7a0ac84469a20eb3ead",
+    "char_count": 306891,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f60b9035c9ee3e46": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20170726.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "f3b84ff6e0748c9f17a2ba56485948a8439e2e13a2beac96d7c39e0f7ffa9938",
+    "char_count": 253748,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "bd8908a8d28f1842": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20171213.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "e25b6c1a4c335a357e0fc6cd266d37185e2dbe4a85145986733606eeb11232be",
+    "char_count": 277335,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9df4ee89a8109683": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20170920.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "977edca838a0172fec5954af6cd6c54b36e14324aadd7ed43f4df123bba33818",
+    "char_count": 281293,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "e783c179adf19ef9": {
+    "source_path": "data\\corpus\\github_python_cpython_os.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "e783c179adf19ef9c9cd1ed5265da2e800075b15a0142a26df3a70d469820322",
+    "char_count": 43268,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "04a5b2bece4e9ae6": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20160316.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "bcffd35284e00c8b7727a2dfae517cf682e312f649610d95ace4b6a8bf1e7ea9",
+    "char_count": 327993,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "834952d4cf6aa1ec": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20160127.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "ea1cb3d048eda03bfe634dc4863b0242be9c033c1edc9fa65fc369d533f2cc4a",
+    "char_count": 496916,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "8c44e37907b27c43": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20160427.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "3d40c0ec5a998fa01f975a69ba0f4b16657a1844509cbb60c8fb07308354f858",
+    "char_count": 433042,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "cc106991537258b8": {
+    "source_path": "data\\corpus\\github_sympy_sympy_solvers.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "cc106991537258b85159fc4729ffe5dde4c2494ca06596e15a5c405f09917d09",
+    "char_count": 138777,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f6b9639e4a2aaf6b": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20160615.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "e96dd090122e405836ba2e261d2c08bc8e17cc043e40b0498f34b4c0c2ad06bc",
+    "char_count": 347174,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4d0be62244465b7e": {
+    "source_path": "data\\corpus\\github_sympy_sympy_expr.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "4d0be62244465b7ec776360839ea4b5ff28ca198abcd821c8fa0b81074f74874",
+    "char_count": 144729,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "5488b7f8302cdc54": {
+    "source_path": "data\\corpus\\github_sympy_sympy_dense.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "5488b7f8302cdc54b6f9aa6ffaa312893226a00bc38c6e974287729d3eb86a9e",
+    "char_count": 30815,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "812e64dbabf53e65": {
+    "source_path": "data\\corpus\\github_sympy_sympy_basic.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "812e64dbabf53e65f6735820cd5aeb3de4f95e004480d8ad12044ed6671ec21d",
+    "char_count": 78970,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7ce28c7f09a066bc": {
+    "source_path": "data\\corpus\\transcript_fomc_meeting_20160727.pdf",
+    "doc_class": "transcript",
+    "canonical_parser": "pymupdf",
+    "text_hash": "1f6959594187d2cc204d0af9009c6c1a871539e9413aabc9cf797cb684b99684",
+    "char_count": 445625,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "18e842d92ebdb818": {
+    "source_path": "data\\corpus\\github_sympy_sympy_polytools.py",
+    "doc_class": "code",
+    "canonical_parser": "passthrough",
+    "text_hash": "18e842d92ebdb818a77376b81a802f5c863cab0c57291f6395f39a81dd8472dd",
+    "char_count": 225139,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "01b8c90e959302b7": {
+    "source_path": "data\\corpus\\scanned_arxiv_005_1809.01479v5.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "ee5ef08608f641767e2a356a145300943b0c1e2eb07906aab6cb0ce02988aa97",
+    "char_count": 22365,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d8d095400e3fc488": {
+    "source_path": "data\\corpus\\scanned_arxiv_001_1706.03762.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "4d01b703b3d9e172a3bea9c9f9af4fbd0ad50fef5ee22dc65c09f10206e5a98a",
+    "char_count": 39308,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "7ecdb81d9fdbafea": {
+    "source_path": "data\\corpus\\scanned_arxiv_003_1807.02314v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "2a8da1c2c807295891a39f1aa402be89371512f058833cb36c8930e2f7d87abf",
+    "char_count": 36459,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "33e57aed169a7259": {
+    "source_path": "data\\corpus\\scanned_arxiv_004_1808.01591v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "512ece565104079eddf212f8cd502380f7fabfc16c25bbba0f5d52f89af7c804",
+    "char_count": 42717,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "563b575e89168599": {
+    "source_path": "data\\corpus\\scanned_arxiv_002_1805.06525v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "c374d024e5a4b3b0bba1cf45d6b49e13a7fdc1b639078dce55d38fb6cc8e9708",
+    "char_count": 45978,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f2242148d3cb69c7": {
+    "source_path": "data\\corpus\\scanned_arxiv_007_1810.12118v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "b8780e7f1824c8b6766f45472863a6b7c862f601d227d69d4301ea88f144196d",
+    "char_count": 41772,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "929ee6d081351d36": {
+    "source_path": "data\\corpus\\scanned_arxiv_006_1810.04805.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "34b6261fdfd67a4f0657b38a78a72811e827d348badfb288151ad0da1071c4bf",
+    "char_count": 60725,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "655b95d2f51ecec7": {
+    "source_path": "data\\corpus\\scanned_arxiv_010_2001.08361.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "399b907a86d87cb92db360084b3a0b865add02a6492e5fdbd6f7fa5b6dd90b6a",
+    "char_count": 43743,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "9ea24f842fd715dc": {
+    "source_path": "data\\corpus\\scanned_arxiv_008_1901.08079v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "7a2c36495d464b934c779f7a28cc3f72fec30e5ae42733d1f88d9e98c24bbf4f",
+    "char_count": 57706,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1f18f5fea116cd66": {
+    "source_path": "data\\corpus\\scanned_arxiv_009_1910.10683.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "901dc17960c39e799413802a34edcb31de072a010720bd2970e29341105d5198",
+    "char_count": 48679,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b7b0bd38b05f85c0": {
+    "source_path": "data\\corpus\\scanned_arxiv_013_2006.06251v3.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "d5d14fc966fdddb339338bc01e7ada5ed047b54c6176baa6e96842a11b6c4d95",
+    "char_count": 28916,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0a199f0090038258": {
+    "source_path": "data\\corpus\\scanned_arxiv_011_2004.12832.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "2c4ddfcb229c7465eec10b2efcea94c6f45672f620bd61de106ebb6634e57f9d",
+    "char_count": 61513,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "2065892ee81e1b8f": {
+    "source_path": "data\\corpus\\scanned_arxiv_016_2012.14005v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "6a6ce3015af64cf5ed59380795e47b211cc03770063a56ba89df48226969d36a",
+    "char_count": 20000,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c133f93dd7cd6614": {
+    "source_path": "data\\corpus\\scanned_arxiv_012_2005.14165.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "a38a489b27cb9745fba340b168c2906e5d134dc26657fa37c9d3f3715ed78f14",
+    "char_count": 49062,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "d396ad3449cafc86": {
+    "source_path": "data\\corpus\\scanned_arxiv_015_2009.10778v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "f929f3e7f9e8dceb52ae5d7cdf8da79e657103d9eb5fd15d6dc476aa7825c842",
+    "char_count": 31689,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "199d0e1ae34a370c": {
+    "source_path": "data\\corpus\\scanned_arxiv_014_2007.08557v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "a6d2a6c4f893bd16e3eda63a19ecba403844935aaef2a5d7004d848972fe90ee",
+    "char_count": 51288,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "bdd6c75dec67e93c": {
+    "source_path": "data\\corpus\\scanned_arxiv_019_2202.00486v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "d746c784ebbb45320d62ef5d70b21c5fc872cc26e5c4de468d1f70f2d44e6201",
+    "char_count": 22189,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "82869fe85a1a0a4a": {
+    "source_path": "data\\corpus\\scanned_arxiv_024_2212.08167v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "d6d4054b31e670cd935731a97db46bbd7aec10e903f1279c73e4f52a2dd91f4f",
+    "char_count": 18242,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "8458ddbe02625276": {
+    "source_path": "data\\corpus\\scanned_arxiv_018_2201.11903.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "8225264ec190cf61f5c69d33c3d892ecf526c1c940d081a0dacbd167d02017fe",
+    "char_count": 55065,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "f5af380570856a6b": {
+    "source_path": "data\\corpus\\scanned_arxiv_021_2203.15556.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "9015e279ace5f1122c486b324155cc1896688fe5eb9b5c00f9494cc9e0640ea2",
+    "char_count": 46834,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "4d8fad9ca135e35a": {
+    "source_path": "data\\corpus\\scanned_arxiv_017_2106.09685.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "4e00421d6ad489e04ff984807f36ba4c86dd23dc44e07d77a3cfaad73779f953",
+    "char_count": 54341,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1afbce93d33ae280": {
+    "source_path": "data\\corpus\\scanned_arxiv_022_2204.02311.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "891cda762aaab6990759c524de470b2dbe853395f5b909416227017c168c636e",
+    "char_count": 51317,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "be309cbfa4b37d2d": {
+    "source_path": "data\\corpus\\scanned_arxiv_020_2203.13088v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "873223d2b3bb223634f1a2c9ff203b318c5e954dae9d1a32c43ba9071bcf59c7",
+    "char_count": 71009,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1a9b161454777423": {
+    "source_path": "data\\corpus\\scanned_arxiv_023_2205.14135.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "03dfa2a3b5d1fb3efd29bbeebee57fa7b963d8e559fa67fb583c1a4eed0d876a",
+    "char_count": 54754,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "be846a63637bcac8": {
+    "source_path": "data\\corpus\\scanned_arxiv_029_2307.00457v2.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "e3c4ef721c72d26c9360048abbb501b824ac961ae05b7239eed8bdfc8407c789",
+    "char_count": 22120,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "0fd9db5ae180ea7e": {
+    "source_path": "data\\corpus\\scanned_arxiv_027_2304.11095v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "860d9a5f3b7e39539365d3e8a2c9bda4f44eb6a9a2e5b6a6e05fb1c2b2736a41",
+    "char_count": 22970,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "781617e949dd9c26": {
+    "source_path": "data\\corpus\\scanned_arxiv_026_2303.08774.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "1c0a9909d96aa73f4a6ba86ba393e43fe56d8ef7b8ed008b94e248188c2f3403",
+    "char_count": 43405,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "34a7f00d4734ea73": {
+    "source_path": "data\\corpus\\scanned_arxiv_025_2302.13971.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "9dd6864151dd057a794f3ad3494642510fc12fcfcb347f521d4a71bd9d61b44b",
+    "char_count": 61355,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "942e64e79b930fdc": {
+    "source_path": "data\\corpus\\scanned_arxiv_031_2311.10697v1.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "128cc5117b9d38a094271c030769a7a8eebad0cdbb9feba828c5972caaf88ff3",
+    "char_count": 19569,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "38521b4c9cde4429": {
+    "source_path": "data\\corpus\\scanned_arxiv_033_2401.00002.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "f099bf1c104dde37501b4287f954fa956a57871fdf89858250288b0606a33a03",
+    "char_count": 24296,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "80c9c9bcaeb0b20d": {
+    "source_path": "data\\corpus\\scanned_arxiv_028_2305.10601.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "3206c6642dad5b8358f850c0eac9cc81ae2df9d2a267cea451701781ba39a3b5",
+    "char_count": 51228,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "663a1b20db72a914": {
+    "source_path": "data\\corpus\\scanned_arxiv_030_2307.09288.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "d701fe929f8f3576d6d43878d6459f4b8e3c5ec6ce6ecbb76d75342f26597c6e",
+    "char_count": 48591,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1d62f5cfda567033": {
+    "source_path": "data\\corpus\\scanned_arxiv_032_2401.00001.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "f1bb6acaef9345e658e70982f9b7fcb734823f5369812f4252ebc6f589731268",
+    "char_count": 36880,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "01ce8c49bf610624": {
+    "source_path": "data\\corpus\\scanned_arxiv_039_2401.00008.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "c8a15bf3af6a478ee2e7d9eacbdd3a480317a740b38e320775cabbf63ca43dbb",
+    "char_count": 24746,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "44fc9fe92ca5e6f3": {
+    "source_path": "data\\corpus\\scanned_arxiv_034_2401.00003.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "a9020be86d152030d1b05b83c93c893da6465819dc9cbd59c89ac0f09226eb7b",
+    "char_count": 62418,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "6d11cc0c5f0e2aa6": {
+    "source_path": "data\\corpus\\scanned_arxiv_035_2401.00004.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "2aa2bc0a7c312c7b2c81702257afbb0c55e97da10459a9792cfaa4b6807e7a5d",
+    "char_count": 38467,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "c240da50a10f309d": {
+    "source_path": "data\\corpus\\scanned_arxiv_036_2401.00005.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "3089d7bb6ccaa043308419bb2c1c7889192801eff71d44d557fd6ad38083ba2e",
+    "char_count": 50329,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "a8ecec1938ea4283": {
+    "source_path": "data\\corpus\\scanned_arxiv_038_2401.00007.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "b9255f7c815d2560187913d8ba5cec5190a18100083981c84a407c385e8a27b1",
+    "char_count": 34152,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "8ced5590bdc25eba": {
+    "source_path": "data\\corpus\\scanned_arxiv_041_2401.00010.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "c3c55bcb512764cfdddd01cd4fa9438c5b5322c6f567289d61307860c3b3e07d",
+    "char_count": 49110,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "6a32e2f8492220b0": {
+    "source_path": "data\\corpus\\scanned_arxiv_037_2401.00006.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "31a6734200c4a8af21118584c8cd29c33883d1043fc4bb398430ef99d102bc89",
+    "char_count": 67437,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "665ec6e2b73d7a9f": {
+    "source_path": "data\\corpus\\scanned_arxiv_040_2401.00009.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "096c380d651f851b999478950033e111bf16df3b551053f3490498f7c4c98222",
+    "char_count": 63129,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "339f61572fa3581b": {
+    "source_path": "data\\corpus\\scanned_arxiv_043_2401.00012.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "edd29a78cb6bff5b6412876f53f7fdc8b65cc1c0d6b838059f2dc57db4eea7c4",
+    "char_count": 42562,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "1da58e5d58a0e126": {
+    "source_path": "data\\corpus\\scanned_arxiv_042_2401.00011.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "95f42939433534bc82646d33877c3588067bac3c81d9985b3d9ad66790340d63",
+    "char_count": 56258,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "b77905a82c791c10": {
+    "source_path": "data\\corpus\\scanned_arxiv_045_2401.00014.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "2766354853f9afaeade2abf50c681da0c2aef6752b410ecbeab4a87a5f34c04d",
+    "char_count": 55561,
+    "parse_failed": false,
+    "parse_reason": null
+  },
+  "977a4e0ff3f1a340": {
+    "source_path": "data\\corpus\\scanned_arxiv_044_2401.00013.pdf",
+    "doc_class": "scanned",
+    "canonical_parser": "docling",
+    "text_hash": "646a50a51b2cd7ee33892c92f1bd15f6361e45ca291f370fb67f1c74cc76905f",
+    "char_count": 89161,
+    "parse_failed": false,
+    "parse_reason": null
+  }
+}

@@ -1,0 +1,10 @@
+# version: 3
+Extract 5 to 10 key technical terms, concepts, and named entities from the text below.
+OUTPUT ONLY A SINGLE COMMA-SEPARATED LIST OF TERMS ON A SINGLE LINE.
+STRICT RULES:
+- DO NOT include any preamble, lead-in sentence, or intro filler (such as "Here are the keywords:").
+- DO NOT use bullet points, numbered lists, definitions, explanatory sentences, or markdown.
+- DO NOT use newlines or digit-dot-space numbering.
+
+Text:
+{text}

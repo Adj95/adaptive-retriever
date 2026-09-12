@@ -1,0 +1,2 @@
+
+numpy==2.2.6  # pinned: 2.5.3 cp313 wheels are blocked by Smart App Control

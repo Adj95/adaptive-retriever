@@ -1,0 +1,6 @@
+# version: 1
+Answer the following question relying ONLY on your general pre-trained knowledge. If you can answer it accurately with high confidence without any document context, answer the question. If you cannot answer it without document context, reply UNANSWERABLE.
+
+Question: {question}
+
+Answer:

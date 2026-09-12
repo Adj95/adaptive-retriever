@@ -1,0 +1,8 @@
+# version: 1
+Extract only the statements and table contents from the passage that are directly relevant to answering the query. Do not drop table rows or statements containing citations.
+
+Query: {query}
+Passage Text:
+{text}
+
+Extracted Statements:

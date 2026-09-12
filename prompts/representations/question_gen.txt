@@ -1,0 +1,10 @@
+# version: 3
+Generate {count} standalone search question(s) answerable by the text below.
+STRICT RULES:
+- Output ONLY the question(s).
+- Questions MUST be completely standalone and self-contained.
+- DO NOT reference "the provided text", "the passage", "the excerpt", "this chunk", "the document", or "according to the text".
+- DO NOT include any preamble, lead-in sentence, introductory phrase, or numbering filler (such as "Here is a question:").
+
+Text:
+{text}

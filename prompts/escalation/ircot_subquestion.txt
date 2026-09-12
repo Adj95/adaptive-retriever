@@ -1,0 +1,8 @@
+# version: 1
+What single specific sub-question, if answered, would most help answer the original question? If the retrieved context is already sufficient, reply exactly SUFFICIENT.
+
+Original Question: {query}
+Currently Retrieved Context:
+{context}
+
+Sub-question or SUFFICIENT:

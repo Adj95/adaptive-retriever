@@ -1,0 +1,6 @@
+# version: 1
+Decompose the complex user query into 2 to 4 simpler, distinct sub-questions that together enable answering the main query. Output each sub-question on a new line.
+
+User Query: {query}
+
+Sub-questions:

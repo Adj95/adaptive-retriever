@@ -1,0 +1,10 @@
+# version: 1
+Evaluate whether the generated answer is strictly grounded in and supported by the provided context. Reply GROUNDED if fully supported, or UNGROUNDED if it contains un-cited or hallucinated facts.
+
+Context:
+{context}
+
+Answer:
+{answer}
+
+Verdict (GROUNDED / UNGROUNDED):

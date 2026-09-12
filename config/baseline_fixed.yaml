@@ -1,0 +1,118 @@
+seed: 42
+
+paths:
+  corpus_dir: data/corpus
+  registry_db: data/registry.db
+  cache_dir: data/cache
+  eval_set: data/eval/eval_set.jsonl
+  reports_dir: reports
+  canonical_dir: data/canonical
+
+models:
+  dense_embedding: BAAI/bge-small-en-v1.5
+  sparse_model: Qdrant/bm25
+  reranker: cross-encoder/ms-marco-MiniLM-L-6-v2
+  llm:
+    provider: openai_compatible
+    base_url: http://localhost:11434/v1
+    model: llama3
+    temperature: 0.0
+    max_tokens: 1024
+    price_per_1k_in: 0.0015
+    price_per_1k_out: 0.002
+
+vectorstore:
+  url: http://localhost:6333
+  collection: adaptive_retriever_fixed
+  dense_dim: 384
+  storage_path: data/qdrant_storage
+
+ingest:
+  profiler:
+    enabled: true
+  parser_router:
+    enabled: false
+    fixed_parser: pymupdf
+    mapping: {}
+  chunk_router:
+    enabled: false
+    fixed_chunker: recursive_512
+    mapping: {}
+    params:
+      recursive_512: {chunk_size: 512, chunk_overlap: 64}
+  representations:
+    tiering_enabled: false
+    high_tier_kinds: [raw]
+    low_tier_kinds: [raw]
+    questions_per_chunk: 0
+    contextual_prefix: false
+    value_classifier:
+      min_token_count: 60
+      require_any: []
+
+query:
+  profiler:
+    enabled: true
+    use_llm: false
+  transformation:
+    enabled: false
+    fixed: none
+    mapping: {}
+    vocab_overlap_threshold: 0.35
+
+funnel:
+  prefilter:
+    enabled: true
+    max_candidates: 100000
+  hybrid:
+    enabled: true
+    dense_limit: 100
+    sparse_limit: 100
+    fusion: rrf
+    rrf_k: 60
+    class_weights:
+      default: {dense: 0.5, sparse: 0.5}
+  rerank:
+    mode: always
+    gate_score_margin: 0.15
+    input_size: 100
+    output_size: 5
+
+escalation:
+  enabled: false
+  confidence:
+    method: score_margin
+    threshold: 0.25
+  ladder: []
+  max_hops: 3
+  cost_ceiling_usd: 0.05
+  latency_ceiling_ms: 8000
+
+postretrieval:
+  compression:
+    mode: none
+    embeddings_threshold: 0.35
+    llm_extractor_if_below: 0.5
+  reorder:
+    enabled: false
+
+generation:
+  enabled: true
+  cite_chunks: true
+  refuse_if_confidence_below: 0.15
+
+riskgate:
+  enabled: true
+  flag_on:
+    low_confidence_below: 0.3
+    contradictory_sources: true
+    escalation_exhausted: true
+
+eval:
+  bootstrap_samples: 1000
+  ci: 0.95
+  judge:
+    enabled: true
+    position_swap: true
+    length_control: true
+    trials_per_pair: 2

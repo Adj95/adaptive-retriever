@@ -1,0 +1,252 @@
+{
+  "ingest_config_hash": "a5d51992",
+  "collection_name": "retriever_chunks_a5d51992",
+  "total_documents_manifest": 428,
+  "ingested_documents": 428,
+  "skipped_documents": 0,
+  "total_chunks": 12074,
+  "total_representations": 22422,
+  "llm_stats": {
+    "llm_calls_generated": 9929,
+    "llm_calls_cached": 520,
+    "generation_time": 10889.396032700097,
+    "truncated_count": {
+      "summary": 57,
+      "question": 16,
+      "keywords": 991
+    },
+    "max_new_tokens": 128
+  },
+  "throughput": {
+    "llm_calls_generated": 9929,
+    "llm_calls_cached": 520,
+    "generation_seconds": 10889.4,
+    "generation_rate_per_s": 0.91,
+    "generation_rate_note": null,
+    "truncated_count": {
+      "summary": 57,
+      "question": 16,
+      "keywords": 991
+    },
+    "truncation_rate": 0.1018,
+    "max_new_tokens": 128
+  },
+  "truncated_count": {
+    "summary": 57,
+    "question": 16,
+    "keywords": 991
+  },
+  "representation_failures": {
+    "count": 101,
+    "rate": 0.0045,
+    "examples": [
+      {
+        "chunk_id": "2e663675ae36ad12_c0006",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'Zero-shot and few-shot exact match performance on the filter', Cleaned: ''"
+      },
+      {
+        "chunk_id": "2e663675ae36ad12_c0018",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'The 51st Annual Meeting of the Association for Computational', Cleaned: ''"
+      },
+      {
+        "chunk_id": "5692a5514787a8c6_c0003",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'pre-training and fine-tuning procedures for BERT. Apart from', Cleaned: ''"
+      },
+      {
+        "chunk_id": "5692a5514787a8c6_c0006",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'Segmentation Embeddings E0 E6 E7 E8 E9 E10 Position Embeddin', Cleaned: ''"
+      },
+      {
+        "chunk_id": "5692a5514787a8c6_c0013",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: '#H = hidden size; #A = number of attention heads; \"LM (ppl)\"', Cleaned: ''"
+      },
+      {
+        "chunk_id": "2e487d9b96e3c2e5_c0003",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'computational load per query fine-grained matching interacti', Cleaned: ''"
+      },
+      {
+        "chunk_id": "1e88f1f3027cd1ab_c0011",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'gradient transfer requires efficient communication between p', Cleaned: ''"
+      },
+      {
+        "chunk_id": "1e88f1f3027cd1ab_c0049",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'We refer to Section 7 for more details on the performance of', Cleaned: ''"
+      },
+      {
+        "chunk_id": "1e88f1f3027cd1ab_c0077",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'algebra solve and explain word problems. Association for Com', Cleaned: ''"
+      },
+      {
+        "chunk_id": "c33a66dadca2388d_c0007",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: '1.', Cleaned: ''"
+      },
+      {
+        "chunk_id": "c33a66dadca2388d_c0013",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'adversarial systems) that can be exploited by GPT-4. The mod', Cleaned: ''"
+      },
+      {
+        "chunk_id": "c33a66dadca2388d_c0074",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'sequence of those challenges outlined in this card imminent.', Cleaned: ''"
+      },
+      {
+        "chunk_id": "1df284ce95f78300_c0040",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'Safety Data Pct. (%) Safety Reward Model Score Mean Reward M', Cleaned: ''"
+      },
+      {
+        "chunk_id": "1df284ce95f78300_c0106",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: '1.', Cleaned: ''"
+      },
+      {
+        "chunk_id": "77d0f704383f1c44_c0018",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'Completion Ratio Smoothed Completion Rate Trend of policy ab', Cleaned: ''"
+      },
+      {
+        "chunk_id": "77d0f704383f1c44_c0030",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: '1.', Cleaned: ''"
+      },
+      {
+        "chunk_id": "f26f4b7113e053da_c0023",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'machines would be machines designed to match or exceed human', Cleaned: ''"
+      },
+      {
+        "chunk_id": "a70fa2bf30083d24_c0006",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'embedding is used to infer the similarity score. Two additio', Cleaned: ''"
+      },
+      {
+        "chunk_id": "a70fa2bf30083d24_c0014",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'dimensionality. The technique leverages PCA to reduce dimens', Cleaned: ''"
+      },
+      {
+        "chunk_id": "dc267e67d292235a_c0016",
+        "kind": "keywords",
+        "reason": "Post-processing failed for representation 'keywords': output is empty or contains forbidden preamble/format! Raw text: 'qubits.\u201d Quantum Information Processing, vol. 17, no. 3, 201', Cleaned: 'qubits."
+      }
+    ]
+  },
+  "chunk_cap": {
+    "limit": 500,
+    "documents_capped": 0,
+    "chunks_dropped": 0,
+    "dropped_chunk_ids": []
+  },
+  "representation_counts_by_kind": {
+    "raw": 12074,
+    "summary": 3483,
+    "question": 3483,
+    "keywords": 3382
+  },
+  "tier_breakdown": {
+    "high": 13831,
+    "low": 8591
+  },
+  "doc_class_breakdown": {
+    "digital_prose": 147,
+    "table_heavy": 4,
+    "html": 159,
+    "code": 73,
+    "scanned": 45
+  },
+  "chunks_per_doc_class": {
+    "digital_prose": {
+      "total": 5952,
+      "mean": 40.49,
+      "min": 3,
+      "max": 189
+    },
+    "table_heavy": {
+      "total": 67,
+      "mean": 16.75,
+      "min": 7,
+      "max": 29
+    },
+    "html": {
+      "total": 4043,
+      "mean": 25.43,
+      "min": 2,
+      "max": 237
+    },
+    "code": {
+      "total": 1265,
+      "mean": 17.33,
+      "min": 2,
+      "max": 135
+    },
+    "scanned": {
+      "total": 747,
+      "mean": 16.6,
+      "min": 6,
+      "max": 34
+    }
+  },
+  "parser_performance": {
+    "docling": {
+      "parsed_count": 0,
+      "cache_hit_count": 49,
+      "mean_ms": null,
+      "p95_ms": null,
+      "note": "no parses this run (all cached)"
+    },
+    "passthrough": {
+      "parsed_count": 0,
+      "cache_hit_count": 73,
+      "mean_ms": null,
+      "p95_ms": null,
+      "note": "no parses this run (all cached)"
+    },
+    "pymupdf": {
+      "parsed_count": 0,
+      "cache_hit_count": 147,
+      "mean_ms": null,
+      "p95_ms": null,
+      "note": "no parses this run (all cached)"
+    },
+    "trafilatura": {
+      "parsed_count": 0,
+      "cache_hit_count": 159,
+      "mean_ms": null,
+      "p95_ms": null,
+      "note": "no parses this run (all cached)"
+    },
+    "tree_sitter": {
+      "parsed_count": 0,
+      "cache_hit_count": 0,
+      "mean_ms": null,
+      "p95_ms": null,
+      "note": "no parses this run (all cached)"
+    }
+  },
+  "parse_cache": {
+    "hits": 428,
+    "misses": 0
+  },
+  "parse_failures": {
+    "documents_attempted": 428,
+    "parsed_count": 0,
+    "failure_count": 0,
+    "failure_rate": 0.0,
+    "failure_reasons": {},
+    "failed_doc_ids": []
+  },
+  "total_llm_cost_usd": 0.0,
+  "elapsed_seconds": 11773.89,
+  "peak_memory_mb": 258.89
+}

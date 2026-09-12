@@ -1,0 +1,12 @@
+# version: 2
+Write a specific, standalone search question that can ONLY be answered by reading the text below.
+STRICT RULES:
+- Output ONLY the question.
+- The question MUST be standalone and self-contained.
+- DO NOT reference "the provided text", "the passage", "the excerpt", "this chunk", "the document", or "according to the text".
+- DO NOT include any preamble, lead-in sentence, or conversational filler (such as "Here is a question:").
+
+Text:
+{passage_text}
+
+Question:

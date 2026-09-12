@@ -1,0 +1,25 @@
+# Data & caches (gitignored)
+data/corpus/
+data/cache/
+data/qdrant_storage/
+data/canonical/
+reports/traces/
+*.db
+*.db-wal
+*.db-shm
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.coverage
+
+# Committed data artifacts
+!data/corpus/MANIFEST.jsonl
+!data/canonical_hashes.json
+!data/eval/eval_set.jsonl
+!data/eval/corrections.jsonl

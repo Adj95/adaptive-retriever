@@ -1,0 +1,21 @@
+=== SUMMARIES (sample 3) ===
+ID: arxiv_2401.00053_c0003_summary
+TEXT: Summary of chunk 3: Definition 1.6. Let G: Ωε →R be a diagonally concave function. We say that G is extremal in the direction (1, ±1) at x if x is the endpoint of some segment ℓ, the other endpoint of ℓlies on ∂Ωε, ℓis p
+------------------------------------------------------------
+ID: arxiv_2401.00064_c0140_summary
+TEXT: Summary of chunk 140: une future étude. On note cependant que dans les simulations 3D GRMHD de [Ripperda, 2022], un autre résultat de la reconnexion magnétique est l’éjection du disque avec la formation de larges tubes de 
+------------------------------------------------------------
+ID: arxiv_2401.00060_c0030_summary
+TEXT: Summary of chunk 30: observatory bibliography systems. As a result, bibliog- raphers should expect to revise their metadata schema, processes, and other aspects of bibliographic work on a continual basis for the life of t
+------------------------------------------------------------
+
+=== QUESTIONS (sample 3) ===
+ID: wikipedia_renewable_energy_c0016_question_0
+TEXT: Question #1 regarding: UK statistics released in September 2020 noted that "the proportion of demand met from renewables va
+------------------------------------------------------------
+ID: arxiv_2401.00050_c0009_question_1
+TEXT: Question #2 regarding: erate ground states. However, for all |φi⟩, the electron occupation numbers for each corner can only
+------------------------------------------------------------
+ID: arxiv_2401.00050_c0006_question_2
+TEXT: Question #3 regarding: the values of hopping amplitudes across boundaries can be obtained similarly. IV. BULK-BOUNDARY CORR
+------------------------------------------------------------

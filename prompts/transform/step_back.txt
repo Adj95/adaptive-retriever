@@ -1,0 +1,6 @@
+# version: 1
+Given the specific user query, write a broader, higher-level step-back question that addresses the underlying concept or background knowledge required to answer the specific query.
+
+Specific Query: {query}
+
+Step-Back Question:

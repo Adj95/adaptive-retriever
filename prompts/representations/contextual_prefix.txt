@@ -1,0 +1,8 @@
+# version: 1
+Give one sentence situating this excerpt within the document, mentioning the document title and section. Output only the sentence.
+
+Document Title: {doc_title}
+Section Path: {section_path}
+Chunk Text: {text}
+
+Situating Sentence:

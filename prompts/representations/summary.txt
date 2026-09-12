@@ -1,0 +1,9 @@
+# version: 3
+Provide a concise 1 to 2 sentence summary of the text below.
+OUTPUT ONLY THE SUMMARY TEXT ITSELF.
+STRICT RULES:
+- DO NOT include any preamble, lead-in sentence, introductory text, conversational filler, or label (such as "Here is a summary:", "This text discusses:", "Summary:").
+- Start directly with the first sentence of the summary content.
+
+Text:
+{text}

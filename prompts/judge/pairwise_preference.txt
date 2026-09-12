@@ -1,0 +1,14 @@
+# version: 1
+Compare Answer A and Answer B for answering the Query based on the Reference Context. Which answer is better in terms of factual accuracy, groundedness, and completeness?
+Reply 'WIN_A', 'WIN_B', or 'TIE'.
+
+Query: {query}
+Reference Context: {context}
+
+Answer A:
+{answer_a}
+
+Answer B:
+{answer_b}
+
+Verdict:
