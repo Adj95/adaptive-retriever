@@ -99,6 +99,18 @@ class QueryFingerprint(BaseModel):
     class_confidence: float
 
 
+class QueryProfile(BaseModel):
+    raw_query: str
+    doc_class: Optional[DocClass] = None
+    contains_table: Optional[bool] = None
+    entities: List[str] = Field(default_factory=list)
+    date_refs: List[str] = Field(default_factory=list)
+    access_tags: List[str] = Field(default_factory=list)
+    kind: Optional[RepresentationKind] = None
+    tier: Optional[Literal["high", "low"]] = None
+    extracted_filters: Dict[str, Any] = Field(default_factory=dict)
+
+
 class RetrievalCandidate(BaseModel):
     chunk_id: str
     rep_id: Optional[str] = None
