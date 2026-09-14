@@ -47,7 +47,8 @@ def run_baseline(
     )
 
     # Ensure dense model is ready
-    vs._ensure_dense_model()
+    if hasattr(vs, "embedding_client") and hasattr(vs.embedding_client, "_ensure_loaded"):
+        vs.embedding_client._ensure_loaded()
 
     # Total points in collection for trace input_count parity
     total_collection_points = 0

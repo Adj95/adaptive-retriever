@@ -19,17 +19,32 @@ logger = logging.getLogger(__name__)
 
 
 def warm_up(vs: VectorStore, reranker: Optional[Reranker] = None) -> float:
-    """Warm up embedding, sparse, and reranker models by running throwaway inference.
+    """Warm up embedding, sparse, Qdrant client connection, and reranker models.
 
-    Initializes tokenizer, CUDA context, and device transfers on the EXACT model
-    instances used by the pipeline so real queries pay zero cold-start latencies.
+    Initializes tokenizer, CUDA context, device transfers, and Qdrant gRPC/HTTP
+    connections on the EXACT model instances used by the pipeline so real queries
+    pay zero first-call or first-connection cold-start latencies.
     Returns elapsed warm-up time in milliseconds.
     """
     t0 = time.perf_counter()
+    # 1. Warm dense embedding model
     if hasattr(vs, "embedding_client") and vs.embedding_client is not None:
         _ = vs.embedding_client.encode("warm")
+
+    # 2. Warm sparse BM25 model
     if hasattr(vs, "sparse_client") and vs.sparse_client is not None:
         _ = vs.sparse_client.encode("warm")
+
+    # 3. Warm full Qdrant hybrid search & raw payload retrieval connection
+    if hasattr(vs, "query_hybrid"):
+        try:
+            cfg_to_use = getattr(vs, "cfg", None)
+            if cfg_to_use is not None:
+                _ = vs.query_hybrid("warmup query", limit=1, cfg=cfg_to_use)
+        except Exception:
+            pass
+
+    # 4. Warm cross-encoder reranker
     if reranker is not None:
         _ = reranker.score("warm", ["warm"])
 
