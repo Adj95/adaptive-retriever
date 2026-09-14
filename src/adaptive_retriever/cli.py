@@ -554,12 +554,51 @@ def query(
             doc_cls = meta.get("doc_class", "unknown")
             doc_id = meta.get("doc_id", "unknown")
             fused_str = f"{c.fused_score:.4f}" if c.fused_score is not None else "N/A"
-            snippet = c.text[:200]
+            snippet = c.text[:200].encode(sys.stdout.encoding or "utf-8", errors="replace").decode(sys.stdout.encoding or "utf-8")
             typer.echo(
                 f"Rank {c.final_rank} | Fused: {fused_str} | Ranks: {source_ranks} | "
                 f"Kind: {kind} | DocClass: {doc_cls} | DocID: {doc_id}\n"
                 f"  Text: {snippet}"
             )
+
+
+@app.command("funnel")
+def funnel_cmd(
+    text: str,
+    config: Path = Path("config/default.yaml"),
+    trace: bool = typer.Option(False, "--trace", help="Print trace details to stdout."),
+):
+    """Run full 3-stage funnel: pre-filter -> hybrid RRF -> gated rerank."""
+    from adaptive_retriever.funnel.pipeline import run_funnel, warm_up
+    from adaptive_retriever.funnel.rerank import Reranker
+    from adaptive_retriever.vectorstore import VectorStore
+
+    cfg = Config.load(config)
+    vs = VectorStore.from_config(cfg)
+    reranker = Reranker(device=cfg.raw.get("models", {}).get("llm", {}).get("device", "auto"))
+
+    warmup_ms = warm_up(vs, reranker)
+
+    candidates, trace_dict = run_funnel(query_text=text, vs=vs, cfg=cfg, reranker=reranker)
+
+    typer.echo(f"Funnel execution finished! Returned {len(candidates)} candidates.")
+    for c in candidates:
+        meta = c.metadata or {}
+        kind = meta.get("matched_kind", meta.get("kind", "unknown"))
+        doc_cls = meta.get("doc_class", "unknown")
+        doc_id = meta.get("doc_id", "unknown")
+        fused_str = f"{c.fused_score:.4f}" if c.fused_score is not None else "N/A"
+        rr_str = f"{c.rerank_score:.4f}" if c.rerank_score is not None else "N/A"
+        snippet = c.text[:200].encode(sys.stdout.encoding or "utf-8", errors="replace").decode(sys.stdout.encoding or "utf-8")
+        typer.echo(
+            f"Rank {c.final_rank} | Fused: {fused_str} | RerankScore: {rr_str} | "
+            f"Kind: {kind} | DocClass: {doc_cls} | DocID: {doc_id}\n"
+            f"  Text: {snippet}"
+        )
+
+    if trace:
+        typer.echo("=== FUNNEL TRACE ===")
+        typer.echo(json.dumps(trace_dict, indent=2))
 
 
 @app.command("eval-build")

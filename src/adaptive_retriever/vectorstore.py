@@ -567,6 +567,7 @@ class VectorStore:
         doc_class_filter: Optional[str] = None,
         query_class: Optional[str] = None,
         cfg: Optional[Any] = None,
+        query_filter: Optional[Any] = None,
     ) -> List[RetrievalCandidate]:
         """Dense + sparse search fused with weighted RRF, returned as chunks.
 
@@ -627,9 +628,9 @@ class VectorStore:
         dense_vec = self.embedding_client.encode(query_text)
         sparse_vec = self.sparse_client.encode(query_text)
 
-        query_filter = None
-        if doc_class_filter:
-            query_filter = rest.Filter(
+        effective_filter = query_filter
+        if effective_filter is None and doc_class_filter:
+            effective_filter = rest.Filter(
                 must=[
                     rest.FieldCondition(
                         key="doc_class", match=rest.MatchValue(value=doc_class_filter)
@@ -637,8 +638,8 @@ class VectorStore:
                 ]
             )
 
-        dense_hits = self.search_dense(dense_vec, limit=dense_limit, query_filter=query_filter)
-        sparse_hits = self.search_sparse(sparse_vec, limit=sparse_limit, query_filter=query_filter)
+        dense_hits = self.search_dense(dense_vec, limit=dense_limit, query_filter=effective_filter)
+        sparse_hits = self.search_sparse(sparse_vec, limit=sparse_limit, query_filter=effective_filter)
 
         rep_payload: Dict[str, Dict[str, Any]] = {}
         chunk_of_rep: Dict[str, str] = {}

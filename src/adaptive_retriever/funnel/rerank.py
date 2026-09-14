@@ -8,6 +8,14 @@ from adaptive_retriever.models import RetrievalCandidate
 logger = logging.getLogger(__name__)
 
 
+def _resolve_device(device: str) -> str:
+    if device != "auto":
+        return device
+    import torch
+
+    return "cuda" if torch.cuda.is_available() else "cpu"
+
+
 class Reranker:
     """Cross-encoder reranker wrapping sentence-transformers CrossEncoder."""
 
@@ -17,7 +25,7 @@ class Reranker:
         device: str = "auto",
     ):
         self.model_name = model_name
-        self.device = device
+        self.device = _resolve_device(device)
         self._model = None
 
     def _ensure_loaded(self) -> None:
@@ -38,6 +46,10 @@ class Reranker:
                 f"Failed to load reranker model '{self.model_name}': {err}"
             ) from err
 
+    def ensure_ready(self) -> None:
+        """Eagerly load the model to fail at startup rather than mid-run."""
+        self._ensure_loaded()
+
     def score(self, query: str, texts: List[str]) -> List[float]:
         if not texts:
             return []
@@ -52,17 +64,21 @@ class Reranker:
 
 
 def _get_rerank_cfg(cfg: Any) -> Dict[str, Any]:
-    if hasattr(cfg, "raw"):
+    if cfg is None:
+        raw_cfg = {"funnel": {"rerank": {}}}
+    elif hasattr(cfg, "raw"):
         raw_cfg = cfg.raw
     elif isinstance(cfg, dict):
         if "funnel" in cfg:
             raw_cfg = cfg
-        elif "rerank" in cfg:
-            raw_cfg = {"funnel": cfg}
         else:
-            raw_cfg = {"funnel": {"rerank": cfg}}
+            raise ValueError(
+                f"Invalid config dict: must contain top-level 'funnel' key. Got keys: {list(cfg.keys())}"
+            )
     else:
-        raw_cfg = {"funnel": {"rerank": {}}}
+        raise ValueError(
+            f"Invalid config type '{type(cfg).__name__}'. Expected Config instance or dict containing 'funnel'."
+        )
     return raw_cfg.get("funnel", {}).get("rerank", {})
 
 
@@ -70,7 +86,7 @@ def should_rerank(
     candidates: List[RetrievalCandidate],
     cfg: Any = None,
 ) -> Tuple[bool, Dict[str, Any]]:
-    """Pure gate logic deciding if reranking should fire based on margin."""
+    """Pure gate logic deciding if reranking should fire based on relative score margin."""
     rerank_cfg = _get_rerank_cfg(cfg)
     mode = rerank_cfg.get("mode", "gated")
     gate_score_margin = float(rerank_cfg.get("gate_score_margin", 0.15))
@@ -86,24 +102,44 @@ def should_rerank(
                 "mode": "gated",
                 "should_rerank": False,
                 "margin": 0.0,
+                "raw_margin": 0.0,
                 "threshold": gate_score_margin,
                 "reason": "no_candidates",
             }
 
-        top_score = candidates[0].fused_score if candidates[0].fused_score is not None else 0.0
+        top_score = (
+            candidates[0].fused_score
+            if candidates[0].fused_score is not None
+            else 0.0
+        )
+        if top_score <= 0.0:
+            return True, {
+                "mode": "gated",
+                "should_rerank": True,
+                "reason": "zero_top_score",
+                "margin": 0.0,
+                "raw_margin": 0.0,
+                "threshold": gate_score_margin,
+                "top_score": top_score,
+                "cutoff_score": 0.0,
+                "output_size": output_size,
+            }
+
         cutoff_idx = min(output_size, len(candidates)) - 1
         cutoff_score = (
             candidates[cutoff_idx].fused_score
             if candidates[cutoff_idx].fused_score is not None
             else 0.0
         )
-        margin = float(top_score - cutoff_score)
+        raw_margin = float(top_score - cutoff_score)
+        margin = float(raw_margin / top_score)
         fire = margin < gate_score_margin
 
         trace = {
             "mode": "gated",
             "should_rerank": fire,
             "margin": margin,
+            "raw_margin": raw_margin,
             "threshold": gate_score_margin,
             "top_score": top_score,
             "cutoff_score": cutoff_score,
