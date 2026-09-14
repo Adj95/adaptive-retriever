@@ -1,10 +1,15 @@
 """Embedded Qdrant VectorStore Handler (A5, spec §9.5 & Addendum v1.2 §D).
 
-Uses qdrant-client in local embedded persistent mode at `data/qdrant_storage/`.
+Runs against a Qdrant server (`vectorstore.mode: server`) or a local embedded
+store. Payload indexes are a no-op in local mode, so server mode is the
+supported configuration for the funnel's structured pre-filter.
 Collection naming: {collection}_{ingest_config_hash[:8]}.
 Named vectors: `dense` (384-dim, Cosine) and `sparse` (BM25).
-Payload indexing: `doc_class`, `contains_table`, `entities`, `date_refs`, `access_tags`.
-Hybrid search: Prefetch + RRF Fusion (rest.FusionQuery(fusion=rest.Fusion.RRF)).
+Payload indexing: `doc_class`, `contains_table`, `entities`, `date_refs`,
+`access_tags`, `kind`, `tier`.
+Hybrid search: two independent searches fused by our own weighted RRF in
+`funnel.fusion` - NOT Qdrant's server-side rest.Fusion.RRF, which cannot apply
+per-query-class source weights.
 
 CRITICAL CORRECTION (2026-09-11)
 -------------------------------
@@ -33,7 +38,7 @@ from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as rest
 
-from adaptive_retriever.funnel.fusion import fuse_rrf
+from adaptive_retriever.funnel.fusion import collapse_to_best, fuse_rrf
 from adaptive_retriever.models import Chunk, Representation, RetrievalCandidate
 
 logger = logging.getLogger(__name__)
@@ -513,6 +518,48 @@ class VectorStore:
 
     # ------------------------------------------------------------------- query
 
+    def _fetch_raw_payloads(self, chunk_ids: Sequence[str]) -> Dict[str, Dict[str, Any]]:
+        """Return each chunk's RAW representation payload, keyed by chunk_id.
+
+        Every point in the index stores the text of ONE representation. A chunk
+        retrieved because its summary or a generated question matched carries
+        the summary/question text in its payload, not the chunk's own text. If
+        that text were handed downstream, the generator would quote and cite a
+        model-written summary as if it were source evidence.
+
+        The raw representation's id is `f"{chunk_id}_raw"` (see
+        ingest/representations.py, which enforces RAW.text == chunk.text), and
+        point ids are a deterministic hash of the rep id. So the real text is a
+        direct id lookup - no filter, no scan, and no payload index needed.
+        """
+        if not chunk_ids:
+            return {}
+        wanted = list(dict.fromkeys(chunk_ids))
+        ids = [stable_point_id(f"{cid}_raw") for cid in wanted]
+        points = self.client.retrieve(
+            collection_name=self.collection_name,
+            ids=ids,
+            with_payload=True,
+            with_vectors=False,
+        )
+        by_chunk: Dict[str, Dict[str, Any]] = {}
+        for p in points:
+            payload = getattr(p, "payload", {}) or {}
+            cid = payload.get("chunk_id")
+            if cid:
+                by_chunk[cid] = payload
+
+        missing = [c for c in wanted if c not in by_chunk]
+        if missing:
+            raise RuntimeError(
+                f"No RAW representation found for chunk(s) {missing[:5]}"
+                f"{' ...' if len(missing) > 5 else ''}. Every chunk must have one "
+                f"(ingest/representations.py builds it for both tiers), so the "
+                f"index is incomplete or was written by an older ingest. "
+                f"Re-run `cli ingest`."
+            )
+        return by_chunk
+
     def query_hybrid(
         self,
         query_text: str,
@@ -521,12 +568,25 @@ class VectorStore:
         query_class: Optional[str] = None,
         cfg: Optional[Any] = None,
     ) -> List[RetrievalCandidate]:
+        """Dense + sparse search fused with weighted RRF, returned as chunks.
+
+        Two things here are easy to get wrong and are handled explicitly:
+
+        1. The index holds one point per REPRESENTATION, so one chunk can take
+           several positions in a single source's ranking. Representations are
+           collapsed to their chunk BEFORE fusion, so each chunk appears at most
+           once and a chunk is not rewarded for having more representations.
+        2. The text returned is always the chunk's own RAW text, never the
+           summary or question that happened to match.
+        """
         active_cfg = cfg if cfg is not None else self.cfg
-        if active_cfg is not None:
-            raw_cfg = active_cfg.raw if hasattr(active_cfg, "raw") else active_cfg
-        else:
-            from adaptive_retriever.config import Config
-            raw_cfg = Config.load(Path("config/default.yaml")).raw
+        if active_cfg is None:
+            raise ValueError(
+                "query_hybrid needs a config. Pass cfg=..., or build the store "
+                "with VectorStore.from_config so self.cfg is set. Loading a "
+                "default file here would use settings the caller never chose."
+            )
+        raw_cfg = active_cfg.raw if hasattr(active_cfg, "raw") else active_cfg
 
         hybrid_cfg = raw_cfg.get("funnel", {}).get("hybrid", {})
         fusion = hybrid_cfg.get("fusion", "rrf")
@@ -535,18 +595,34 @@ class VectorStore:
 
         class_weights = hybrid_cfg.get("class_weights", {})
         if query_class is not None:
-            if query_class in class_weights:
-                weights = class_weights[query_class]
-            else:
+            if query_class not in class_weights:
                 raise ValueError(
-                    f"Unknown query_class '{query_class}'. Available keys: {list(class_weights.keys())}"
+                    f"Unknown query_class '{query_class}'. "
+                    f"Available keys: {sorted(class_weights)}. "
+                    f"Add it to funnel.hybrid.class_weights in the config."
                 )
+            weight_source = query_class
         else:
-            weights = class_weights.get("default", {"dense": 0.5, "sparse": 0.5})
+            if "default" not in class_weights:
+                raise ValueError(
+                    "funnel.hybrid.class_weights has no 'default' entry and no "
+                    "query_class was supplied."
+                )
+            weight_source = "default"
+        weights = class_weights[weight_source]
 
-        dense_limit = hybrid_cfg.get("dense_limit", 100)
-        sparse_limit = hybrid_cfg.get("sparse_limit", 100)
-        rrf_k = hybrid_cfg.get("rrf_k", 60)
+        total = sum(float(v) for v in weights.values())
+        if abs(total - 1.0) > 1e-6:
+            raise ValueError(
+                f"funnel.hybrid.class_weights['{weight_source}'] sums to "
+                f"{total:.4f}, not 1.0. Fused scores would not be comparable "
+                f"across query classes, so the rerank gate margin would mean "
+                f"something different for each one."
+            )
+
+        dense_limit = int(hybrid_cfg.get("dense_limit", 100))
+        sparse_limit = int(hybrid_cfg.get("sparse_limit", 100))
+        rrf_k = int(hybrid_cfg.get("rrf_k", 60))
 
         dense_vec = self.embedding_client.encode(query_text)
         sparse_vec = self.sparse_client.encode(query_text)
@@ -564,33 +640,60 @@ class VectorStore:
         dense_hits = self.search_dense(dense_vec, limit=dense_limit, query_filter=query_filter)
         sparse_hits = self.search_sparse(sparse_vec, limit=sparse_limit, query_filter=query_filter)
 
-        payload_map: Dict[str, Dict[str, Any]] = {}
-        for rep_id, payload, _ in dense_hits:
-            if rep_id:
-                payload_map[rep_id] = payload
-        for rep_id, payload, _ in sparse_hits:
-            if rep_id:
-                payload_map[rep_id] = payload
+        rep_payload: Dict[str, Dict[str, Any]] = {}
+        chunk_of_rep: Dict[str, str] = {}
+        for rep_id, payload, _score in list(dense_hits) + list(sparse_hits):
+            if not rep_id:
+                continue
+            payload = payload or {}
+            rep_payload.setdefault(rep_id, payload)
+            chunk_id = payload.get("chunk_id")
+            if not chunk_id:
+                raise RuntimeError(
+                    f"Point '{rep_id}' has no chunk_id in its payload. Its chunk "
+                    f"cannot be identified, so the index is malformed. "
+                    f"Re-run `cli ingest`."
+                )
+            chunk_of_rep[rep_id] = chunk_id
 
-        ranked_lists = {
-            "dense": [h[0] for h in dense_hits if h[0]],
-            "sparse": [h[0] for h in sparse_hits if h[0]],
-        }
+        ranked_lists: Dict[str, List[str]] = {}
+        rep_winner: Dict[str, Dict[str, str]] = {}
+        for source, hits in (("dense", dense_hits), ("sparse", sparse_hits)):
+            chunk_order, winner = collapse_to_best(
+                [h[0] for h in hits if h[0]], chunk_of_rep
+            )
+            ranked_lists[source] = chunk_order
+            rep_winner[source] = winner
 
-        fused = fuse_rrf(ranked_lists, rrf_k=rrf_k, weights=weights)
+        fused = fuse_rrf(ranked_lists, rrf_k=rrf_k, weights=weights)[:limit]
+
+        raw_payloads = self._fetch_raw_payloads([row[0] for row in fused])
 
         candidates: List[RetrievalCandidate] = []
-        for rank, (rep_id, fused_score, source_ranks) in enumerate(fused[:limit], 1):
-            p = payload_map.get(rep_id, {})
-            meta = dict(p)
+        for rank, (chunk_id, fused_score, source_ranks) in enumerate(fused, 1):
+            best_rep, best_rank = "", None
+            for source, winner in rep_winner.items():
+                r = source_ranks.get(source)
+                if r is None:
+                    continue
+                if best_rank is None or r < best_rank:
+                    best_rank, best_rep = r, winner.get(chunk_id, "")
+
+            raw = raw_payloads.get(chunk_id, {})
+            meta = dict(raw)
             meta["source_ranks"] = source_ranks
+            meta["matched_kind"] = (rep_payload.get(best_rep, {}) or {}).get("kind", "raw")
+            meta["matched_rep_id"] = best_rep
+            meta["winning_rep_by_source"] = {
+                s: w[chunk_id] for s, w in rep_winner.items() if chunk_id in w
+            }
             candidates.append(
                 RetrievalCandidate(
-                    chunk_id=p.get("chunk_id", ""),
-                    rep_id=rep_id,
+                    chunk_id=chunk_id,
+                    rep_id=best_rep,
                     fused_score=fused_score,
                     final_rank=rank,
-                    text=p.get("text", ""),
+                    text=raw.get("text", ""),
                     metadata=meta,
                 )
             )

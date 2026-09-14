@@ -531,7 +531,10 @@ def query(
                     "rank": c.final_rank,
                     "fused_score": round(c.fused_score, 4) if c.fused_score is not None else None,
                     "source_ranks": meta.get("source_ranks", {}),
-                    "kind": meta.get("kind", "unknown"),
+                    # matched_kind = which representation won the chunk (raw /
+                    # summary / question / keywords). The chunk's own text is
+                    # always what gets returned; this says what matched it.
+                    "kind": meta.get("matched_kind", meta.get("kind", "unknown")),
                     "doc_class": meta.get("doc_class", "unknown"),
                     "doc_id": meta.get("doc_id", "unknown"),
                     "text": c.text[:200],
@@ -547,7 +550,7 @@ def query(
         for c in candidates:
             meta = c.metadata or {}
             source_ranks = meta.get("source_ranks", {})
-            kind = meta.get("kind", "unknown")
+            kind = meta.get("matched_kind", meta.get("kind", "unknown"))
             doc_cls = meta.get("doc_class", "unknown")
             doc_id = meta.get("doc_id", "unknown")
             fused_str = f"{c.fused_score:.4f}" if c.fused_score is not None else "N/A"

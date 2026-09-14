@@ -113,10 +113,19 @@ funnel:
     sparse_limit: 100
     fusion: rrf
     rrf_k: 60
+    # One entry REQUIRED for every member of models.QueryClass - query_hybrid
+    # raises on a class it has no weights for, and tests/test_rrf_fusion.py
+    # enforces that completeness. Each pair must sum to 1.0 so fused scores stay
+    # comparable across classes (the rerank gate compares score margins).
+    # These are starting priors, not measured values. Phase 6 tunes them.
     class_weights:
-      exact_lookup: {dense: 0.3, sparse: 0.7}
-      conceptual: {dense: 0.8, sparse: 0.2}
-      default: {dense: 0.5, sparse: 0.5}
+      exact_lookup: {dense: 0.3, sparse: 0.7}   # literal strings, IDs, names
+      conceptual:   {dense: 0.8, sparse: 0.2}   # paraphrase, little shared vocab
+      compound:     {dense: 0.5, sparse: 0.5}   # decomposed into mixed sub-queries
+      multihop:     {dense: 0.5, sparse: 0.5}   # hop 1 needs entities, hop 2 is semantic
+      aggregation:  {dense: 0.6, sparse: 0.4}   # wants coverage over precision
+      filterable:   {dense: 0.4, sparse: 0.6}   # the filter narrows; the rest is literal
+      default:      {dense: 0.5, sparse: 0.5}
   rerank:
     mode: gated
     gate_score_margin: 0.15
