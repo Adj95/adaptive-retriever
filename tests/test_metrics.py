@@ -81,16 +81,16 @@ def test_ir_metrics_fixtures():
 
 
 def test_bootstrap_ci_determinism_and_sample_size():
+    import numpy as np
     values = [0.8, 0.9, 0.85, 0.7, 0.95, 0.88, 0.92, 0.75, 0.6, 0.99] * 10
 
-    res1000 = bootstrap_ci(values, n=1000, seed=42)
-    res50 = bootstrap_ci(values, n=50, seed=42)
+    # Determinism check
+    assert bootstrap_ci(values, n=1000, seed=42) == bootstrap_ci(values, n=1000, seed=42)
 
-    width_1000 = res1000[2] - res1000[1]
-    width_50 = res50[2] - res50[1]
-
-    # Rule: CI is narrower (or more stable/tight) with 1000 samples than with 50
-    assert width_1000 < width_50
+    # 1000 samples has lower variance across seeds than 50 samples
+    bounds_1000 = [bootstrap_ci(values, n=1000, seed=s)[1] for s in range(10)]
+    bounds_50 = [bootstrap_ci(values, n=50, seed=s)[1] for s in range(10)]
+    assert np.var(bounds_1000) < np.var(bounds_50)
 
 
 def test_excluded_synthetic_rejected_changes_denominator(capsys):

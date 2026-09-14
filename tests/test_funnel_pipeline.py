@@ -142,6 +142,6 @@ def test_warm_up_invokes_dense_sparse_and_reranker():
 
     elapsed = warm_up(mock_vs, mock_reranker)
     assert isinstance(elapsed, float)
-    mock_vs._ensure_dense_model.assert_called_once()
-    mock_vs._ensure_sparse_model.assert_called_once()
-    mock_reranker.ensure_ready.assert_called_once()
+    mock_vs.embedding_client.encode.assert_called_once_with("warm")
+    mock_vs.sparse_client.encode.assert_called_once_with("warm")
+    mock_reranker.score.assert_called_once_with("warm", ["warm"])

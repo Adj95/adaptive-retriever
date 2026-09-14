@@ -52,7 +52,9 @@ def run_baseline(
     # Total points in collection for trace input_count parity
     total_collection_points = 0
     try:
-        total_collection_points = vs.count()
+        res = vs.count()
+        if isinstance(res, int):
+            total_collection_points = res
     except Exception:
         total_collection_points = 0
 

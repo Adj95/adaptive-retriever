@@ -70,7 +70,9 @@ def run_funnel(
     # Stage 1: Structured Pre-filter
     total_collection_points = 0
     try:
-        total_collection_points = vs.count()
+        res = vs.count()
+        if isinstance(res, int):
+            total_collection_points = res
     except Exception:
         total_collection_points = 0
 
@@ -86,7 +88,8 @@ def run_funnel(
     else:
         pf_decision = "applied"
         try:
-            pf_out_count = vs.count(count_filter=filter_obj)
+            res_pf = vs.count(count_filter=filter_obj)
+            pf_out_count = res_pf if isinstance(res_pf, int) else total_collection_points
         except Exception:
             pf_out_count = total_collection_points
 
@@ -117,6 +120,8 @@ def run_funnel(
 
     # Extract step breakdown from vs trace if available
     hy_details = getattr(vs, "last_query_breakdown", {})
+    if not isinstance(hy_details, dict):
+        hy_details = {}
 
     hy_stage_trace = {
         "input_count": pf_out_count,
@@ -141,6 +146,8 @@ def run_funnel(
         final_candidates = apply_rerank(query_text, hybrid_candidates, active_reranker, cfg=cfg)
         rerank_decision = "reranked"
         rerank_details = getattr(active_reranker, "last_rerank_breakdown", {})
+        if not isinstance(rerank_details, dict):
+            rerank_details = {}
     else:
         output_sz = cfg.raw.get("funnel", {}).get("rerank", {}).get("output_size", 5)
         top_candidates = hybrid_candidates[:output_sz]
