@@ -1,7 +1,7 @@
 {
   "meta": {
     "experiment_id": "experiment_001",
-    "timestamp": "2026-09-14T18:28:58Z",
+    "timestamp": "2026-09-14T18:43:44Z",
     "collection_name": "retriever_chunks_a5d51992",
     "seed": 42,
     "bootstrap_samples": 1000,
@@ -13,11 +13,11 @@
       "synthetic_rejected": 28
     },
     "provenance_breakdown": {
-      "synthetic_verified": 55,
-      "synthetic_rejected": 28,
-      "synthetic": 114
+      "synthetic_verified": 31,
+      "synthetic": 138,
+      "synthetic_rejected": 28
     },
-    "total_experiment_time_seconds": 165.71,
+    "total_experiment_time_seconds": 158.62,
     "gate_stats": {
       "total_queries": 169,
       "fired_count": 31,
@@ -71,12 +71,12 @@
         0.31622111862496477
       ]
     },
-    "retrieval_p50_ms": 44.24,
-    "retrieval_p95_ms": 135.53599999999997,
+    "retrieval_p50_ms": 33.52,
+    "retrieval_p95_ms": 65.438,
     "rerank_p50_ms": 0.0,
     "rerank_p95_ms": 0.0,
-    "total_p50_ms": 44.24,
-    "total_p95_ms": 135.53599999999997
+    "total_p50_ms": 33.52,
+    "total_p95_ms": 65.438
   },
   "adaptive_retriever": {
     "recall_5": {
@@ -114,12 +114,12 @@
         0.37442366394289467
       ]
     },
-    "retrieval_p50_ms": 117.51,
-    "retrieval_p95_ms": 540.122,
-    "rerank_p50_ms": 0.06,
-    "rerank_p95_ms": 1413.5839999999998,
-    "total_p50_ms": 157.89,
-    "total_p95_ms": 1613.9599999999996
+    "retrieval_p50_ms": 90.04,
+    "retrieval_p95_ms": 320.85799999999995,
+    "rerank_p50_ms": 0.05,
+    "rerank_p95_ms": 1347.4219999999998,
+    "total_p50_ms": 117.08,
+    "total_p95_ms": 1437.7899999999997
   },
   "difference_adaptive_minus_baseline": {
     "recall_5_diff": {
@@ -157,11 +157,11 @@
         0.09379819432704045
       ]
     },
-    "retrieval_p50_diff_ms": 73.27,
-    "retrieval_p95_diff_ms": 404.59,
-    "rerank_p50_diff_ms": 0.06,
-    "rerank_p95_diff_ms": 1413.58,
-    "total_p50_diff_ms": 113.65,
-    "total_p95_diff_ms": 1478.42
+    "retrieval_p50_diff_ms": 56.52,
+    "retrieval_p95_diff_ms": 255.42,
+    "rerank_p50_diff_ms": 0.05,
+    "rerank_p95_diff_ms": 1347.42,
+    "total_p50_diff_ms": 83.56,
+    "total_p95_diff_ms": 1372.35
   }
 }

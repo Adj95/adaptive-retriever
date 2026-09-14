@@ -127,7 +127,7 @@ funnel:
       default:      {dense: 0.5, sparse: 0.5}
   rerank:
     mode: gated
-    gate_score_margin: 0.15
+    gate_score_margin: 0.30
     input_size: 100
     output_size: 10
 
