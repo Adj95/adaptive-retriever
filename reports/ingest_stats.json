@@ -7,9 +7,9 @@
   "total_chunks": 12074,
   "total_representations": 22422,
   "llm_stats": {
-    "llm_calls_generated": 9929,
-    "llm_calls_cached": 520,
-    "generation_time": 10889.396032700097,
+    "llm_calls_generated": 0,
+    "llm_calls_cached": 10449,
+    "generation_time": 0.0,
     "truncated_count": {
       "summary": 57,
       "question": 16,
@@ -18,11 +18,11 @@
     "max_new_tokens": 128
   },
   "throughput": {
-    "llm_calls_generated": 9929,
-    "llm_calls_cached": 520,
-    "generation_seconds": 10889.4,
-    "generation_rate_per_s": 0.91,
-    "generation_rate_note": null,
+    "llm_calls_generated": 0,
+    "llm_calls_cached": 10449,
+    "generation_seconds": 0.0,
+    "generation_rate_per_s": null,
+    "generation_rate_note": "n/a (all cached)",
     "truncated_count": {
       "summary": 57,
       "question": 16,
@@ -247,6 +247,6 @@
     "failed_doc_ids": []
   },
   "total_llm_cost_usd": 0.0,
-  "elapsed_seconds": 11773.89,
-  "peak_memory_mb": 258.89
+  "elapsed_seconds": 605.26,
+  "peak_memory_mb": 532.54
 }

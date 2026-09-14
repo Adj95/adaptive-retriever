@@ -2,6 +2,7 @@
 data/corpus/
 data/cache/
 data/qdrant_storage/
+data/qdrant_server/
 data/canonical/
 reports/traces/
 *.db
@@ -23,3 +24,12 @@ venv/
 !data/canonical_hashes.json
 !data/eval/eval_set.jsonl
 !data/eval/corrections.jsonl
+
+# Backups and scratch
+*.bak
+scratch/
+data/parse_cache/
+data/generation/
+data/qdrant/
+sample_representations.txt
+reports/low_confidence_fingerprints.jsonl

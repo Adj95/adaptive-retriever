@@ -9,7 +9,7 @@ import threading
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 import typer
 from adaptive_retriever.config import Config
 from adaptive_retriever.eval.metrics import normalise
@@ -487,10 +487,76 @@ def drop_stale_collections(config: Path = Path("config/default.yaml")):
 
 
 @app.command()
-def query(text: str, config: Path = Path("config/default.yaml"), json_output: bool = False):
+def query(
+    text: str,
+    config: Path = Path("config/default.yaml"),
+    json_output: bool = typer.Option(
+        False, "--json", help="Emit JSON object to stdout and nothing else."
+    ),
+    doc_class: Optional[str] = typer.Option(
+        None, "--doc-class", help="Filter candidates by document class."
+    ),
+    query_class: Optional[str] = typer.Option(
+        None, "--query-class", help="Query class for RRF weights."
+    ),
+    limit: Optional[int] = typer.Option(
+        None, "--limit", help="Number of candidates to return (defaults to funnel.rerank.output_size)."
+    ),
+):
     """Run query against retrieval pipeline."""
-    _ = Config.load(config)
-    typer.echo(f"Querying: {text}")
+    from adaptive_retriever.vectorstore import VectorStore
+
+    cfg = Config.load(config)
+    output_limit = (
+        limit
+        if limit is not None
+        else cfg.raw.get("funnel", {}).get("rerank", {}).get("output_size", 5)
+    )
+
+    vs = VectorStore.from_config(cfg)
+    candidates = vs.query_hybrid(
+        query_text=text,
+        limit=output_limit,
+        doc_class_filter=doc_class,
+        query_class=query_class,
+        cfg=cfg,
+    )
+
+    if json_output:
+        results_payload = []
+        for c in candidates:
+            meta = c.metadata or {}
+            results_payload.append(
+                {
+                    "rank": c.final_rank,
+                    "fused_score": round(c.fused_score, 4) if c.fused_score is not None else None,
+                    "source_ranks": meta.get("source_ranks", {}),
+                    "kind": meta.get("kind", "unknown"),
+                    "doc_class": meta.get("doc_class", "unknown"),
+                    "doc_id": meta.get("doc_id", "unknown"),
+                    "text": c.text[:200],
+                }
+            )
+        out_obj = {
+            "query": text,
+            "results": results_payload,
+        }
+        sys.stdout.write(json.dumps(out_obj, indent=2) + "\n")
+    else:
+        typer.echo(f"Querying: {text}")
+        for c in candidates:
+            meta = c.metadata or {}
+            source_ranks = meta.get("source_ranks", {})
+            kind = meta.get("kind", "unknown")
+            doc_cls = meta.get("doc_class", "unknown")
+            doc_id = meta.get("doc_id", "unknown")
+            fused_str = f"{c.fused_score:.4f}" if c.fused_score is not None else "N/A"
+            snippet = c.text[:200]
+            typer.echo(
+                f"Rank {c.final_rank} | Fused: {fused_str} | Ranks: {source_ranks} | "
+                f"Kind: {kind} | DocClass: {doc_cls} | DocID: {doc_id}\n"
+                f"  Text: {snippet}"
+            )
 
 
 @app.command("eval-build")

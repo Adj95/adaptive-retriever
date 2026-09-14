@@ -80,6 +80,10 @@ class Config:
 
     @property
     def ingest_config_hash(self) -> str:
+        # Covers only what changes the CONTENT of the index. Storage location,
+        # device, batch size and dtype change where or how fast it is built,
+        # never what is in it. Including them would force a needless full
+        # re-index whenever infrastructure moves.
         llm_cfg = dict(self.raw.get("models", {}).get("llm", {}))
         llm_cfg.pop("device", None)
         llm_cfg.pop("batch_size", None)

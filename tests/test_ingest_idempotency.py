@@ -11,7 +11,7 @@ from adaptive_retriever.vectorstore import VectorStore
 def test_ingest_config_hash_collection_naming():
     cfg_hash = "a94fcb78"
     with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
-        vs = VectorStore(collection_base_name="test_collection", config_hash=cfg_hash, storage_path=Path(tmp_dir))
+        vs = VectorStore(collection_base_name="test_collection", config_hash=cfg_hash, storage_path=Path(tmp_dir), mode="local")
         assert vs.collection_name == f"test_collection_{cfg_hash}"
         cols = [c.name for c in vs.client.get_collections().collections]
         assert vs.collection_name in cols
@@ -20,7 +20,7 @@ def test_ingest_config_hash_collection_naming():
 
 def test_ingest_idempotency_no_op_and_force():
     with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
-        vs = VectorStore(collection_base_name="test_idempotency", config_hash="test1234", storage_path=Path(tmp_dir))
+        vs = VectorStore(collection_base_name="test_idempotency", config_hash="test1234", storage_path=Path(tmp_dir), mode="local")
 
         parsed = ParsedDocument(text="Idempotency test text block.\nSecond line of document.\n")
         chunks = chunk_document(parsed, doc_id="doc_idemp_01")

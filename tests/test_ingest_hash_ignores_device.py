@@ -69,3 +69,62 @@ def test_ingest_hash_ignores_device_and_batch_size():
     raw_cap["ingest"]["max_chunks_per_document"] = 200
     cfg_cap = Config(raw_cap)
     assert cfg_cap.ingest_config_hash != hash_base, "Changing max_chunks_per_document MUST change ingest_config_hash"
+
+
+def test_ingest_hash_ignores_vectorstore_mode_and_url():
+    base_raw = {
+        "models": {
+            "llm": {
+                "provider": "local_transformers",
+                "model": "Qwen/Qwen2.5-0.5B-Instruct",
+            }
+        },
+        "ingest": {
+            "max_chunks_per_document": 150,
+        },
+        "vectorstore": {
+            "mode": "server",
+            "url": "http://localhost:6333",
+            "collection": "adaptive_retriever",
+            "dense_dim": 384,
+            "storage_path": "data/qdrant_storage",
+        },
+    }
+
+    cfg_base = Config(base_raw)
+    hash_base = cfg_base.ingest_config_hash
+
+    # Changing vectorstore.mode must NOT change ingest_config_hash
+    raw_mode = copy.deepcopy(base_raw)
+    raw_mode["vectorstore"]["mode"] = "local"
+    cfg_mode = Config(raw_mode)
+    assert cfg_mode.ingest_config_hash == hash_base, "Changing vectorstore.mode must NOT change ingest_config_hash"
+
+    # Changing vectorstore.url must NOT change ingest_config_hash
+    raw_url = copy.deepcopy(base_raw)
+    raw_url["vectorstore"]["url"] = "http://custom-qdrant-server:6333"
+    cfg_url = Config(raw_url)
+    assert cfg_url.ingest_config_hash == hash_base, "Changing vectorstore.url must NOT change ingest_config_hash"
+       
+        # Changing vectorstore.collection must NOT change ingest_config_hash.
+        # The hash answers "do these configs produce the same index CONTENTS".
+        # A collection name is an address, not content - and the name is itself
+        # derived from the hash, so including it would be self-referential.
+    raw_col = copy.deepcopy(base_raw)
+    raw_col["vectorstore"]["collection"] = "other_collection"
+    cfg_col = Config(raw_col)
+    assert cfg_col.ingest_config_hash == hash_base, "Changing vectorstore.collection must NOT change ingest_config_hash"
+
+        # Same reasoning for storage_path.
+    raw_sp = copy.deepcopy(base_raw)
+    raw_sp["vectorstore"]["storage_path"] = "data/somewhere_else"
+    cfg_sp = Config(raw_sp)
+    assert cfg_sp.ingest_config_hash == hash_base, "Changing vectorstore.storage_path must NOT change ingest_config_hash"
+
+        # Positive control: something that genuinely changes contents MUST
+        # change the hash. Without this, a constant hash function would pass
+        # every assertion above.
+    raw_emb = copy.deepcopy(base_raw)
+    raw_emb["models"]["dense_embedding"] = "some/other-embedding-model"
+    cfg_emb = Config(raw_emb)
+    assert cfg_emb.ingest_config_hash != hash_base, "Changing models.dense_embedding MUST change ingest_config_hash"

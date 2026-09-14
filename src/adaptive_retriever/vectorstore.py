@@ -26,12 +26,14 @@ Rules now enforced here:
 
 import hashlib
 import logging
+import os
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Sequence, Tuple
 
 from qdrant_client import QdrantClient
 from qdrant_client.http import models as rest
 
+from adaptive_retriever.funnel.fusion import fuse_rrf
 from adaptive_retriever.models import Chunk, Representation, RetrievalCandidate
 
 logger = logging.getLogger(__name__)
@@ -222,6 +224,10 @@ class VectorStore:
         dense_model_name: str = "BAAI/bge-small-en-v1.5",
         sparse_model_name: str = "Qdrant/bm25",
         device: str = "auto",
+        mode: str = "server",
+        url: str = "http://localhost:6333",
+        api_key: Optional[str] = None,
+        cfg: Optional[Any] = None,
     ):
         if config_hash is None:
             raise ValueError(
@@ -229,8 +235,29 @@ class VectorStore:
                 "compute_ingest_config_hash() default hashed a hardcoded "
                 "'all-MiniLM-L6-v2' and shadowed Config.ingest_config_hash."
             )
-        storage_path.mkdir(parents=True, exist_ok=True)
-        self.client = QdrantClient(path=str(storage_path))
+        self.mode = mode
+        self.url = url
+        self.api_key = api_key if api_key is not None else os.environ.get("QDRANT_API_KEY")
+        self.cfg = cfg
+
+        if self.mode == "server":
+            try:
+                self.client = QdrantClient(url=self.url, api_key=self.api_key)
+            except (NameError, ImportError, AttributeError):
+                raise
+            except Exception as err:
+                raise RuntimeError(
+                    f"Failed to connect to Qdrant server at '{self.url}': {err}"
+                ) from err
+        elif self.mode == "local":
+            storage_path = Path(storage_path)
+            storage_path.mkdir(parents=True, exist_ok=True)
+            self.client = QdrantClient(path=str(storage_path))
+        else:
+            raise ValueError(
+                f"Invalid vectorstore mode '{self.mode}'. Expected 'local' or 'server'."
+            )
+
         self.config_hash = config_hash
         self.collection_name = f"{collection_base_name}_{self.config_hash[:8]}"
         self.embedding_client = embedding_client or DenseEmbeddingModel(
@@ -253,11 +280,25 @@ class VectorStore:
             dense_model_name=models.get("dense_embedding", "BAAI/bge-small-en-v1.5"),
             sparse_model_name=models.get("sparse_model", "Qdrant/bm25"),
             device=models.get("llm", {}).get("device", "auto"),
+            mode=kwargs.pop("mode", vs.get("mode", "server")),
+            url=kwargs.pop("url", vs.get("url", "http://localhost:6333")),
+            api_key=kwargs.pop("api_key", None),
+            cfg=cfg,
             **kwargs,
         )
 
     def _ensure_collection(self) -> None:
-        collections = [c.name for c in self.client.get_collections().collections]
+        try:
+            collections = [c.name for c in self.client.get_collections().collections]
+        except (NameError, ImportError, AttributeError):
+            raise
+        except Exception as err:
+            if self.mode == "server":
+                raise RuntimeError(
+                    f"Failed to connect to Qdrant server at '{self.url}': {err}"
+                ) from err
+            raise
+
         if self.collection_name not in collections:
             self.client.create_collection(
                 collection_name=self.collection_name,
@@ -286,13 +327,16 @@ class VectorStore:
                 field_name=field_name,
                 field_schema=field_schema,
             )
+        except (NameError, ImportError, AttributeError):
+            raise
         except Exception as e:
-            # Qdrant local mode does not support payload indexes. That is a
-            # documented no-op, not a failure - but any OTHER error must surface.
-            msg = str(e).lower()
-            if "local" in msg or "not supported" in msg or "no effect" in msg:
-                logger.debug("Payload index '%s' skipped in local mode", field_name)
-                return
+            if self.mode == "local":
+                # Qdrant local mode does not support payload indexes. That is a
+                # documented no-op, not a failure - but any OTHER error must surface.
+                msg = str(e).lower()
+                if "local" in msg or "not supported" in msg or "no effect" in msg:
+                    logger.debug("Payload index '%s' skipped in local mode", field_name)
+                    return
             logger.error(
                 "Failed to create payload index for '%s' in '%s': %s",
                 field_name,
@@ -421,6 +465,52 @@ class VectorStore:
                 written += len(points)
         return written
 
+    def search_dense(
+        self,
+        query_vector: List[float],
+        limit: int,
+        query_filter: Optional[Any] = None,
+    ) -> List[Tuple[str, Dict[str, Any], float]]:
+        res = self.client.query_points(
+            collection_name=self.collection_name,
+            query=query_vector,
+            using="dense",
+            query_filter=query_filter,
+            limit=limit,
+            with_payload=True,
+        )
+        points = getattr(res, "points", res)
+        out: List[Tuple[str, Dict[str, Any], float]] = []
+        for p in points:
+            payload = getattr(p, "payload", {}) or {}
+            rep_id = payload.get("rep_id", "")
+            score = float(getattr(p, "score", 0.0))
+            out.append((rep_id, payload, score))
+        return out
+
+    def search_sparse(
+        self,
+        query_vector: Any,
+        limit: int,
+        query_filter: Optional[Any] = None,
+    ) -> List[Tuple[str, Dict[str, Any], float]]:
+        res = self.client.query_points(
+            collection_name=self.collection_name,
+            query=query_vector,
+            using="sparse",
+            query_filter=query_filter,
+            limit=limit,
+            with_payload=True,
+        )
+        points = getattr(res, "points", res)
+        out: List[Tuple[str, Dict[str, Any], float]] = []
+        for p in points:
+            payload = getattr(p, "payload", {}) or {}
+            rep_id = payload.get("rep_id", "")
+            score = float(getattr(p, "score", 0.0))
+            out.append((rep_id, payload, score))
+        return out
+
     # ------------------------------------------------------------------- query
 
     def query_hybrid(
@@ -428,7 +518,36 @@ class VectorStore:
         query_text: str,
         limit: int = 10,
         doc_class_filter: Optional[str] = None,
+        query_class: Optional[str] = None,
+        cfg: Optional[Any] = None,
     ) -> List[RetrievalCandidate]:
+        active_cfg = cfg if cfg is not None else self.cfg
+        if active_cfg is not None:
+            raw_cfg = active_cfg.raw if hasattr(active_cfg, "raw") else active_cfg
+        else:
+            from adaptive_retriever.config import Config
+            raw_cfg = Config.load(Path("config/default.yaml")).raw
+
+        hybrid_cfg = raw_cfg.get("funnel", {}).get("hybrid", {})
+        fusion = hybrid_cfg.get("fusion", "rrf")
+        if fusion != "rrf":
+            raise ValueError(f"Unsupported fusion mode '{fusion}'. Expected 'rrf'.")
+
+        class_weights = hybrid_cfg.get("class_weights", {})
+        if query_class is not None:
+            if query_class in class_weights:
+                weights = class_weights[query_class]
+            else:
+                raise ValueError(
+                    f"Unknown query_class '{query_class}'. Available keys: {list(class_weights.keys())}"
+                )
+        else:
+            weights = class_weights.get("default", {"dense": 0.5, "sparse": 0.5})
+
+        dense_limit = hybrid_cfg.get("dense_limit", 100)
+        sparse_limit = hybrid_cfg.get("sparse_limit", 100)
+        rrf_k = hybrid_cfg.get("rrf_k", 60)
+
         dense_vec = self.embedding_client.encode(query_text)
         sparse_vec = self.sparse_client.encode(query_text)
 
@@ -442,32 +561,37 @@ class VectorStore:
                 ]
             )
 
-        prefetches = [
-            rest.Prefetch(query=dense_vec, using="dense", limit=limit * 2, filter=query_filter),
-            rest.Prefetch(query=sparse_vec, using="sparse", limit=limit * 2, filter=query_filter),
-        ]
+        dense_hits = self.search_dense(dense_vec, limit=dense_limit, query_filter=query_filter)
+        sparse_hits = self.search_sparse(sparse_vec, limit=sparse_limit, query_filter=query_filter)
 
-        # No silent fallback to dense-only search: a hybrid query that quietly
-        # became a dense query would make every fusion ablation meaningless.
-        results = self.client.query_points(
-            collection_name=self.collection_name,
-            prefetch=prefetches,
-            query=rest.FusionQuery(fusion=rest.Fusion.RRF),
-            limit=limit,
-        )
+        payload_map: Dict[str, Dict[str, Any]] = {}
+        for rep_id, payload, _ in dense_hits:
+            if rep_id:
+                payload_map[rep_id] = payload
+        for rep_id, payload, _ in sparse_hits:
+            if rep_id:
+                payload_map[rep_id] = payload
+
+        ranked_lists = {
+            "dense": [h[0] for h in dense_hits if h[0]],
+            "sparse": [h[0] for h in sparse_hits if h[0]],
+        }
+
+        fused = fuse_rrf(ranked_lists, rrf_k=rrf_k, weights=weights)
 
         candidates: List[RetrievalCandidate] = []
-        points = getattr(results, "points", results)
-        for rank, res in enumerate(points, 1):
-            p = res.payload or {}
+        for rank, (rep_id, fused_score, source_ranks) in enumerate(fused[:limit], 1):
+            p = payload_map.get(rep_id, {})
+            meta = dict(p)
+            meta["source_ranks"] = source_ranks
             candidates.append(
                 RetrievalCandidate(
                     chunk_id=p.get("chunk_id", ""),
-                    rep_id=p.get("rep_id", ""),
-                    fused_score=float(getattr(res, "score", 0.0)),
+                    rep_id=rep_id,
+                    fused_score=fused_score,
                     final_rank=rank,
                     text=p.get("text", ""),
-                    metadata=p,
+                    metadata=meta,
                 )
             )
         return candidates

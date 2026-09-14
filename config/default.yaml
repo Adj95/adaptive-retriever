@@ -31,6 +31,7 @@ models:
     price_per_1k_out: 0.002
 
 vectorstore:
+  mode: server
   url: http://localhost:6333
   collection: adaptive_retriever
   dense_dim: 384
