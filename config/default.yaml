@@ -129,7 +129,7 @@ funnel:
     mode: gated
     gate_score_margin: 0.15
     input_size: 100
-    output_size: 5
+    output_size: 10
 
 escalation:
   enabled: true

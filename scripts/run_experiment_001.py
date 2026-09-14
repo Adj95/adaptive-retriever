@@ -1,8 +1,8 @@
 """Run Experiment 001: Adaptive Retriever vs Fixed Baseline Twin.
 
 Executes both arms on the live index over the evaluation set in one warmed process.
-Computes Recall@5, Recall@10, nDCG@10, MRR, latency p50/p95, and bootstrapped 95% CIs
-for individual arm metrics and arm differences (adaptive - baseline).
+Computes Recall@5, nDCG@5, Recall@10, nDCG@10, MRR, decomposed latencies (retrieval vs rerank p50/p95),
+and bootstrapped 95% CIs for individual arm metrics and arm differences (adaptive - baseline).
 Saves output to reports/experiment_001.json and prints a readable table to stdout.
 """
 
@@ -18,7 +18,6 @@ from adaptive_retriever.eval.metrics import (
     bootstrap_difference_ci,
     mrr,
     ndcg_at_k,
-    normalise,
     recall_at_k,
 )
 from adaptive_retriever.funnel.baseline import run_baseline
@@ -62,58 +61,112 @@ def main():
     warmup_ms = warm_up(vs, reranker)
     print(f"Warm-up complete in {warmup_ms:.2f} ms | Reranker device: {reranker.get_device_str()}")
 
-    print(f"\nExecuting evaluation over {len(valid_items)} queries across both arms...")
+    print(f"\nExecuting evaluation over {len(valid_items)} queries across both arms (depth = 10)...")
 
     # Data collection for baseline arm
-    base_r5, base_r10, base_ndcg10, base_mrr, base_lat = [], [], [], [], []
+    base_r5, base_ndcg5, base_r10, base_ndcg10, base_mrr = [], [], [], [], []
+    base_ret_lat, base_rr_lat, base_tot_lat = [], [], []
+
     # Data collection for adaptive arm
-    ad_r5, ad_r10, ad_ndcg10, ad_mrr, ad_lat = [], [], [], [], []
+    ad_r5, ad_ndcg5, ad_r10, ad_ndcg10, ad_mrr = [], [], [], [], []
+    ad_ret_lat, ad_rr_lat, ad_tot_lat = [], [], []
+
+    # Gate analysis collection
+    gate_fired_count = 0
+    gate_margins = []
 
     for i, item in enumerate(valid_items, 1):
-        # 1. Baseline Arm (Fixed Twin)
-        cands_base, trace_base = run_baseline(item.query, vs=vs, cfg=cfg, limit=5)
+        # 1. Baseline Arm (Fixed Twin, limit=10)
+        cands_base, trace_base = run_baseline(item.query, vs=vs, cfg=cfg, limit=10)
         base_texts = [c.text for c in cands_base]
         base_r5.append(recall_at_k(base_texts, item.relevant_passages, k=5))
+        base_ndcg5.append(ndcg_at_k(base_texts, item.relevant_passages, k=5))
         base_r10.append(recall_at_k(base_texts, item.relevant_passages, k=10))
         base_ndcg10.append(ndcg_at_k(base_texts, item.relevant_passages, k=10))
         base_mrr.append(mrr(base_texts, item.relevant_passages))
-        base_lat.append(float(trace_base.get("total_elapsed_ms", 0.0)))
 
-        # 2. Adaptive Arm (Funnel Orchestrator)
+        b_ret_ms = float(trace_base.get("stages", {}).get("dense_search", {}).get("elapsed_ms", 0.0))
+        base_ret_lat.append(b_ret_ms)
+        base_rr_lat.append(0.0)
+        base_tot_lat.append(float(trace_base.get("total_elapsed_ms", b_ret_ms)))
+
+        # 2. Adaptive Arm (Funnel Orchestrator, output_size=10)
         cands_ad, trace_ad = run_funnel(item.query, vs=vs, cfg=cfg, reranker=reranker)
         ad_texts = [c.text for c in cands_ad]
         ad_r5.append(recall_at_k(ad_texts, item.relevant_passages, k=5))
+        ad_ndcg5.append(ndcg_at_k(ad_texts, item.relevant_passages, k=5))
         ad_r10.append(recall_at_k(ad_texts, item.relevant_passages, k=10))
         ad_ndcg10.append(ndcg_at_k(ad_texts, item.relevant_passages, k=10))
         ad_mrr.append(mrr(ad_texts, item.relevant_passages))
-        ad_lat.append(float(trace_ad.get("total_elapsed_ms", 0.0)))
+
+        pf_ms = float(trace_ad.get("stages", {}).get("prefilter", {}).get("elapsed_ms", 0.0))
+        hy_ms = float(trace_ad.get("stages", {}).get("hybrid_search", {}).get("elapsed_ms", 0.0))
+        rr_ms = float(trace_ad.get("stages", {}).get("rerank", {}).get("elapsed_ms", 0.0))
+        tot_ms = float(trace_ad.get("total_elapsed_ms", pf_ms + hy_ms + rr_ms))
+
+        ad_ret_lat.append(pf_ms + hy_ms)
+        ad_rr_lat.append(rr_ms)
+        ad_tot_lat.append(tot_ms)
+
+        # Gate stats
+        rr_gate = trace_ad.get("stages", {}).get("rerank", {}).get("gate", {})
+        if rr_gate.get("should_rerank", False):
+            gate_fired_count += 1
+        if "margin" in rr_gate:
+            gate_margins.append(float(rr_gate["margin"]))
 
         if i % 25 == 0 or i == len(valid_items):
             print(f"  Processed {i}/{len(valid_items)} items...")
 
     # Compute bootstrapped CIs for baseline arm
     b_ci_r5 = bootstrap_ci(base_r5, n=bootstrap_samples, ci=ci_level, seed=seed)
+    b_ci_ndcg5 = bootstrap_ci(base_ndcg5, n=bootstrap_samples, ci=ci_level, seed=seed)
     b_ci_r10 = bootstrap_ci(base_r10, n=bootstrap_samples, ci=ci_level, seed=seed)
-    b_ci_ndcg = bootstrap_ci(base_ndcg10, n=bootstrap_samples, ci=ci_level, seed=seed)
+    b_ci_ndcg10 = bootstrap_ci(base_ndcg10, n=bootstrap_samples, ci=ci_level, seed=seed)
     b_ci_mrr = bootstrap_ci(base_mrr, n=bootstrap_samples, ci=ci_level, seed=seed)
 
     # Compute bootstrapped CIs for adaptive arm
     a_ci_r5 = bootstrap_ci(ad_r5, n=bootstrap_samples, ci=ci_level, seed=seed)
+    a_ci_ndcg5 = bootstrap_ci(ad_ndcg5, n=bootstrap_samples, ci=ci_level, seed=seed)
     a_ci_r10 = bootstrap_ci(ad_r10, n=bootstrap_samples, ci=ci_level, seed=seed)
-    a_ci_ndcg = bootstrap_ci(ad_ndcg10, n=bootstrap_samples, ci=ci_level, seed=seed)
+    a_ci_ndcg10 = bootstrap_ci(ad_ndcg10, n=bootstrap_samples, ci=ci_level, seed=seed)
     a_ci_mrr = bootstrap_ci(ad_mrr, n=bootstrap_samples, ci=ci_level, seed=seed)
 
     # Compute bootstrapped CIs for differences (adaptive - baseline)
     diff_r5 = bootstrap_difference_ci(ad_r5, base_r5, n=bootstrap_samples, ci=ci_level, seed=seed)
+    diff_ndcg5 = bootstrap_difference_ci(ad_ndcg5, base_ndcg5, n=bootstrap_samples, ci=ci_level, seed=seed)
     diff_r10 = bootstrap_difference_ci(ad_r10, base_r10, n=bootstrap_samples, ci=ci_level, seed=seed)
-    diff_ndcg = bootstrap_difference_ci(ad_ndcg10, base_ndcg10, n=bootstrap_samples, ci=ci_level, seed=seed)
+    diff_ndcg10 = bootstrap_difference_ci(ad_ndcg10, base_ndcg10, n=bootstrap_samples, ci=ci_level, seed=seed)
     diff_mrr = bootstrap_difference_ci(ad_mrr, base_mrr, n=bootstrap_samples, ci=ci_level, seed=seed)
 
-    base_lat_p50 = float(np.percentile(base_lat, 50))
-    base_lat_p95 = float(np.percentile(base_lat, 95))
+    # Latency percentiles
+    b_ret_p50, b_ret_p95 = float(np.percentile(base_ret_lat, 50)), float(np.percentile(base_ret_lat, 95))
+    b_rr_p50, b_rr_p95 = 0.0, 0.0
+    b_tot_p50, b_tot_p95 = float(np.percentile(base_tot_lat, 50)), float(np.percentile(base_tot_lat, 95))
 
-    ad_lat_p50 = float(np.percentile(ad_lat, 50))
-    ad_lat_p95 = float(np.percentile(ad_lat, 95))
+    a_ret_p50, a_ret_p95 = float(np.percentile(ad_ret_lat, 50)), float(np.percentile(ad_ret_lat, 95))
+    a_rr_p50, a_rr_p95 = float(np.percentile(ad_rr_lat, 50)), float(np.percentile(ad_rr_lat, 95))
+    a_tot_p50, a_tot_p95 = float(np.percentile(ad_tot_lat, 50)), float(np.percentile(ad_tot_lat, 95))
+
+    gate_skipped_count = len(valid_items) - gate_fired_count
+    margin_arr = np.array(gate_margins, dtype=float) if gate_margins else np.array([0.0])
+
+    gate_stats = {
+        "total_queries": len(valid_items),
+        "fired_count": gate_fired_count,
+        "skipped_count": gate_skipped_count,
+        "fire_rate": float(gate_fired_count / len(valid_items)) if valid_items else 0.0,
+        "margin_distribution": {
+            "min": float(np.min(margin_arr)),
+            "p25": float(np.percentile(margin_arr, 25)),
+            "p50": float(np.percentile(margin_arr, 50)),
+            "p75": float(np.percentile(margin_arr, 75)),
+            "p95": float(np.percentile(margin_arr, 95)),
+            "max": float(np.max(margin_arr)),
+            "mean": float(np.mean(margin_arr)),
+            "std": float(np.std(margin_arr)),
+        },
+    }
 
     t_exp_end = time.perf_counter()
     exp_elapsed_s = round(t_exp_end - t_exp_start, 2)
@@ -132,30 +185,46 @@ def main():
             "exclusion_reasons": exclusion_reasons,
             "provenance_breakdown": provenance_counts,
             "total_experiment_time_seconds": exp_elapsed_s,
+            "gate_stats": gate_stats,
         },
         "baseline_fixed": {
             "recall_5": {"mean": b_ci_r5[0], "ci_95": [b_ci_r5[1], b_ci_r5[2]]},
+            "ndcg_5": {"mean": b_ci_ndcg5[0], "ci_95": [b_ci_ndcg5[1], b_ci_ndcg5[2]]},
             "recall_10": {"mean": b_ci_r10[0], "ci_95": [b_ci_r10[1], b_ci_r10[2]]},
-            "ndcg_10": {"mean": b_ci_ndcg[0], "ci_95": [b_ci_ndcg[1], b_ci_ndcg[2]]},
+            "ndcg_10": {"mean": b_ci_ndcg10[0], "ci_95": [b_ci_ndcg10[1], b_ci_ndcg10[2]]},
             "mrr": {"mean": b_ci_mrr[0], "ci_95": [b_ci_mrr[1], b_ci_mrr[2]]},
-            "latency_p50_ms": base_lat_p50,
-            "latency_p95_ms": base_lat_p95,
+            "retrieval_p50_ms": b_ret_p50,
+            "retrieval_p95_ms": b_ret_p95,
+            "rerank_p50_ms": b_rr_p50,
+            "rerank_p95_ms": b_rr_p95,
+            "total_p50_ms": b_tot_p50,
+            "total_p95_ms": b_tot_p95,
         },
         "adaptive_retriever": {
             "recall_5": {"mean": a_ci_r5[0], "ci_95": [a_ci_r5[1], a_ci_r5[2]]},
+            "ndcg_5": {"mean": a_ci_ndcg5[0], "ci_95": [a_ci_ndcg5[1], a_ci_ndcg5[2]]},
             "recall_10": {"mean": a_ci_r10[0], "ci_95": [a_ci_r10[1], a_ci_r10[2]]},
-            "ndcg_10": {"mean": a_ci_ndcg[0], "ci_95": [a_ci_ndcg[1], a_ci_ndcg[2]]},
+            "ndcg_10": {"mean": a_ci_ndcg10[0], "ci_95": [a_ci_ndcg10[1], a_ci_ndcg10[2]]},
             "mrr": {"mean": a_ci_mrr[0], "ci_95": [a_ci_mrr[1], a_ci_mrr[2]]},
-            "latency_p50_ms": ad_lat_p50,
-            "latency_p95_ms": ad_lat_p95,
+            "retrieval_p50_ms": a_ret_p50,
+            "retrieval_p95_ms": a_ret_p95,
+            "rerank_p50_ms": a_rr_p50,
+            "rerank_p95_ms": a_rr_p95,
+            "total_p50_ms": a_tot_p50,
+            "total_p95_ms": a_tot_p95,
         },
         "difference_adaptive_minus_baseline": {
             "recall_5_diff": {"mean": diff_r5[0], "ci_95": [diff_r5[1], diff_r5[2]]},
+            "ndcg_5_diff": {"mean": diff_ndcg5[0], "ci_95": [diff_ndcg5[1], diff_ndcg5[2]]},
             "recall_10_diff": {"mean": diff_r10[0], "ci_95": [diff_r10[1], diff_r10[2]]},
-            "ndcg_10_diff": {"mean": diff_ndcg[0], "ci_95": [diff_ndcg[1], diff_ndcg[2]]},
+            "ndcg_10_diff": {"mean": diff_ndcg10[0], "ci_95": [diff_ndcg10[1], diff_ndcg10[2]]},
             "mrr_diff": {"mean": diff_mrr[0], "ci_95": [diff_mrr[1], diff_mrr[2]]},
-            "latency_p50_diff_ms": round(ad_lat_p50 - base_lat_p50, 2),
-            "latency_p95_diff_ms": round(ad_lat_p95 - base_lat_p95, 2),
+            "retrieval_p50_diff_ms": round(a_ret_p50 - b_ret_p50, 2),
+            "retrieval_p95_diff_ms": round(a_ret_p95 - b_ret_p95, 2),
+            "rerank_p50_diff_ms": round(a_rr_p50 - b_rr_p50, 2),
+            "rerank_p95_diff_ms": round(a_rr_p95 - b_rr_p95, 2),
+            "total_p50_diff_ms": round(a_tot_p50 - b_tot_p50, 2),
+            "total_p95_diff_ms": round(a_tot_p95 - b_tot_p95, 2),
         },
     }
 
@@ -179,16 +248,26 @@ def main():
     table_lines.append("=" * 105)
     table_lines.append(f"Items Evaluated: {len(valid_items)} | Items Excluded: {len(excluded_items)} ({exclusion_reasons})")
     table_lines.append(f"Provenance Breakdown: {provenance_counts}")
+    table_lines.append(f"Gate Stats across {len(valid_items)} queries: Fired = {gate_fired_count} ({gate_stats['fire_rate']*100:.1f}%), Skipped = {gate_skipped_count}")
+    table_lines.append(f"Relative Gate Margin (top 1 vs top 10): p50 = {gate_stats['margin_distribution']['p50']:.4f}, p95 = {gate_stats['margin_distribution']['p95']:.4f}, mean = {gate_stats['margin_distribution']['mean']:.4f}")
+    if gate_fired_count == len(valid_items):
+        table_lines.append("Note: The rerank gate fired on EVERY query (100.0% fire rate).")
     table_lines.append("-" * 105)
-    table_lines.append(f"{'Metric':<18} | {'Fixed Baseline':<30} | {'Adaptive Retriever':<30} | {'Diff (Adaptive - Baseline) [95% CI]':<30}")
+    table_lines.append(f"{'Metric':<22} | {'Fixed Baseline':<28} | {'Adaptive Retriever':<28} | {'Diff (Adaptive - Baseline) [95% CI]':<28}")
     table_lines.append("-" * 105)
 
-    table_lines.append(f"{'Recall@5':<18} | {fmt_ci(*b_ci_r5):<30} | {fmt_ci(*a_ci_r5):<30} | {fmt_diff(*diff_r5):<30}")
-    table_lines.append(f"{'Recall@10':<18} | {fmt_ci(*b_ci_r10):<30} | {fmt_ci(*a_ci_r10):<30} | {fmt_diff(*diff_r10):<30}")
-    table_lines.append(f"{'nDCG@10':<18} | {fmt_ci(*b_ci_ndcg):<30} | {fmt_ci(*a_ci_ndcg):<30} | {fmt_diff(*diff_ndcg):<30}")
-    table_lines.append(f"{'MRR':<18} | {fmt_ci(*b_ci_mrr):<30} | {fmt_ci(*a_ci_mrr):<30} | {fmt_diff(*diff_mrr):<30}")
-    table_lines.append(f"{'Latency p50 (ms)':<18} | {base_lat_p50:<30.2f} | {ad_lat_p50:<30.2f} | {ad_lat_p50 - base_lat_p50:<+30.2f}")
-    table_lines.append(f"{'Latency p95 (ms)':<18} | {base_lat_p95:<30.2f} | {ad_lat_p95:<30.2f} | {ad_lat_p95 - base_lat_p95:<+30.2f}")
+    table_lines.append(f"{'Recall@5':<22} | {fmt_ci(*b_ci_r5):<28} | {fmt_ci(*a_ci_r5):<28} | {fmt_diff(*diff_r5):<28}")
+    table_lines.append(f"{'nDCG@5':<22} | {fmt_ci(*b_ci_ndcg5):<28} | {fmt_ci(*a_ci_ndcg5):<28} | {fmt_diff(*diff_ndcg5):<28}")
+    table_lines.append(f"{'Recall@10':<22} | {fmt_ci(*b_ci_r10):<28} | {fmt_ci(*a_ci_r10):<28} | {fmt_diff(*diff_r10):<28}")
+    table_lines.append(f"{'nDCG@10':<22} | {fmt_ci(*b_ci_ndcg10):<28} | {fmt_ci(*a_ci_ndcg10):<28} | {fmt_diff(*diff_ndcg10):<28}")
+    table_lines.append(f"{'MRR':<22} | {fmt_ci(*b_ci_mrr):<28} | {fmt_ci(*a_ci_mrr):<28} | {fmt_diff(*diff_mrr):<28}")
+    table_lines.append("-" * 105)
+    table_lines.append(f"{'Retrieval p50 (ms)':<22} | {b_ret_p50:<28.2f} | {a_ret_p50:<28.2f} | {a_ret_p50 - b_ret_p50:<+28.2f}")
+    table_lines.append(f"{'Retrieval p95 (ms)':<22} | {b_ret_p95:<28.2f} | {a_ret_p95:<28.2f} | {a_ret_p95 - b_ret_p95:<+28.2f}")
+    table_lines.append(f"{'Rerank p50 (ms)':<22} | {b_rr_p50:<28.2f} | {a_rr_p50:<28.2f} | {a_rr_p50 - b_rr_p50:<+28.2f}")
+    table_lines.append(f"{'Rerank p95 (ms)':<22} | {b_rr_p95:<28.2f} | {a_rr_p95:<28.2f} | {a_rr_p95 - b_rr_p95:<+28.2f}")
+    table_lines.append(f"{'Total Latency p50 (ms)':<22} | {b_tot_p50:<28.2f} | {a_tot_p50:<28.2f} | {a_tot_p50 - b_tot_p50:<+28.2f}")
+    table_lines.append(f"{'Total Latency p95 (ms)':<22} | {b_tot_p95:<28.2f} | {a_tot_p95:<28.2f} | {a_tot_p95 - b_tot_p95:<+28.2f}")
     table_lines.append("=" * 105 + "\n")
 
     table_output = "\n".join(table_lines)
