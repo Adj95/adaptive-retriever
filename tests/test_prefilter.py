@@ -3,9 +3,8 @@
 import pytest
 from qdrant_client.http import models as rest
 
-from adaptive_retriever.config import Config
 from adaptive_retriever.funnel.prefilter import INDEXED_FIELDS, build_prefilter
-from adaptive_retriever.models import DocClass, QueryProfile, RepresentationKind
+from adaptive_retriever.models import QueryClass, QueryFingerprint
 
 
 def test_prefilter_built_from_entity_constraint():
@@ -78,18 +77,32 @@ def test_prefilter_no_indexed_constraints_yields_none():
     assert trace["reason"] == "no_indexed_constraints"
 
 
-def test_prefilter_query_profile_model_input():
-    profile = QueryProfile(
-        raw_query="Find Q4 reports",
-        doc_class=DocClass.DIGITAL_PROSE,
-        contains_table=True,
-        kind=RepresentationKind.SUMMARY,
+def test_prefilter_query_fingerprint_extracted_filters():
+    profile = QueryFingerprint(
+        raw_query="find table data",
+        token_count=3,
+        has_exact_identifiers=False,
+        has_numeric_intent=False,
+        has_comparative_language=False,
+        query_class=QueryClass.CONCEPTUAL,
+        class_confidence=1.0,
+        extracted_filters={"doc_class": "table_heavy"},
     )
     filter_obj, trace = build_prefilter(profile)
 
     assert filter_obj is not None
-    must_keys = {cond.key for cond in filter_obj.must}
-    assert must_keys == {"doc_class", "contains_table", "kind"}
-    assert trace["applied_constraints"]["doc_class"] == "digital_prose"
-    assert trace["applied_constraints"]["contains_table"] is True
-    assert trace["applied_constraints"]["kind"] == "summary"
+    assert len(filter_obj.must) == 1
+    assert filter_obj.must[0].key == "doc_class"
+    assert filter_obj.must[0].match.value == "table_heavy"
+    assert trace["applied_constraints"]["doc_class"] == "table_heavy"
+
+
+def test_prefilter_invalid_config_raises_value_error():
+    profile = {"entities": ["Python"]}
+    # Bare dict missing top-level "funnel"
+    with pytest.raises(ValueError, match="must contain top-level 'funnel' key"):
+        build_prefilter(profile, cfg={"prefilter": {"enabled": True}})
+
+    # Non-dict non-Config object
+    with pytest.raises(ValueError, match="Invalid config type"):
+        build_prefilter(profile, cfg="not_a_config_object")

@@ -106,7 +106,6 @@ query:
 funnel:
   prefilter:
     enabled: true
-    max_candidates: 100000
   hybrid:
     enabled: true
     dense_limit: 100
