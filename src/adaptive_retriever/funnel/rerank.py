@@ -50,16 +50,58 @@ class Reranker:
         """Eagerly load the model to fail at startup rather than mid-run."""
         self._ensure_loaded()
 
+    def get_device_str(self) -> str:
+        self._ensure_loaded()
+        if hasattr(self._model, "model") and hasattr(self._model.model, "device"):
+            return str(self._model.model.device)
+        return str(self.device)
+
     def score(self, query: str, texts: List[str]) -> List[float]:
         if not texts:
+            self.last_rerank_breakdown = {"tokenize_ms": 0.0, "forward_ms": 0.0, "sort_ms": 0.0, "device": self.get_device_str()}
             return []
         self._ensure_loaded()
         pairs = [(query, t) for t in texts]
-        raw_scores = self._model.predict(pairs)
-        scores = [float(s) for s in raw_scores]
+
+        import time
+        import torch
+
+        # 1. Tokenize / Batch preparation
+        t0 = time.perf_counter()
+        features = self._model.tokenizer(
+            pairs,
+            padding=True,
+            truncation=True,
+            return_tensors="pt"
+        )
+        t1 = time.perf_counter()
+        tokenize_ms = round((t1 - t0) * 1000, 2)
+
+        # 2. Forward pass on CUDA / CPU
+        t2 = time.perf_counter()
+        target_device = getattr(self._model.model, "device", self.device)
+        features = {k: v.to(target_device) for k, v in features.items()}
+        with torch.no_grad():
+            outputs = self._model.model(**features)
+            logits = outputs.logits.squeeze(-1)
+            if logits.dim() == 0:
+                logits = logits.unsqueeze(0)
+            scores = logits.cpu().tolist()
+            if isinstance(scores, float):
+                scores = [scores]
+        t3 = time.perf_counter()
+        forward_ms = round((t3 - t2) * 1000, 2)
+
         assert len(scores) == len(texts), (
             f"Reranker returned {len(scores)} scores for {len(texts)} texts"
         )
+
+        self.last_rerank_breakdown = {
+            "tokenize_ms": tokenize_ms,
+            "forward_ms": forward_ms,
+            "sort_ms": 0.0,
+            "device": str(target_device),
+        }
         return scores
 
 
@@ -178,6 +220,8 @@ def apply_rerank(
         updated = cand.model_copy(update={"rerank_score": score})
         scored_candidates.append(updated)
 
+    import time
+    t_sort = time.perf_counter()
     scored_candidates.sort(
         key=lambda c: (
             -(c.rerank_score if c.rerank_score is not None else 0.0),
@@ -185,6 +229,10 @@ def apply_rerank(
             c.rep_id or "",
         )
     )
+    sort_ms = round((time.perf_counter() - t_sort) * 1000, 2)
+
+    if hasattr(reranker, "last_rerank_breakdown") and isinstance(reranker.last_rerank_breakdown, dict):
+        reranker.last_rerank_breakdown["sort_ms"] = sort_ms
 
     final_list = []
     for rank, cand in enumerate(scored_candidates[:output_size], 1):

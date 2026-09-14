@@ -625,8 +625,14 @@ class VectorStore:
         sparse_limit = int(hybrid_cfg.get("sparse_limit", 100))
         rrf_k = int(hybrid_cfg.get("rrf_k", 60))
 
+        import time
+        t_de = time.perf_counter()
         dense_vec = self.embedding_client.encode(query_text)
+        dense_encode_ms = round((time.perf_counter() - t_de) * 1000, 2)
+
+        t_se = time.perf_counter()
         sparse_vec = self.sparse_client.encode(query_text)
+        sparse_encode_ms = round((time.perf_counter() - t_se) * 1000, 2)
 
         effective_filter = query_filter
         if effective_filter is None and doc_class_filter:
@@ -638,9 +644,15 @@ class VectorStore:
                 ]
             )
 
+        t_ds = time.perf_counter()
         dense_hits = self.search_dense(dense_vec, limit=dense_limit, query_filter=effective_filter)
-        sparse_hits = self.search_sparse(sparse_vec, limit=sparse_limit, query_filter=effective_filter)
+        dense_search_ms = round((time.perf_counter() - t_ds) * 1000, 2)
 
+        t_ss = time.perf_counter()
+        sparse_hits = self.search_sparse(sparse_vec, limit=sparse_limit, query_filter=effective_filter)
+        sparse_search_ms = round((time.perf_counter() - t_ss) * 1000, 2)
+
+        t_fu = time.perf_counter()
         rep_payload: Dict[str, Dict[str, Any]] = {}
         chunk_of_rep: Dict[str, str] = {}
         for rep_id, payload, _score in list(dense_hits) + list(sparse_hits):
@@ -667,8 +679,20 @@ class VectorStore:
             rep_winner[source] = winner
 
         fused = fuse_rrf(ranked_lists, rrf_k=rrf_k, weights=weights)[:limit]
+        fusion_ms = round((time.perf_counter() - t_fu) * 1000, 2)
 
+        t_hy = time.perf_counter()
         raw_payloads = self._fetch_raw_payloads([row[0] for row in fused])
+        raw_hydration_ms = round((time.perf_counter() - t_hy) * 1000, 2)
+
+        self.last_query_breakdown = {
+            "dense_encode_ms": dense_encode_ms,
+            "sparse_encode_ms": sparse_encode_ms,
+            "dense_search_ms": dense_search_ms,
+            "sparse_search_ms": sparse_search_ms,
+            "fusion_ms": fusion_ms,
+            "raw_hydration_ms": raw_hydration_ms,
+        }
 
         candidates: List[RetrievalCandidate] = []
         for rank, (chunk_id, fused_score, source_ranks) in enumerate(fused, 1):

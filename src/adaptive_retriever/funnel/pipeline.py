@@ -19,19 +19,24 @@ logger = logging.getLogger(__name__)
 
 
 def warm_up(vs: VectorStore, reranker: Optional[Reranker] = None) -> float:
-    """Load embedding and reranking models before timing search operations.
+    """Warm up embedding, sparse, and reranker models by running throwaway inference.
 
+    Initializes tokenizer, CUDA context, and device transfers on the EXACT model
+    instances used by the pipeline so real queries pay zero cold-start latencies.
     Returns elapsed warm-up time in milliseconds.
     """
     t0 = time.perf_counter()
-    if hasattr(vs, "_ensure_dense_model"):
-        vs._ensure_dense_model()
-    if hasattr(vs, "_ensure_sparse_model"):
-        vs._ensure_sparse_model()
-    if reranker is not None and hasattr(reranker, "ensure_ready"):
-        reranker.ensure_ready()
+    if hasattr(vs, "embedding_client") and vs.embedding_client is not None:
+        _ = vs.embedding_client.encode("warm")
+    if hasattr(vs, "sparse_client") and vs.sparse_client is not None:
+        _ = vs.sparse_client.encode("warm")
+    if reranker is not None:
+        _ = reranker.score("warm", ["warm"])
+
     t1 = time.perf_counter()
-    return round((t1 - t0) * 1000, 2)
+    warmup_ms = round((t1 - t0) * 1000, 2)
+    logger.info("Pipeline warm-up complete in %.2f ms", warmup_ms)
+    return warmup_ms
 
 
 def run_funnel(
@@ -42,6 +47,8 @@ def run_funnel(
     reranker: Optional[Reranker] = None,
 ) -> Tuple[List[RetrievalCandidate], Dict[str, Any]]:
     """pre-filter -> hybrid RRF -> gated rerank. Returns candidates and a trace."""
+    t_start = time.perf_counter()
+
     # 0. Query Profiling (Correction 1: wire profiler when profile is None)
     if profile is None:
         profile = profile_query(query_text)
@@ -59,9 +66,6 @@ def run_funnel(
             class_confidence = float(profile.class_confidence)
         elif isinstance(profile, dict) and "class_confidence" in profile:
             class_confidence = float(profile["class_confidence"])
-
-    # Track cold start time separately from work execution time
-    t_start = time.perf_counter()
 
     # Stage 1: Structured Pre-filter
     total_collection_points = 0
@@ -111,6 +115,9 @@ def run_funnel(
     t1_hy = time.perf_counter()
     hy_ms = round((t1_hy - t0_hy) * 1000, 2)
 
+    # Extract step breakdown from vs trace if available
+    hy_details = getattr(vs, "last_query_breakdown", {})
+
     hy_stage_trace = {
         "input_count": pf_out_count,
         "output_count": len(hybrid_candidates),
@@ -118,6 +125,7 @@ def run_funnel(
         "decision": "hybrid_rrf_complete",
         "query_class": query_cls,
         "class_confidence": class_confidence,
+        "step_breakdown_ms": hy_details,
     }
 
     # Stage 3: Gated Rerank
@@ -129,8 +137,10 @@ def run_funnel(
         if active_reranker is None:
             llm_device = cfg.raw.get("models", {}).get("llm", {}).get("device", "auto")
             active_reranker = Reranker(device=llm_device)
+            active_reranker.ensure_ready()
         final_candidates = apply_rerank(query_text, hybrid_candidates, active_reranker, cfg=cfg)
         rerank_decision = "reranked"
+        rerank_details = getattr(active_reranker, "last_rerank_breakdown", {})
     else:
         output_sz = cfg.raw.get("funnel", {}).get("rerank", {}).get("output_size", 5)
         top_candidates = hybrid_candidates[:output_sz]
@@ -139,6 +149,7 @@ def run_funnel(
             renumbered = cand.model_copy(update={"final_rank": rank})
             final_candidates.append(renumbered)
         rerank_decision = "skipped"
+        rerank_details = {}
 
     t1_rr = time.perf_counter()
     rr_ms = round((t1_rr - t0_rr) * 1000, 2)
@@ -149,6 +160,7 @@ def run_funnel(
         "elapsed_ms": rr_ms,
         "decision": rerank_decision,
         "gate": rerank_gate_trace,
+        "step_breakdown_ms": rerank_details,
     }
 
     t_end = time.perf_counter()
