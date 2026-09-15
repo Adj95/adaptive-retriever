@@ -83,9 +83,7 @@ def test_prefilter_query_fingerprint_extracted_filters():
         token_count=3,
         has_exact_identifiers=False,
         has_numeric_intent=False,
-        has_comparative_language=False,
         query_class=QueryClass.CONCEPTUAL,
-        class_confidence=1.0,
         extracted_filters={"doc_class": "table_heavy"},
     )
     filter_obj, trace = build_prefilter(profile)

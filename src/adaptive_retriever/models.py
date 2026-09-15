@@ -88,15 +88,13 @@ class QueryClass(str, Enum):
 class QueryFingerprint(BaseModel):
     raw_query: str
     token_count: int
-    has_exact_identifiers: bool
+    has_exact_identifiers: bool = False
     identifier_spans: List[str] = Field(default_factory=list)
-    has_numeric_intent: bool
-    has_comparative_language: bool
+    has_numeric_intent: bool = False
+    has_comparative_language: bool = False
     multihop_signal_score: float = 0.0
-    corpus_vocab_overlap: float = 0.0
     extracted_filters: Dict[str, Any] = Field(default_factory=dict)
     query_class: QueryClass
-    class_confidence: float
 
 
 class RetrievalCandidate(BaseModel):
@@ -126,6 +124,8 @@ class EvalItem(BaseModel):
     relevant_passages: List[RelevantPassage]
     doc_class_of_source: DocClass
     query_class_expected: Optional[QueryClass] = None
+    query_class_expected_reliable: bool = True
+    unreliable_reason: Optional[str] = None
     answer_reference: Optional[str] = None
     provenance: Literal["synthetic", "synthetic_verified", "synthetic_rejected", "human", "correction"]
     split: Literal["dev", "test"]

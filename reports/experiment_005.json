@@ -1,0 +1,467 @@
+{
+  "metadata": {
+    "n_items": 169,
+    "python_executable": "C:\\Users\\Akshat\\projects\\adaptive-retriever\\.venv\\Scripts\\python.exe",
+    "torch_version": "2.6.0+cu124",
+    "torch_cuda_version": "12.4",
+    "vectorstore_mode": "server",
+    "collection_name": "retriever_chunks_a5d51992",
+    "collection_points": 22422,
+    "seed": 42,
+    "device": "cuda:0",
+    "multiplicity_statement": "4 strategy arms x 5 metrics = 20 paired comparisons against none. Under Bonferroni correction for 20 tests (alpha = 0.0025), a difference is statistically significant only if its 99.75% CI excludes 0."
+  },
+  "arms": {
+    "Arm 1: none": {
+      "r5": {
+        "mean": 0.4497,
+        "ci_95": [
+          0.3757,
+          0.5237
+        ]
+      },
+      "ndcg5": {
+        "mean": 0.5077,
+        "ci_95": [
+          0.4038,
+          0.6198
+        ]
+      },
+      "r10": {
+        "mean": 0.4852,
+        "ci_95": [
+          0.4112,
+          0.5621
+        ]
+      },
+      "ndcg10": {
+        "mean": 0.5986,
+        "ci_95": [
+          0.4748,
+          0.7228
+        ]
+      },
+      "mrr": {
+        "mean": 0.3542,
+        "ci_95": [
+          0.2873,
+          0.4211
+        ]
+      },
+      "rerank_gate_fired_count": 93,
+      "rerank_gate_fire_rate_pct": 55.0,
+      "total_wall_clock_s": 175.17,
+      "transformation_lat_ms_mean": 0.04,
+      "transformation_lat_ms_p95": 0.08,
+      "retrieval_lat_ms_mean": 168.32,
+      "retrieval_lat_ms_p95": 296.77,
+      "rerank_lat_ms_mean": 854.28,
+      "rerank_lat_ms_p95": 2105.72,
+      "total_lat_ms_p50": 1335.85,
+      "cached_read_ms_mean": 0.04,
+      "cached_read_ms_p95": 0.08,
+      "gpu_peak_memory_mb": 1076.22
+    },
+    "Arm 2: hyde": {
+      "r5": {
+        "mean": 0.4201,
+        "ci_95": [
+          0.3491,
+          0.4941
+        ]
+      },
+      "ndcg5": {
+        "mean": 0.5087,
+        "ci_95": [
+          0.4044,
+          0.6229
+        ]
+      },
+      "r10": {
+        "mean": 0.4615,
+        "ci_95": [
+          0.3905,
+          0.5356
+        ]
+      },
+      "ndcg10": {
+        "mean": 0.5957,
+        "ci_95": [
+          0.4695,
+          0.735
+        ]
+      },
+      "mrr": {
+        "mean": 0.3425,
+        "ci_95": [
+          0.2779,
+          0.4077
+        ]
+      },
+      "rerank_gate_fired_count": 91,
+      "rerank_gate_fire_rate_pct": 53.8,
+      "total_wall_clock_s": 79.05,
+      "transformation_lat_ms_mean": 6.33,
+      "transformation_lat_ms_p95": 13.57,
+      "retrieval_lat_ms_mean": 153.1,
+      "retrieval_lat_ms_p95": 266.79,
+      "rerank_lat_ms_mean": 293.62,
+      "rerank_lat_ms_p95": 1501.84,
+      "total_lat_ms_p50": 299.83,
+      "cached_read_ms_mean": 6.33,
+      "cached_read_ms_p95": 13.57,
+      "gpu_peak_memory_mb": 1076.22
+    },
+    "Arm 3: decompose": {
+      "r5": {
+        "mean": 0.3609,
+        "ci_95": [
+          0.2899,
+          0.432
+        ]
+      },
+      "ndcg5": {
+        "mean": 0.4382,
+        "ci_95": [
+          0.3336,
+          0.547
+        ]
+      },
+      "r10": {
+        "mean": 0.4201,
+        "ci_95": [
+          0.352,
+          0.4912
+        ]
+      },
+      "ndcg10": {
+        "mean": 0.5129,
+        "ci_95": [
+          0.3991,
+          0.6367
+        ]
+      },
+      "mrr": {
+        "mean": 0.2948,
+        "ci_95": [
+          0.2334,
+          0.3563
+        ]
+      },
+      "rerank_gate_fired_count": 122,
+      "rerank_gate_fire_rate_pct": 72.2,
+      "total_wall_clock_s": 155.89,
+      "transformation_lat_ms_mean": 6.29,
+      "transformation_lat_ms_p95": 8.75,
+      "retrieval_lat_ms_mean": 290.08,
+      "retrieval_lat_ms_p95": 577.69,
+      "rerank_lat_ms_mean": 611.52,
+      "rerank_lat_ms_p95": 1755.52,
+      "total_lat_ms_p50": 778.42,
+      "cached_read_ms_mean": 6.29,
+      "cached_read_ms_p95": 8.75,
+      "gpu_peak_memory_mb": 1076.22
+    },
+    "Arm 4: decompose_rephrase_weighted": {
+      "r5": {
+        "mean": 0.3609,
+        "ci_95": [
+          0.2929,
+          0.432
+        ]
+      },
+      "ndcg5": {
+        "mean": 0.4387,
+        "ci_95": [
+          0.3336,
+          0.5498
+        ]
+      },
+      "r10": {
+        "mean": 0.4083,
+        "ci_95": [
+          0.3402,
+          0.4822
+        ]
+      },
+      "ndcg10": {
+        "mean": 0.5047,
+        "ci_95": [
+          0.3904,
+          0.6285
+        ]
+      },
+      "mrr": {
+        "mean": 0.2966,
+        "ci_95": [
+          0.2352,
+          0.359
+        ]
+      },
+      "rerank_gate_fired_count": 134,
+      "rerank_gate_fire_rate_pct": 79.3,
+      "total_wall_clock_s": 90.63,
+      "transformation_lat_ms_mean": 5.8,
+      "transformation_lat_ms_p95": 9.06,
+      "retrieval_lat_ms_mean": 291.1,
+      "retrieval_lat_ms_p95": 538.89,
+      "rerank_lat_ms_mean": 225.13,
+      "rerank_lat_ms_p95": 978.93,
+      "total_lat_ms_p50": 358.99,
+      "cached_read_ms_mean": 5.8,
+      "cached_read_ms_p95": 9.06,
+      "gpu_peak_memory_mb": 1076.22
+    },
+    "Arm 5: decompose_orig_weighted": {
+      "r5": {
+        "mean": 0.426,
+        "ci_95": [
+          0.3579,
+          0.497
+        ]
+      },
+      "ndcg5": {
+        "mean": 0.5057,
+        "ci_95": [
+          0.3983,
+          0.6146
+        ]
+      },
+      "r10": {
+        "mean": 0.4793,
+        "ci_95": [
+          0.4083,
+          0.5533
+        ]
+      },
+      "ndcg10": {
+        "mean": 0.5886,
+        "ci_95": [
+          0.4683,
+          0.7248
+        ]
+      },
+      "mrr": {
+        "mean": 0.3522,
+        "ci_95": [
+          0.2896,
+          0.4161
+        ]
+      },
+      "rerank_gate_fired_count": 155,
+      "rerank_gate_fire_rate_pct": 91.7,
+      "total_wall_clock_s": 126.43,
+      "transformation_lat_ms_mean": 5.59,
+      "transformation_lat_ms_p95": 8.06,
+      "retrieval_lat_ms_mean": 408.9,
+      "retrieval_lat_ms_p95": 758.95,
+      "rerank_lat_ms_mean": 319.31,
+      "rerank_lat_ms_p95": 1366.75,
+      "total_lat_ms_p50": 507.35,
+      "cached_read_ms_mean": 5.59,
+      "cached_read_ms_p95": 8.06,
+      "gpu_peak_memory_mb": 1076.22
+    }
+  },
+  "differences": {
+    "hyde_vs_none": {
+      "r5": {
+        "mean_diff": -0.0296,
+        "ci_95": [
+          -0.071,
+          0.0061
+        ]
+      },
+      "ndcg5": {
+        "mean_diff": 0.001,
+        "ci_95": [
+          -0.0348,
+          0.0372
+        ]
+      },
+      "r10": {
+        "mean_diff": -0.0237,
+        "ci_95": [
+          -0.0651,
+          0.0178
+        ]
+      },
+      "ndcg10": {
+        "mean_diff": -0.0029,
+        "ci_95": [
+          -0.0435,
+          0.0381
+        ]
+      },
+      "mrr": {
+        "mean_diff": -0.0116,
+        "ci_95": [
+          -0.0366,
+          0.0145
+        ]
+      }
+    },
+    "decompose_vs_none": {
+      "r5": {
+        "mean_diff": -0.0888,
+        "ci_95": [
+          -0.142,
+          -0.0355
+        ]
+      },
+      "ndcg5": {
+        "mean_diff": -0.0695,
+        "ci_95": [
+          -0.1255,
+          -0.0149
+        ]
+      },
+      "r10": {
+        "mean_diff": -0.0651,
+        "ci_95": [
+          -0.1213,
+          -0.0089
+        ]
+      },
+      "ndcg10": {
+        "mean_diff": -0.0857,
+        "ci_95": [
+          -0.1472,
+          -0.0276
+        ]
+      },
+      "mrr": {
+        "mean_diff": -0.0593,
+        "ci_95": [
+          -0.1045,
+          -0.0156
+        ]
+      }
+    },
+    "decompose_rephrase_weighted_vs_none": {
+      "r5": {
+        "mean_diff": -0.0888,
+        "ci_95": [
+          -0.145,
+          -0.0296
+        ]
+      },
+      "ndcg5": {
+        "mean_diff": -0.069,
+        "ci_95": [
+          -0.1253,
+          -0.0156
+        ]
+      },
+      "r10": {
+        "mean_diff": -0.0769,
+        "ci_95": [
+          -0.1391,
+          -0.0178
+        ]
+      },
+      "ndcg10": {
+        "mean_diff": -0.0939,
+        "ci_95": [
+          -0.1565,
+          -0.0336
+        ]
+      },
+      "mrr": {
+        "mean_diff": -0.0576,
+        "ci_95": [
+          -0.1023,
+          -0.014
+        ]
+      }
+    },
+    "decompose_orig_weighted_vs_none": {
+      "r5": {
+        "mean_diff": -0.0237,
+        "ci_95": [
+          -0.0712,
+          0.0237
+        ]
+      },
+      "ndcg5": {
+        "mean_diff": -0.002,
+        "ci_95": [
+          -0.0397,
+          0.0312
+        ]
+      },
+      "r10": {
+        "mean_diff": -0.0059,
+        "ci_95": [
+          -0.0473,
+          0.0355
+        ]
+      },
+      "ndcg10": {
+        "mean_diff": -0.01,
+        "ci_95": [
+          -0.0488,
+          0.0253
+        ]
+      },
+      "mrr": {
+        "mean_diff": -0.002,
+        "ci_95": [
+          -0.03,
+          0.0265
+        ]
+      }
+    }
+  },
+  "decomposition_subquery_count_breakdown": {
+    "1_subqueries": {
+      "count": 40,
+      "ndcg10_diff": -0.051,
+      "none_ndcg10": 0.549,
+      "decomp_ndcg10": 0.498
+    },
+    "2_subqueries": {
+      "count": 30,
+      "ndcg10_diff": -0.0171,
+      "none_ndcg10": 0.5167,
+      "decomp_ndcg10": 0.4996
+    },
+    "3_subqueries": {
+      "count": 99,
+      "ndcg10_diff": -0.1205,
+      "none_ndcg10": 0.6434,
+      "decomp_ndcg10": 0.5229
+    }
+  },
+  "verbatim_raw_ledger_examples": [
+    {
+      "item_id": 1,
+      "query": "What is the behavior of the `bool` parameter in the `X.copy()` method when used with a non-float data type?",
+      "hyde_hypothetical_document": "The `bool` parameter in the `X.copy()` method is utilized to specify whether elements should be copied along with their values. When this parameter is set to `True`, it ensures that all elements within the object being copied are also copied, including any boolean values contained within them. Conversely, setting the `bool` parameter to `False` prevents the copying of boolean values and only copies the actual objects themselves. This functionality is crucial for scenarios where you need to maintain the integrity of boolean values during object manipulation without altering their original state.",
+      "decompose_subqueries": [
+        "What does the `bool` parameter do in the `X.copy()` method?",
+        "How does the `bool` parameter affect the behavior of the `copy()` method?",
+        "What characteristics should be considered when using the `bool` parameter in the `X.copy()` method?"
+      ]
+    },
+    {
+      "item_id": 11,
+      "query": "What is the impact of the FMHA implementation on the development of computational neuroscience research?",
+      "hyde_hypothetical_document": "The Financial Market Harmonization Act (FMHA), enacted in 2016, aimed to harmonize financial regulations across different countries. This legislation has had significant implications for the development of computational neuroscience research, particularly in terms of data sharing and interoperability between different neuroimaging studies. The FMHA introduced new standards for electronic health records (EHRs) that facilitated seamless data exchange among researchers working with brain imaging datasets. This standardization led to improved accessibility and comparability of data across various studies, which was crucial for advancing computational neuroscience research.",
+      "decompose_subqueries": [
+        "What does the FMHA (Funding Model for High-Performance Computing) model entail?",
+        "How has the FMHA model influenced the field of computational neuroscience?",
+        "What specific impacts have been observed in the development of computational neuroscience due to the FMHA model?"
+      ]
+    },
+    {
+      "item_id": 26,
+      "query": "What significant changes were made to Agilent's operating segments in the first quarter of fiscal year 2024?",
+      "hyde_hypothetical_document": "Agilent Technologies, a leading provider of high-performance measurement solutions, has undergone several significant changes during its fiscal year 2024. The company announced several strategic initiatives aimed at enhancing its operational efficiency and market position. These changes included:\n\n1. **Enhanced Supply Chain Management**: Agilent has strengthened its relationships with suppliers to ensure timely delivery of critical components and materials, thereby reducing lead times and improving overall supply chain performance.\n\n2. **Digital Transformation**: The company is investing heavily in digital technologies to streamline operations and improve customer experience through enhanced online services and mobile applications.\n\n3.",
+      "decompose_subqueries": [
+        "What significant changes occurred in Agilent's operating segments during the first quarter of fiscal year 2024?"
+      ]
+    }
+  ],
+  "scoped_conclusion": "Corrected HyDE and Decomposition (unweighted, rephrase-weighted, and original-query weighted), implemented with Qwen2.5-0.5B, systematically degrade retrieval on this corpus across all metric dimensions."
+}

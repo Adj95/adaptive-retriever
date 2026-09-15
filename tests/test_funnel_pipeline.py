@@ -26,43 +26,10 @@ def dummy_candidates():
     ]
 
 
-def test_different_query_classes_produce_different_fusion_weights():
+def test_single_hybrid_weights_loaded_from_config():
     cfg = Config.load(Path("config/default.yaml"))
-    weights_conceptual = cfg.raw["funnel"]["hybrid"]["class_weights"]["conceptual"]
-    weights_exact = cfg.raw["funnel"]["hybrid"]["class_weights"]["exact_lookup"]
-
-    # Verify config defines different weights for different query classes
-    assert weights_conceptual != weights_exact
-
-    mock_vs = MagicMock(spec=VectorStore)
-    mock_vs.count.return_value = 22422
-    mock_vs.query_hybrid.return_value = []
-
-    profile_conceptual = QueryFingerprint(
-        raw_query="sample query",
-        token_count=2,
-        has_exact_identifiers=False,
-        has_numeric_intent=False,
-        has_comparative_language=False,
-        query_class=QueryClass.CONCEPTUAL,
-        class_confidence=0.9,
-    )
-
-    profile_exact = QueryFingerprint(
-        raw_query="sample query",
-        token_count=2,
-        has_exact_identifiers=True,
-        has_numeric_intent=False,
-        has_comparative_language=False,
-        query_class=QueryClass.EXACT_LOOKUP,
-        class_confidence=0.9,
-    )
-
-    run_funnel("sample query", mock_vs, cfg, profile=profile_conceptual)
-    assert mock_vs.query_hybrid.call_args.kwargs["query_class"] == "conceptual"
-
-    run_funnel("sample query", mock_vs, cfg, profile=profile_exact)
-    assert mock_vs.query_hybrid.call_args.kwargs["query_class"] == "exact_lookup"
+    weights = cfg.raw["funnel"]["hybrid"]["weights"]
+    assert weights == {"dense": 0.5, "sparse": 0.5}
 
 
 @patch("adaptive_retriever.funnel.pipeline.apply_rerank")

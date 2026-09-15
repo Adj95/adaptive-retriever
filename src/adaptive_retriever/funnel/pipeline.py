@@ -1,5 +1,6 @@
 """Funnel orchestrator (pre-filter -> hybrid RRF -> gated rerank)."""
 
+import copy
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -14,6 +15,8 @@ from adaptive_retriever.funnel.rerank import Reranker, apply_rerank, should_rera
 from adaptive_retriever.models import RetrievalCandidate
 from adaptive_retriever.query.profiler import profile_query
 from adaptive_retriever.vectorstore import VectorStore
+
+from adaptive_retriever.query.transform import transform_query
 
 logger = logging.getLogger(__name__)
 
@@ -60,8 +63,9 @@ def run_funnel(
     cfg: Config,
     profile: Optional[Any] = None,
     reranker: Optional[Reranker] = None,
+    llm: Optional[Any] = None,
 ) -> Tuple[List[RetrievalCandidate], Dict[str, Any]]:
-    """pre-filter -> hybrid RRF -> gated rerank. Returns candidates and a trace."""
+    """transformation -> pre-filter -> hybrid RRF -> gated rerank. Returns candidates and a trace."""
     t_start = time.perf_counter()
 
     # 0. Query Profiling (Correction 1: wire profiler when profile is None)
@@ -69,7 +73,6 @@ def run_funnel(
         profile = profile_query(query_text)
 
     query_cls = None
-    class_confidence = 1.0
     if profile is not None:
         if hasattr(profile, "query_class"):
             qc = profile.query_class
@@ -77,10 +80,29 @@ def run_funnel(
         elif isinstance(profile, dict) and "query_class" in profile:
             query_cls = str(profile["query_class"])
 
-        if hasattr(profile, "class_confidence"):
-            class_confidence = float(profile.class_confidence)
-        elif isinstance(profile, dict) and "class_confidence" in profile:
-            class_confidence = float(profile["class_confidence"])
+    # 0b. Query Transformation Stage
+    t0_tf = time.perf_counter()
+    transform_res = transform_query(profile, cfg=cfg, llm=llm, vs=vs)
+    t1_tf = time.perf_counter()
+    tf_ms = round((t1_tf - t0_tf) * 1000, 2)
+
+    # Synchronize extracted_filters into profile for build_prefilter.
+    # transform_res is authoritative: if zero-match dropped or empty, profile.extracted_filters must be set to transform_res.extracted_filters
+    if hasattr(profile, "extracted_filters"):
+        profile.extracted_filters = copy.deepcopy(transform_res.extracted_filters)
+    elif isinstance(profile, dict):
+        profile["extracted_filters"] = copy.deepcopy(transform_res.extracted_filters)
+
+    tf_stage_trace = {
+        "input_count": 1,
+        "output_count": len(transform_res.queries),
+        "elapsed_ms": tf_ms,
+        "strategy": transform_res.strategy,
+        "queries": transform_res.queries,
+        "extracted_filters": transform_res.extracted_filters,
+        "applied_filters": transform_res.extracted_filters,
+        "details": transform_res.trace,
+    }
 
     # Stage 1: Structured Pre-filter
     total_collection_points = 0
@@ -122,14 +144,87 @@ def run_funnel(
     # Stage 2: Hybrid RRF Search (passing query_class for per-class weights)
     hybrid_limit = cfg.raw.get("funnel", {}).get("hybrid", {}).get("dense_limit", 100)
     t0_hy = time.perf_counter()
-    hybrid_candidates = vs.query_hybrid(
-        query_text=query_text,
-        limit=hybrid_limit,
-        doc_class_filter=None,
-        query_class=query_cls,
-        cfg=cfg,
-        query_filter=filter_obj,
-    )
+    
+    # HyDE embeds hypothetical document for dense search, keeps original raw query text for BM25
+    if transform_res.strategy == "hyde":
+        dense_q = transform_res.queries[0] if transform_res.queries else query_text
+        sparse_q = query_text
+        hybrid_candidates = vs.query_hybrid(
+            query_text=query_text,
+            limit=hybrid_limit,
+            doc_class_filter=None,
+            query_class=query_cls,
+            cfg=cfg,
+            query_filter=filter_obj,
+            dense_query_text=dense_q,
+            sparse_query_text=sparse_q,
+        )
+    elif transform_res.strategy == "decompose":
+        trans_cfg = cfg.raw.get("query", {}).get("transformation", {})
+        include_orig = trans_cfg.get("include_original_query", False)
+        sub_queries = transform_res.queries
+
+        if include_orig:
+            fused_queries = [query_text] + sub_queries
+            orig_weight = float(trans_cfg.get("original_query_weight", 0.60))
+            N_sub = len(sub_queries)
+            if N_sub > 0:
+                sub_w_each = (1.0 - orig_weight) / N_sub
+                sub_weights = [orig_weight] + [sub_w_each] * N_sub
+            else:
+                sub_weights = [1.0]
+        else:
+            fused_queries = sub_queries
+            K = len(fused_queries)
+            custom_weights = trans_cfg.get("subquery_weights", None)
+            if custom_weights is not None and len(custom_weights) == K:
+                sub_weights = custom_weights
+            else:
+                sub_weights = [1.0 / K] * K if K > 0 else [1.0]
+
+        sub_cand_lists = []
+        for sq in fused_queries:
+            sq_cands = vs.query_hybrid(
+                query_text=sq,
+                limit=hybrid_limit,
+                doc_class_filter=None,
+                query_class=query_cls,
+                cfg=cfg,
+                query_filter=filter_obj,
+                dense_query_text=sq,
+                sparse_query_text=sq,
+            )
+            sub_cand_lists.append(sq_cands)
+
+        from adaptive_retriever.funnel.fusion import fuse_rrf
+        ranked_lists = {f"sub_{i}": [c.chunk_id for c in clist] for i, clist in enumerate(sub_cand_lists)}
+        w_dict = {f"sub_{i}": float(sub_weights[i]) for i in range(len(fused_queries))}
+
+        by_chunk_cand = {}
+        for clist in sub_cand_lists:
+            for c in clist:
+                if c.chunk_id not in by_chunk_cand:
+                    by_chunk_cand[c.chunk_id] = c
+
+        fused_rows = fuse_rrf(ranked_lists, rrf_k=60, weights=w_dict)
+        hybrid_candidates = []
+        for rank, (cid, fscore, _) in enumerate(fused_rows[:hybrid_limit], 1):
+            if cid in by_chunk_cand:
+                re_c = by_chunk_cand[cid].model_copy(update={"fused_score": fscore, "fused_rank": rank})
+                hybrid_candidates.append(re_c)
+    else:
+        dense_q = query_text
+        sparse_q = query_text
+        hybrid_candidates = vs.query_hybrid(
+            query_text=query_text,
+            limit=hybrid_limit,
+            doc_class_filter=None,
+            query_class=query_cls,
+            cfg=cfg,
+            query_filter=filter_obj,
+            dense_query_text=dense_q,
+            sparse_query_text=sparse_q,
+        )
     t1_hy = time.perf_counter()
     hy_ms = round((t1_hy - t0_hy) * 1000, 2)
 
@@ -144,7 +239,6 @@ def run_funnel(
         "elapsed_ms": hy_ms,
         "decision": "hybrid_rrf_complete",
         "query_class": query_cls,
-        "class_confidence": class_confidence,
         "step_breakdown_ms": hy_details,
     }
 
@@ -195,9 +289,9 @@ def run_funnel(
         "query": {
             "raw_query": query_text,
             "query_class": query_cls,
-            "class_confidence": class_confidence,
         },
         "stages": {
+            "transformation": tf_stage_trace,
             "prefilter": pf_stage_trace,
             "hybrid_search": hy_stage_trace,
             "rerank": rr_stage_trace,

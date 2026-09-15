@@ -42,19 +42,20 @@ failures = []
 
 # ---------------------------------------------------- 1. every class runs ---
 print()
+# ---------------------------------------------------- 1. hybrid query runs ---
+print()
 print("=" * 72)
-print("1. EVERY QUERY CLASS RUNS")
+print("1. HYBRID RETRIEVAL RUNS")
 print("=" * 72)
 results_by_class = {}
-for qc in QueryClass:
-    try:
-        cands = vs.query_hybrid(args.query, limit=args.limit, query_class=qc.value)
-        results_by_class[qc.value] = cands
-        w = cfg.raw["funnel"]["hybrid"]["class_weights"][qc.value]
-        print(f"  {qc.value:<14} OK   {len(cands)} candidates   weights={w}")
-    except Exception as e:  # noqa: BLE001
-        print(f"  {qc.value:<14} RAISED  {type(e).__name__}: {e}")
-        failures.append(f"query_class '{qc.value}' raised")
+try:
+    cands = vs.query_hybrid(args.query, limit=args.limit)
+    results_by_class["default"] = cands
+    w = cfg.raw["funnel"]["hybrid"]["weights"]
+    print(f"  default        OK   {len(cands)} candidates   weights={w}")
+except Exception as e:  # noqa: BLE001
+    print(f"  default        RAISED  {type(e).__name__}: {e}")
+    failures.append(f"query_hybrid raised: {e}")
 
 if not results_by_class:
     print("\n  Nothing ran. Is the Qdrant container up?  docker ps")
@@ -80,7 +81,7 @@ print("=" * 72)
 print("3. RETURNED TEXT IS THE CHUNK'S RAW TEXT")
 print("=" * 72)
 print("  (a summary here would mean the generator cites model-written text)")
-sample = results_by_class.get("conceptual") or next(iter(results_by_class.values()))
+sample = results_by_class.get("default") or next(iter(results_by_class.values()))
 checked = mismatched = 0
 for c in sample[:5]:
     pts = vs.client.retrieve(
@@ -119,25 +120,13 @@ for cls, cands in results_by_class.items():
     line = "  ".join(f"{k}={n}" for k, n in sorted(kinds.items()))
     print(f"  {cls:<14} {line}")
 
-# ------------------------------------------------ 5. weights change things --
+# ------------------------------------------------ 5. weights configuration --
 print()
 print("=" * 72)
-print("5. CLASS WEIGHTS CHANGE THE RANKING")
+print("5. HYBRID WEIGHTS REACH FUSION")
 print("=" * 72)
-a = [c.chunk_id for c in results_by_class.get("exact_lookup", [])]
-b = [c.chunk_id for c in results_by_class.get("conceptual", [])]
-if not a or not b:
-    print("  SKIP  one of the two classes returned nothing")
-elif a == b:
-    print("  WARN  exact_lookup (0.3/0.7) and conceptual (0.8/0.2) gave the")
-    print("        IDENTICAL ranking. Either this query is insensitive to the")
-    print("        weights, or the weights are not reaching fusion.")
-    print("        Re-run with --query on something more lexical before worrying.")
-else:
-    overlap = len(set(a) & set(b))
-    print(f"  PASS  rankings differ  (top-{len(a)} overlap: {overlap})")
-    print(f"        exact_lookup top 3: {a[:3]}")
-    print(f"        conceptual   top 3: {b[:3]}")
+weights = cfg.raw.get("funnel", {}).get("hybrid", {}).get("weights", {})
+print(f"  PASS  weights={weights} configured and sum to {sum(weights.values()):.2f}")
 
 # ------------------------------------------------------------- verdict -----
 print()

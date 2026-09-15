@@ -102,7 +102,6 @@ def run_baseline(
         "query": {
             "raw_query": query_text,
             "query_class": "raw_baseline",
-            "class_confidence": 1.0,
         },
         "stages": {
             "dense_search": {

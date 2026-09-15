@@ -25,15 +25,8 @@ adaptivity.
 Confidence intervals come from a **paired** bootstrap resampling queries, 1000 resamples,
 seed 42. All five intervals exclude zero. Full output: [`reports/experiment_001.json`](reports/experiment_001.json).
 
-Latency, same run:
+Latency figures are pending re-measurement with the execution device verified.
 
-| | Fixed baseline | Adaptive |
-|---|---|---|
-| Retrieval p50 | 49.6 ms | 115.6 ms |
-| Total p50 | 49.6 ms | 1386.1 ms |
-
-The gap is the cross-encoder, which fires on 77.5% of queries under the shipped gate
-setting. Retrieval itself costs 116 ms.
 
 ---
 
@@ -83,9 +76,8 @@ so chunks get ranked partly by how many times they happen to be indexed, which h
 to do with relevance. `tests/test_rrf_fusion.py::test_representation_count_does_not_bias_ranking`
 pins this and demonstrates that the naive alternative really does flip the order.
 
-**Per-class fusion weights.** The classifier routes to different dense/sparse weightings:
-lexical queries lean on BM25 (0.3/0.7), paraphrase-heavy ones lean on embeddings (0.8/0.2).
-Every weight pair is validated to sum to 1.0 so fused scores stay comparable across classes —
+**Fusion weights.** Fusion uses fixed dense/sparse weightings ({dense: 0.5, sparse: 0.5}) for RRF across all queries.
+Every weight pair is validated to sum to 1.0 so fused scores stay comparable —
 otherwise the rerank gate margin would mean something different for each query.
 
 **The rerank gate is relative, not absolute.** The gate fires when the score drop-off between
@@ -112,8 +104,13 @@ These belong in the README, not buried:
   timestamps showed intervals averaging 1.25 seconds — too fast to constitute review.
 - The gate-threshold sweep is **exploratory**. It ran 18 paired comparisons (6 margins ×
   3 metrics) at 95%; under Bonferroni correction none of them remains significant.
-  `gate_score_margin: 0.30` is chosen on point-estimate efficiency plus agreement across
-  two metrics, not on confirmed significance.
+- The gate-threshold sweep is **exploratory**. It ran 18 paired comparisons (6 margins ×
+  3 metrics) at 95%; under Bonferroni correction none of them remains significant.
+  `gate_score_margin: 0.30` was tuned under per-class weights since removed (which changed
+  the RRF score distribution; under uniform weights the fire rate shifted from 77.5% to 55.6%,
+  94/169 queries, with relative margin distribution p50 = 0.2812, p95 = 0.4911, mean = 0.2951).
+  The threshold is therefore provisional.
+- **Transformation Latency**: Latency figures are pending re-measurement with the verified execution device.
 - Absolute scores are modest (Recall@10 ≈ 0.48). The claim here is the **controlled
   difference**, not state-of-the-art absolute retrieval.
 - Everything runs on one consumer GPU (GTX 1650, 4 GB). fp32 is used rather than fp16
@@ -123,11 +120,12 @@ These belong in the README, not buried:
 
 ## Engineering
 
-- **109 tests**, mutation-verified: every retrieval behaviour is paired with a test proven
+- **117 tests**, mutation-verified: every retrieval behaviour is paired with a test proven
   to fail when that behaviour is removed. Each was confirmed by injecting the specific
   one-line change and watching the intended test fail.
 - Every stage emits a **trace** to `reports/traces/` with input count, output count, elapsed
   time and the decision taken. A stage that skipped says so; it does not report `applied`.
+- **Reproducibility**: Retrieval candidate sets before reranking are **100% bit-identical and reproducible** across execution environments; post-rerank candidate selection can shift by a small number of items (e.g., 2/169 queries) due to float32 non-determinism in cross-encoder batch composition and sequence padding.
 - Offline LLM generation is cached and deterministic — 10,449 representations, seeded,
   reproducible.
 - No silent fallbacks. Embedding model, sparse model and reranker all **raise** on load
@@ -153,6 +151,8 @@ Reproduce the experiments:
 ```bash
 python scripts/run_experiment_001.py    # adaptive vs fixed baseline
 python scripts/run_experiment_002.py    # rerank gate threshold sweep
+python scripts/run_experiment_003.py    # self_query pre-filter evaluation (Task B)
+python scripts/run_experiment_005.py    # HyDE and Decomposition evaluation (Experiment 005)
 ```
 
 ---
@@ -163,7 +163,7 @@ python scripts/run_experiment_002.py    # rerank gate threshold sweep
 src/adaptive_retriever/
   ingest/          parsing, chunking, representation generation
   funnel/          fusion, prefilter, rerank, pipeline, baseline
-  query/           query profiler
+  query/           query profiler, transformation interface
   eval/            metrics, bootstrap CIs, eval-set construction
   vectorstore.py   Qdrant, hybrid search, raw-text hydration
 reports/           experiment output and stage traces
@@ -173,10 +173,17 @@ reports/           experiment output and stage traces
 
 ## Status
 
-Phases 1 and 2 complete: ingestion, multi-representation indexing, the three-stage funnel,
-the fixed baseline twin, and the metrics harness.
+**Phases 1, 2, and 3 Complete.**
 
-Next: query transformation (HyDE, decomposition, self-query) routed by query class, then the
-escalation ladder, then post-retrieval compression and grounded generation.
+Query transformation strategies (`self_query`, `hyde`, `decompose`) were systematically evaluated on 169 non-rejected evaluation items and **measured-and-rejected**:
+
+* **`self_query`**: Pre-filters were extracted on 25 queries and applied on 24 queries. For **75.0% (18/24)** of filtered queries, the pre-filter excluded the gold passage from the candidate pool entirely. The observed nDCG@10 difference of −0.0461 [95% CI −0.1045, −0.0036] does not survive Bonferroni correction for 5 metrics ($\alpha = 0.01$).
+* **`hyde`**: Hypothetical document generation degraded retrieval ($\text{nDCG}@10$ diff **−0.1963** [95% CI −0.2891, −0.1132], surviving Bonferroni $\alpha = 0.005$). Latency figures are pending re-measurement with the verified execution device.
+* **`decompose`**: Query decomposition degraded retrieval ($\text{nDCG}@10$ diff **−0.2039** [95% CI −0.2910, −0.1306], surviving Bonferroni $\alpha = 0.005$). Mean sub-queries: **2.35 / query** (distribution: 1: 40, 2: 30, 3: 99). Degenerate sub-queries rejected: 2 total. Latency figures are pending re-measurement with the verified execution device.
+
+**Scoped Conclusion**:
+> *HyDE and decomposition, implemented with Qwen2.5-0.5B, degrade retrieval on this corpus (nDCG@10 −0.196 and −0.204, both surviving Bonferroni at $\alpha = 0.005$).*
+
+Shipped configuration: `query.transformation.strategy: none`. **Phase 3 is closed.**
 
 Stack: Python, Qdrant, PyTorch, sentence-transformers, BM25, Docker, pytest.

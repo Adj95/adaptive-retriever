@@ -1,0 +1,140 @@
+{
+  "items_scored": 169,
+  "skipped": {
+    "synthetic_rejected": 28
+  },
+  "accuracy": 0.1834,
+  "majority_class_baseline": 0.2012,
+  "majority_class": "conceptual",
+  "confusion_matrix": {
+    "exact_lookup": {
+      "conceptual": 14,
+      "aggregation": 5,
+      "exact_lookup": 5,
+      "filterable": 2,
+      "compound": 3,
+      "multihop": 4
+    },
+    "conceptual": {
+      "compound": 7,
+      "filterable": 1,
+      "conceptual": 13,
+      "aggregation": 1,
+      "multihop": 3,
+      "exact_lookup": 9
+    },
+    "compound": {
+      "compound": 7,
+      "conceptual": 7,
+      "exact_lookup": 5,
+      "aggregation": 2,
+      "multihop": 6
+    },
+    "multihop": {
+      "multihop": 2,
+      "conceptual": 5,
+      "compound": 2,
+      "aggregation": 1,
+      "filterable": 1
+    },
+    "aggregation": {
+      "conceptual": 16,
+      "multihop": 4,
+      "aggregation": 3,
+      "compound": 9
+    },
+    "filterable": {
+      "conceptual": 11,
+      "compound": 9,
+      "exact_lookup": 6,
+      "filterable": 1,
+      "multihop": 3,
+      "aggregation": 2
+    }
+  },
+  "per_class": {
+    "exact_lookup": {
+      "precision": 0.2,
+      "recall": 0.1515,
+      "f1": 0.1724,
+      "support": 33,
+      "predicted": 25
+    },
+    "conceptual": {
+      "precision": 0.197,
+      "recall": 0.3824,
+      "f1": 0.26,
+      "support": 34,
+      "predicted": 66
+    },
+    "compound": {
+      "precision": 0.1892,
+      "recall": 0.2593,
+      "f1": 0.2188,
+      "support": 27,
+      "predicted": 37
+    },
+    "multihop": {
+      "precision": 0.0909,
+      "recall": 0.1818,
+      "f1": 0.1212,
+      "support": 11,
+      "predicted": 22
+    },
+    "aggregation": {
+      "precision": 0.2143,
+      "recall": 0.0938,
+      "f1": 0.1304,
+      "support": 32,
+      "predicted": 14
+    },
+    "filterable": {
+      "precision": 0.2,
+      "recall": 0.0312,
+      "f1": 0.0541,
+      "support": 32,
+      "predicted": 5
+    }
+  },
+  "confidence_when_correct": {
+    "n": 31,
+    "mean": 0.8779,
+    "p50": 0.935,
+    "min": 0.7,
+    "max": 0.98
+  },
+  "confidence_when_wrong": {
+    "n": 138,
+    "mean": 0.8705,
+    "p50": 0.9,
+    "min": 0.7,
+    "max": 0.98
+  },
+  "top_confusions": [
+    {
+      "expected": "aggregation",
+      "predicted": "conceptual",
+      "count": 16
+    },
+    {
+      "expected": "exact_lookup",
+      "predicted": "conceptual",
+      "count": 14
+    },
+    {
+      "expected": "filterable",
+      "predicted": "conceptual",
+      "count": 11
+    },
+    {
+      "expected": "filterable",
+      "predicted": "compound",
+      "count": 9
+    },
+    {
+      "expected": "conceptual",
+      "predicted": "exact_lookup",
+      "count": 9
+    }
+  ]
+}

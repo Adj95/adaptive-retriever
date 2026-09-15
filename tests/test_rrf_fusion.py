@@ -165,27 +165,14 @@ def test_representation_count_does_not_bias_ranking():
 
 # ---------------------------------------------------- real config contract ---
 
-def test_every_query_class_has_hybrid_weights():
-    """A class the profiler can emit but the config has no weights for would
-    raise at query time, in the middle of an eval run."""
+def test_hybrid_weights_sum_to_one():
+    """Fused scores must be comparable - hybrid weights must sum to 1.0."""
     cfg = Config.load(CONFIG_PATH)
-    class_weights = cfg.raw["funnel"]["hybrid"]["class_weights"]
+    weights = cfg.raw["funnel"]["hybrid"]["weights"]
 
-    missing = [qc.value for qc in QueryClass if qc.value not in class_weights]
-    assert not missing, f"funnel.hybrid.class_weights is missing: {missing}"
-    assert "default" in class_weights
-
-
-def test_every_weight_pair_sums_to_one():
-    """Fused scores must be comparable across classes - the rerank gate compares
-    score margins, so a class whose weights sum to 2.0 would shift the gate."""
-    cfg = Config.load(CONFIG_PATH)
-    class_weights = cfg.raw["funnel"]["hybrid"]["class_weights"]
-
-    for name, pair in class_weights.items():
-        total = sum(float(v) for v in pair.values())
-        assert total == pytest.approx(1.0), f"{name} sums to {total}, not 1.0"
-        assert set(pair) == {"dense", "sparse"}, f"{name} has sources {sorted(pair)}"
+    total = sum(float(v) for v in weights.values())
+    assert total == pytest.approx(1.0), f"weights sum to {total}, not 1.0"
+    assert set(weights) == {"dense", "sparse"}, f"weights has sources {sorted(weights)}"
 
 
 # ------------------------------------------------------------ query_hybrid ---
@@ -224,12 +211,6 @@ def test_query_hybrid_requires_a_config():
         vs.query_hybrid("anything")
 
 
-def test_query_hybrid_unknown_query_class_raises():
-    cfg = {"funnel": {"hybrid": {"fusion": "rrf", "class_weights": {"default": {"dense": 0.5, "sparse": 0.5}}}}}
-    vs = _store([], [], cfg=cfg, raw_payloads={})
-    with pytest.raises(ValueError, match="Unknown query_class 'nonexistent_class'"):
-        vs.query_hybrid("text", query_class="nonexistent_class")
-
 
 def test_query_hybrid_unsupported_fusion_raises():
     cfg = {"funnel": {"hybrid": {"fusion": "linear_sum"}}}
@@ -243,7 +224,7 @@ def test_query_hybrid_rejects_weights_that_do_not_sum_to_one():
         "funnel": {
             "hybrid": {
                 "fusion": "rrf",
-                "class_weights": {"default": {"dense": 0.8, "sparse": 0.8}},
+                "weights": {"dense": 0.8, "sparse": 0.8},
             }
         }
     }
@@ -277,10 +258,7 @@ def test_query_hybrid_config_values_reach_the_search_and_the_fusion(monkeypatch)
                 "rrf_k": 7,
                 "dense_limit": 23,
                 "sparse_limit": 41,
-                "class_weights": {
-                    "custom_class": {"dense": 0.75, "sparse": 0.25},
-                    "default": {"dense": 0.5, "sparse": 0.5},
-                },
+                "weights": {"dense": 0.75, "sparse": 0.25},
             }
         }
     }
@@ -295,7 +273,7 @@ def test_query_hybrid_config_values_reach_the_search_and_the_fusion(monkeypatch)
     }
     vs = _store(dense_hits, sparse_hits, cfg=cfg, raw_payloads=raw)
 
-    candidates = vs.query_hybrid("query text", query_class="custom_class")
+    candidates = vs.query_hybrid("query text")
 
     assert seen["rrf_k"] == 7
     assert seen["weights"] == {"dense": 0.75, "sparse": 0.25}
@@ -315,7 +293,7 @@ def test_query_hybrid_returns_each_chunk_once():
             "hybrid": {
                 "fusion": "rrf",
                 "rrf_k": 60,
-                "class_weights": {"default": {"dense": 0.5, "sparse": 0.5}},
+                "weights": {"dense": 0.5, "sparse": 0.5},
             }
         }
     }
@@ -344,7 +322,7 @@ def test_query_hybrid_returns_raw_chunk_text_not_the_matched_summary():
             "hybrid": {
                 "fusion": "rrf",
                 "rrf_k": 60,
-                "class_weights": {"default": {"dense": 0.5, "sparse": 0.5}},
+                "weights": {"dense": 0.5, "sparse": 0.5},
             }
         }
     }
@@ -367,7 +345,7 @@ def test_query_hybrid_reports_which_representation_won_per_source():
             "hybrid": {
                 "fusion": "rrf",
                 "rrf_k": 60,
-                "class_weights": {"default": {"dense": 0.5, "sparse": 0.5}},
+                "weights": {"dense": 0.5, "sparse": 0.5},
             }
         }
     }
@@ -391,7 +369,7 @@ def test_query_hybrid_raises_when_a_point_has_no_chunk_id():
             "hybrid": {
                 "fusion": "rrf",
                 "rrf_k": 60,
-                "class_weights": {"default": {"dense": 0.5, "sparse": 0.5}},
+                "weights": {"dense": 0.5, "sparse": 0.5},
             }
         }
     }

@@ -10,7 +10,6 @@ def test_profile_query_conceptual():
     assert isinstance(fp, QueryFingerprint)
     assert fp.raw_query == "what methods were used to evaluate results"
     assert fp.query_class == QueryClass.CONCEPTUAL
-    assert fp.class_confidence >= 0.5
 
 
 def test_profile_query_filterable_with_table():

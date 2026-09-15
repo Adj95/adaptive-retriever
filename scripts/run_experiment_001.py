@@ -55,6 +55,17 @@ def main():
 
     # Initialize shared vectorstore and reranker in ONE process
     vs = VectorStore.from_config(cfg)
+    pts_count = vs.client.get_collection(vs.collection_name).points_count
+    url_info = vs.url if vs.mode == "server" else str(cfg.raw.get("vectorstore", {}).get("storage_path", "data/qdrant_storage"))
+
+    print("\n" + "=" * 80)
+    print(" EXPERIMENT 001 HEADER")
+    print(f"  Vectorstore Mode    : {vs.mode}")
+    print(f"  Vectorstore URL/Path: {url_info}")
+    print(f"  Collection Name     : {vs.collection_name}")
+    print(f"  Collection Points   : {pts_count}")
+    print("=" * 80 + "\n", flush=True)
+
     reranker = Reranker(device=cfg.raw.get("models", {}).get("llm", {}).get("device", "auto"))
 
     print("=== WARMING UP MODELS & QDRANT CLIENT CONNECTION ===")

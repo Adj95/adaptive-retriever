@@ -568,6 +568,8 @@ class VectorStore:
         query_class: Optional[str] = None,
         cfg: Optional[Any] = None,
         query_filter: Optional[Any] = None,
+        dense_query_text: Optional[str] = None,
+        sparse_query_text: Optional[str] = None,
     ) -> List[RetrievalCandidate]:
         """Dense + sparse search fused with weighted RRF, returned as chunks.
 
@@ -594,44 +596,27 @@ class VectorStore:
         if fusion != "rrf":
             raise ValueError(f"Unsupported fusion mode '{fusion}'. Expected 'rrf'.")
 
-        class_weights = hybrid_cfg.get("class_weights", {})
-        if query_class is not None:
-            if query_class not in class_weights:
-                raise ValueError(
-                    f"Unknown query_class '{query_class}'. "
-                    f"Available keys: {sorted(class_weights)}. "
-                    f"Add it to funnel.hybrid.class_weights in the config."
-                )
-            weight_source = query_class
-        else:
-            if "default" not in class_weights:
-                raise ValueError(
-                    "funnel.hybrid.class_weights has no 'default' entry and no "
-                    "query_class was supplied."
-                )
-            weight_source = "default"
-        weights = class_weights[weight_source]
-
+        weights = hybrid_cfg.get("weights", {"dense": 0.5, "sparse": 0.5})
         total = sum(float(v) for v in weights.values())
         if abs(total - 1.0) > 1e-6:
             raise ValueError(
-                f"funnel.hybrid.class_weights['{weight_source}'] sums to "
-                f"{total:.4f}, not 1.0. Fused scores would not be comparable "
-                f"across query classes, so the rerank gate margin would mean "
-                f"something different for each one."
+                f"funnel.hybrid.weights sums to {total:.4f}, not 1.0."
             )
 
         dense_limit = int(hybrid_cfg.get("dense_limit", 100))
         sparse_limit = int(hybrid_cfg.get("sparse_limit", 100))
         rrf_k = int(hybrid_cfg.get("rrf_k", 60))
 
+        dense_q = dense_query_text if dense_query_text is not None else query_text
+        sparse_q = sparse_query_text if sparse_query_text is not None else query_text
+
         import time
         t_de = time.perf_counter()
-        dense_vec = self.embedding_client.encode(query_text)
+        dense_vec = self.embedding_client.encode(dense_q)
         dense_encode_ms = round((time.perf_counter() - t_de) * 1000, 2)
 
         t_se = time.perf_counter()
-        sparse_vec = self.sparse_client.encode(query_text)
+        sparse_vec = self.sparse_client.encode(sparse_q)
         sparse_encode_ms = round((time.perf_counter() - t_se) * 1000, 2)
 
         effective_filter = query_filter

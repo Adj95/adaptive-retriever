@@ -57,8 +57,7 @@ query:
   transformation:
     enabled: false
     fixed: none
-    mapping: {}
-    vocab_overlap_threshold: 0.35
+    strategy: none
 
 funnel:
   prefilter:
@@ -70,8 +69,7 @@ funnel:
     sparse_limit: 100
     fusion: rrf
     rrf_k: 60
-    class_weights:
-      default: {dense: 0.5, sparse: 0.5}
+    weights: {dense: 0.5, sparse: 0.5}
   rerank:
     mode: always
     gate_score_margin: 0.15

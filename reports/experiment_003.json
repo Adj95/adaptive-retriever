@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "n_items": 169,
+    "vectorstore_mode": "server",
+    "collection_name": "retriever_chunks_a5d51992",
+    "collection_points": 22422,
+    "seed": 42
+  },
+  "arms": {
+    "Arm 1: none": {
+      "r5": {
+        "mean": 0.4497,
+        "ci_95": [
+          0.3757,
+          0.5237
+        ]
+      },
+      "ndcg5": {
+        "mean": 0.5077,
+        "ci_95": [
+          0.4038,
+          0.6198
+        ]
+      },
+      "r10": {
+        "mean": 0.4852,
+        "ci_95": [
+          0.4112,
+          0.5621
+        ]
+      },
+      "ndcg10": {
+        "mean": 0.5986,
+        "ci_95": [
+          0.4748,
+          0.7228
+        ]
+      },
+      "mrr": {
+        "mean": 0.3542,
+        "ci_95": [
+          0.2873,
+          0.4211
+        ]
+      },
+      "retrieval_lat_ms_p50": 0.0,
+      "total_lat_ms_p50": 8543.75
+    },
+    "Arm 2: self_query": {
+      "r5": {
+        "mean": 0.4201,
+        "ci_95": [
+          0.3491,
+          0.4911
+        ]
+      },
+      "ndcg5": {
+        "mean": 0.4821,
+        "ci_95": [
+          0.3788,
+          0.5949
+        ]
+      },
+      "r10": {
+        "mean": 0.4556,
+        "ci_95": [
+          0.3875,
+          0.5325
+        ]
+      },
+      "ndcg10": {
+        "mean": 0.5524,
+        "ci_95": [
+          0.4389,
+          0.6755
+        ]
+      },
+      "mrr": {
+        "mean": 0.3448,
+        "ci_95": [
+          0.2792,
+          0.4122
+        ]
+      },
+      "retrieval_lat_ms_p50": 0.0,
+      "total_lat_ms_p50": 190.86
+    }
+  },
+  "differences": {
+    "self_query_vs_none": {
+      "r5": {
+        "mean_diff": -0.0296,
+        "ci_95": [
+          -0.0592,
+          0.0
+        ]
+      },
+      "ndcg5": {
+        "mean_diff": -0.0256,
+        "ci_95": [
+          -0.069,
+          0.013
+        ]
+      },
+      "r10": {
+        "mean_diff": -0.0296,
+        "ci_95": [
+          -0.0592,
+          0.0
+        ]
+      },
+      "ndcg10": {
+        "mean_diff": -0.0461,
+        "ci_95": [
+          -0.1045,
+          -0.0036
+        ]
+      },
+      "mrr": {
+        "mean_diff": -0.0094,
+        "ci_95": [
+          -0.0335,
+          0.0138
+        ]
+      }
+    }
+  },
+  "self_query_stats": {
+    "total_queries": 169,
+    "filters_produced": 25,
+    "filters_dropped_zero_docs": 1,
+    "filters_rejected_unindexed": 0,
+    "queries_zero_candidates": 0,
+    "prefilter_count_distribution": {
+      "min": 17,
+      "p25": 22422.0,
+      "median": 22422.0,
+      "p75": 22422.0,
+      "max": 22422,
+      "mean": 19717.7
+    }
+  }
+}

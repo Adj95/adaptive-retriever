@@ -8,7 +8,8 @@
     "items_evaluated": 169,
     "items_excluded": 28,
     "total_experiment_time_seconds": 462.03,
-    "multiplicity_note": "The sweep ran 18 paired comparisons (6 margins x 3 metrics) at 95% confidence (alpha = 0.05). Under a Bonferroni correction for 18 tests (alpha = 0.0028), neither nDCG@10 nor MRR at margin 0.30 remains significant (p approx 0.017 and 0.007 respectively). This sweep is exploratory; gate_score_margin = 0.30 is selected on point-estimate efficiency and agreement across two independent metrics, and is not statistically confirmed at n = 169."
+    "multiplicity_note": "The sweep ran 18 paired comparisons (6 margins x 3 metrics) at 95% confidence (alpha = 0.05). Under a Bonferroni correction for 18 tests (alpha = 0.0028), neither nDCG@10 nor MRR at margin 0.30 remains significant (p approx 0.017 and 0.007 respectively). This sweep is exploratory; gate_score_margin = 0.30 is selected on point-estimate efficiency and agreement across two independent metrics, and is not statistically confirmed at n = 169.",
+    "amendment_note": "Note on Phase 3 Amendment (2026-09-15): Per-class fusion weights were removed in favor of uniform fixed weights {dense: 0.5, sparse: 0.5}. Uniform weights produce a differently-shaped RRF score distribution. Under uniform weights, the gate fire rate at gate_score_margin: 0.30 changed from 131/169 (77.5%) to 94/169 (55.6%), and the relative margin distribution changed to p50 = 0.2812, p95 = 0.4911, mean = 0.2951. Because gate_score_margin: 0.30 was tuned under per-class weights (which no longer exist) and no setting in this sweep survived Bonferroni correction, the current margin of 0.30 is provisional."
   },
   "sweep": {
     "0.0": {

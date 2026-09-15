@@ -1,0 +1,193 @@
+{
+  "meta": {
+    "n_items": 169,
+    "gate_score_margin": 0.3,
+    "output_size": 10,
+    "total_comparisons": 9,
+    "bonferroni_alpha": 0.00556,
+    "multiplicity_note": "Evaluated 9 paired comparisons (3 arms x 3 metrics) at alpha=0.00556."
+  },
+  "summary_metrics": {
+    "Arm 1: Per-Class Routing": {
+      "recall_10": {
+        "mean": 0.4793,
+        "ci95": [
+          0.4112,
+          0.5562
+        ]
+      },
+      "ndcg_10": {
+        "mean": 0.5909,
+        "ci95": [
+          0.47,
+          0.7248
+        ]
+      },
+      "mrr": {
+        "mean": 0.3508,
+        "ci95": [
+          0.2876,
+          0.4142
+        ]
+      }
+    },
+    "Arm 2: Fixed 0.5/0.5": {
+      "recall_10": {
+        "mean": 0.4793,
+        "ci95": [
+          0.4053,
+          0.5562
+        ]
+      },
+      "ndcg_10": {
+        "mean": 0.5925,
+        "ci95": [
+          0.4687,
+          0.7192
+        ]
+      },
+      "mrr": {
+        "mean": 0.3556,
+        "ci95": [
+          0.2886,
+          0.4233
+        ]
+      }
+    },
+    "Arm 3: Fixed 0.8/0.2": {
+      "recall_10": {
+        "mean": 0.4556,
+        "ci95": [
+          0.3875,
+          0.5266
+        ]
+      },
+      "ndcg_10": {
+        "mean": 0.5725,
+        "ci95": [
+          0.453,
+          0.6987
+        ]
+      },
+      "mrr": {
+        "mean": 0.3571,
+        "ci95": [
+          0.2926,
+          0.4227
+        ]
+      }
+    },
+    "Arm 4: Fixed 0.3/0.7": {
+      "recall_10": {
+        "mean": 0.4911,
+        "ci95": [
+          0.4172,
+          0.5651
+        ]
+      },
+      "ndcg_10": {
+        "mean": 0.5973,
+        "ci95": [
+          0.4759,
+          0.7282
+        ]
+      },
+      "mrr": {
+        "mean": 0.3561,
+        "ci95": [
+          0.2929,
+          0.4247
+        ]
+      }
+    }
+  },
+  "paired_differences": {
+    "Arm 2 (0.5/0.5) vs Arm 1": {
+      "recall_10_diff": {
+        "mean_diff": 0.0,
+        "ci95": [
+          -0.0414,
+          0.0355
+        ],
+        "p_value": 1.09,
+        "sig_bonferroni": false
+      },
+      "ndcg_10_diff": {
+        "mean_diff": 0.0016,
+        "ci95": [
+          -0.0277,
+          0.0302
+        ],
+        "p_value": 0.916,
+        "sig_bonferroni": false
+      },
+      "mrr_diff": {
+        "mean_diff": 0.0048,
+        "ci95": [
+          -0.0165,
+          0.0275
+        ],
+        "p_value": 0.674,
+        "sig_bonferroni": false
+      }
+    },
+    "Arm 3 (0.8/0.2) vs Arm 1": {
+      "recall_10_diff": {
+        "mean_diff": -0.0237,
+        "ci95": [
+          -0.0592,
+          0.0118
+        ],
+        "p_value": 0.236,
+        "sig_bonferroni": false
+      },
+      "ndcg_10_diff": {
+        "mean_diff": -0.0184,
+        "ci95": [
+          -0.0487,
+          0.0123
+        ],
+        "p_value": 0.232,
+        "sig_bonferroni": false
+      },
+      "mrr_diff": {
+        "mean_diff": 0.0063,
+        "ci95": [
+          -0.0136,
+          0.0288
+        ],
+        "p_value": 0.544,
+        "sig_bonferroni": false
+      }
+    },
+    "Arm 4 (0.3/0.7) vs Arm 1": {
+      "recall_10_diff": {
+        "mean_diff": 0.0118,
+        "ci95": [
+          -0.0237,
+          0.0473
+        ],
+        "p_value": 0.594,
+        "sig_bonferroni": false
+      },
+      "ndcg_10_diff": {
+        "mean_diff": 0.0064,
+        "ci95": [
+          -0.0203,
+          0.031
+        ],
+        "p_value": 0.564,
+        "sig_bonferroni": false
+      },
+      "mrr_diff": {
+        "mean_diff": 0.0053,
+        "ci95": [
+          -0.012,
+          0.023
+        ],
+        "p_value": 0.508,
+        "sig_bonferroni": false
+      }
+    }
+  }
+}
