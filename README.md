@@ -1,10 +1,11 @@
 # The Adaptive Retriever
 
-A retrieval system that classifies each query and adapts its retrieval strategy to it,
-measured against a fixed-strategy baseline on the same index.
+A hybrid retrieval system built around its measurement harness. Every adaptive component was
+tested against a fixed-strategy baseline on the same index — and **four of five were removed**,
+because they did not earn their complexity.
 
-Most RAG projects report that they were built. This one reports what it does, against a
-control, with confidence intervals — including where it does nothing.
+Most RAG projects report that they were built. This one reports what each part does, against a
+control, with confidence intervals — including the parts that did nothing.
 
 ---
 
@@ -57,7 +58,8 @@ rather than assumed.
 ```
 query
   │
-  ├─ profiler ──────────► one of 6 query classes + extracted filters
+  ├─ profiler ──────────► query class, recorded in the trace as an observation
+  │                       (it routes nothing — see Status)
   │
   ├─ stage 1  structured pre-filter    22,422 → N   (indexed payload fields only)
   ├─ stage 2  hybrid retrieval             N → 100  (dense + BM25, weighted RRF)
@@ -102,8 +104,6 @@ These belong in the README, not buried:
   recorded rejection reason rather than being silently dropped.
 - A further 24 items previously marked verified were **downgraded** after their review
   timestamps showed intervals averaging 1.25 seconds — too fast to constitute review.
-- The gate-threshold sweep is **exploratory**. It ran 18 paired comparisons (6 margins ×
-  3 metrics) at 95%; under Bonferroni correction none of them remains significant.
 - The gate-threshold sweep is **exploratory**. It ran 18 paired comparisons (6 margins ×
   3 metrics) at 95%; under Bonferroni correction none of them remains significant.
   `gate_score_margin: 0.30` was tuned under per-class weights since removed (which changed
@@ -175,15 +175,61 @@ reports/           experiment output and stage traces
 
 **Phases 1, 2, and 3 Complete.**
 
-Query transformation strategies (`self_query`, `hyde`, `decompose`) were systematically evaluated on 169 non-rejected evaluation items and **measured-and-rejected**:
+### What measurement removed
 
-* **`self_query`**: Pre-filters were extracted on 25 queries and applied on 24 queries. For **75.0% (18/24)** of filtered queries, the pre-filter excluded the gold passage from the candidate pool entirely. The observed nDCG@10 difference of −0.0461 [95% CI −0.1045, −0.0036] does not survive Bonferroni correction for 5 metrics ($\alpha = 0.01$).
-* **`hyde`**: Hypothetical document generation degraded retrieval ($\text{nDCG}@10$ diff **−0.1963** [95% CI −0.2891, −0.1132], surviving Bonferroni $\alpha = 0.005$). Latency figures are pending re-measurement with the verified execution device.
-* **`decompose`**: Query decomposition degraded retrieval ($\text{nDCG}@10$ diff **−0.2039** [95% CI −0.2910, −0.1306], surviving Bonferroni $\alpha = 0.005$). Mean sub-queries: **2.35 / query** (distribution: 1: 40, 2: 30, 3: 99). Degenerate sub-queries rejected: 2 total. Latency figures are pending re-measurement with the verified execution device.
+| Component | nDCG@10 vs control | Verdict |
+|---|---|---|
+| Per-class fusion weights | +0.0016 [−0.0277, +0.0302] | No effect — removed |
+| Reranking, for *coverage* | +0.0059 [−0.0473, +0.0651] on Recall@10 | No effect — kept for ordering only |
+| `self_query` pre-filter | −0.0461 [−0.1045, −0.0036] | Harmful — not shipped |
+| `hyde` | −0.0029 [−0.0435, +0.0381] | Neutral — not shipped |
+| `decompose`, original query retained | −0.0100 [−0.0488, +0.0253] | Neutral — not shipped |
 
-**Scoped Conclusion**:
-> *HyDE and decomposition, implemented with Qwen2.5-0.5B, degrade retrieval on this corpus (nDCG@10 −0.196 and −0.204, both surviving Bonferroni at $\alpha = 0.005$).*
+Shipped configuration: `funnel.hybrid.weights: {dense: 0.5, sparse: 0.5}` and
+`query.transformation.strategy: none`. The only adaptive mechanism that survived measurement
+is the **margin-gated reranker**.
 
-Shipped configuration: `query.transformation.strategy: none`. **Phase 3 is closed.**
+### The query transformations, in detail
+
+Three strategies were evaluated on 169 non-rejected evaluation items
+([`reports/experiment_003.json`](reports/experiment_003.json),
+[`reports/experiment_005.json`](reports/experiment_005.json)).
+
+* **`self_query`** — filters were extracted on 25 queries and applied on 24. For **75.0%
+  (18/24)** of those, the filter excluded the gold passage from the candidate pool entirely.
+  nDCG@10 −0.0461 [−0.1045, −0.0036]; does not survive Bonferroni correction for 5 metrics
+  (α = 0.01). Harmful, and the mechanism is direct: a `doc_class` guess that removes the
+  answer.
+* **`hyde`** — with the hypothetical document routed to the **dense encoder only**, and the
+  original query kept for BM25 and the cross-encoder: nDCG@10 −0.0029 [−0.0435, +0.0381],
+  Recall@10 −0.0237 [−0.0651, +0.0178], MRR −0.0116 [−0.0366, +0.0145]. Statistically
+  indistinguishable from doing nothing, at the cost of an LLM call per query.
+* **`decompose`** — the effect depends entirely on whether the user's query survives. Fusing
+  the original query (weight 0.60) alongside its generated sub-queries (0.40) gives
+  nDCG@10 −0.0100 [−0.0488, +0.0253] — neutral. Replacing the query with sub-queries alone
+  gives −0.0857 [−0.1409, −0.0308]. Loss scales with paraphrasing: one sub-query costs
+  −0.0412, three cost −0.1205.
+
+### The first round of these results was wrong
+
+Worth recording, because it is the most useful thing this phase produced. Three of the four
+original "this transformation is harmful" findings were **implementation bugs**, not
+properties of the techniques:
+
+| Reported | Actual | Bug |
+|---|---|---|
+| `hyde` −0.1963 | −0.0029 | The hypothetical document was sent to the dense encoder, BM25 **and** the cross-encoder — so candidates were scored against a generated essay instead of the user's question. |
+| `decompose` −0.2039 | −0.0857 | `run_funnel` used `queries[0]` and discarded sub-queries 2 and 3. It was not decomposing at all, just substituting one paraphrase. |
+| 7× rerank slowdown "on CPU" | No slowdown | Experiments were running under Anaconda's global `python.exe` (CPU-only torch) instead of the project venv. |
+
+Corrected, none of the three transformations helps, and two are neutral rather than harmful —
+a weaker claim, and the only one the evidence supports.
+
+**Scoped conclusion:**
+> With Qwen2.5-0.5B as the generator on this corpus, no query transformation improved
+> retrieval; HyDE and decomposition are neutral when correctly implemented, and rule-based
+> structured pre-filtering is harmful.
+
+**Phase 3 is closed.**
 
 Stack: Python, Qdrant, PyTorch, sentence-transformers, BM25, Docker, pytest.
