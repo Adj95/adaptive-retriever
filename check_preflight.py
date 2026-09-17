@@ -84,6 +84,9 @@ try:
     hy = cfg.raw.get("funnel", {}).get("hybrid", {})
     rr = cfg.raw.get("funnel", {}).get("rerank", {})
     tf = cfg.raw.get("query", {}).get("transformation", {})
+    pr_comp = cfg.raw.get("postretrieval", {}).get("compression", {})
+    pr_reorder = cfg.raw.get("postretrieval", {}).get("reorder", {})
+    max_tokens = cfg.raw.get("models", {}).get("llm", {}).get("max_new_tokens", 128)
 
     line("vectorstore.mode", vs.get("mode"), vs.get("mode") == "server")
     if vs.get("mode") != "server":
@@ -92,6 +95,14 @@ try:
     line("hybrid.rrf_k", hy.get("rrf_k"))
     line("rerank.mode / margin", f"{rr.get('mode')} / {rr.get('gate_score_margin')}")
     line("transformation.strategy", tf.get("strategy"))
+
+    emb_thresh = float(pr_comp.get("embeddings_threshold", 0.40))
+    line("postretrieval.compression.mode", pr_comp.get("mode"))
+    line("postretrieval.compression.embeddings_threshold", emb_thresh, abs(emb_thresh - 0.40) < 1e-6)
+    if abs(emb_thresh - 0.40) >= 1e-6:
+        fails.append(f"embeddings_threshold is {emb_thresh} (expected 0.40 - the shipped results value)")
+    line("postretrieval.reorder.enabled", pr_reorder.get("enabled"))
+    line("generation.max_new_tokens", max_tokens)
 
     w = hy.get("weights") or {}
     if w and abs(sum(float(v) for v in w.values()) - 1.0) > 1e-6:
