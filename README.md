@@ -232,34 +232,15 @@ a weaker claim, and the only one the evidence supports.
 
 **Phase 3 is closed.**
 
-## Phase 5 Engineering & Audit Results
+## Phase 5: Post-Retrieval Pipeline Evaluation (Experiment 006)
 
-### Summary of Findings
-- **Post-hoc span attribution ships.** Model-emitted citations measured 0/169 (0.00%) zero-shot and 1.78% (3/169) few-shot on Qwen2.5-0.5B. Inline model-emitted citation tags fail consistently on small local generators.
-- **Attribution coverage:** Post-hoc verbatim span attribution ($n \ge 8$ words) covers **34.91%** of answers against a shuffled control of **0.59%** — a **59x separation**. The generator paraphrases faithfully from retrieved context; this is not invention.
-- **Unsupported sentence rate:** **77.58%** of sentences have no $\ge 8$-gram grounding (canonical, 169 items, FP32 CUDA). Earlier figures of 78.98% and 88.89% came from a preliminary script and an un-normalised 100-query test respectively; both are superseded.
-- **Post-Retrieval Reordering & Compression (Experiment 006):** Measured across four arms ($N = 169$, 6 comparative hypothesis tests, $\alpha_{\text{Bonferroni}} = 0.008333$). **NEITHER component survives Bonferroni correction.**
-  - Best comparative result: Citation rate (Arm 4 +both vs Arm 1 baseline) $+8.88\%\ [+1.78\%, +15.98\%]$, two-sided bootstrap $p = 0.0156 > 0.008333$ $\implies$ **FAIL**.
-  - Neither post-retrieval reordering nor sentence compression ships.
-- **Compression Text Removal & Latency:** Compression removes **1.46%** of text at threshold $T = 0.40$ and costs **~7.4 s median** per query. Gold-passage survival at higher thresholds: $T = 0.45$ loses 2.3% of gold passages, $T = 0.50$ loses 10.3%.
-- **LLM Extractor Tier Deleted:** The LLM extractor tier was deleted: it fired on 174 candidates of which 3 contained a gold passage — **98% noise**.
-- **Confidence Calibration:** ROC AUC **0.6124 [0.5281, 0.6954]** for predicting gold passage retrieval. The 95% confidence interval includes chance ($0.50$). **No confidence gating ships anywhere in this project.**
-- **Limitations:** Refusal rate and refusal correctness were specified in Phase 5 specifications (§8) and were not measured.
+### Null Control & Indistinguishable Arms
+At embedding threshold $T=0.40$, 131 out of 169 items had zero context characters removed (Arm 1 and Arm 3 received byte-identical context prompts). On this 131-item identical-input subset, sampling variance produced an observed citation rate difference of **+6.11%** (`[-0.76%, +13.74%]`, [`reports/experiment_006_raw.jsonl`](reports/experiment_006_raw.jsonl)).
 
-### Post-Retrieval Compression Trade-Off Curve
+Because this variance floor (+6.11%) is comparable to the full-sample Arm 3 delta (+5.92%), Experiment 006 measured sampling variance rather than the effect of context compression. Across all four arms ($N=169$, [`reports/experiment_006.json`](reports/experiment_006.json), [`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json)), no arm difference survives Bonferroni correction ($\alpha_{\text{Bonferroni}} = 0.008333$). The arms were statistically indistinguishable, and neither post-retrieval reordering nor sentence compression ships.
 
-A threshold sweep over embedding-based sentence compression (`embeddings_threshold`) across 1,690 candidate blocks over 169 evaluation queries ([`reports/three_items_pre_task_c.json`](reports/three_items_pre_task_c.json)):
-
-| Threshold $T$ | % Text Removed | % Gold Passages Lost | Best-Sentence Guaranteed? |
-| :---: | :---: | :---: | :---: |
-| **0.40** | 1.46% | 0.57% (174/175 survive) | Yes |
-| **0.45** | 9.16% | 2.29% (171/175 survive) | Yes |
-| **0.50** | 25.97% | 10.29% (157/175 survive) | Yes (min best-sentence similarity = 0.5403) |
-| **0.55** | 48.91% | 16.57% (146/175 survive) | No |
-
-### Grounded Generation & Citation Attribution
-
-Citations are derived post-hoc via verbatim $n$-gram sentence attribution ($n \ge 8$ words, normalized whitespace and case) rather than requested from model generation output (`generation.citation_mode: attribution`). Evaluation across all 169 non-rejected evaluation queries ([`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json)):
+### Grounded Generation & Sentence Attribution
+Citations are derived post-hoc via verbatim $n$-gram sentence attribution ($n \ge 8$ words, normalized whitespace and case) rather than requested from model generation output (`generation.citation_mode: attribution`). Evaluation across all 169 non-rejected evaluation items ([`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json)):
 
 | Citation Mechanism | % Answers with $\ge 1$ Citation | Mean Citations / Answer | % Unsupported Sentences |
 |---|:---:|:---:|:---:|
@@ -267,17 +248,25 @@ Citations are derived post-hoc via verbatim $n$-gram sentence attribution ($n \g
 | **model (few-shot)** | 1.78% (3/169) | 0.0237 | 69.70% |
 | **attribution (post-hoc, $n \ge 8$)** | **34.91%** (59/169) | **0.4379** | **77.58%** |
 
-### Grounding Validation: Paraphrase vs. Invention
+*Canonical Metric Definition*: Unsupported sentence rate is **77.58%** (mean item percentage of generated sentences with zero verbatim $n \ge 8$ word overlap against candidate context across all 169 evaluation queries, FP32 CUDA execution).
 
-Embedding cosine similarity distribution (`BAAI/bge-small-en-v1.5`) between generated sentences and candidate pool chunks:
+### Grounding Validation: Paraphrase vs. Invention
+Embedding cosine similarity distribution (`BAAI/bge-small-en-v1.5`) between generated sentences and candidate pool chunks ([`reports/paraphrase_attribution_analysis.json`](reports/paraphrase_attribution_analysis.json)):
 
 | Sentence Group | Count | Min | P25 | P50 (Median) | P75 | P95 | Mean |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Supported ($n \ge 8$)** | 99 | 0.7129 | 0.8112 | **0.8656** | 0.9422 | 1.0000 | 0.8737 |
 | **Unsupported ($n < 8$)** | 792 | 0.5534 | 0.6935 | **0.7461** | 0.8014 | 0.8900 | 0.7518 |
 
-*Finding:* Unsupported sentences sit at **high cosine similarity** (median 0.7461 vs shuffled null 0.56). This confirms the model is **paraphrasing faithfully** using context semantics rather than inventing ungrounded facts.
+*Finding:* Unsupported sentences sit at high cosine similarity (median 0.7461 vs shuffled null 0.56). This confirms the model paraphrases faithfully using context semantics rather than inventing ungrounded facts.
+
+### Index Chunk Length Distribution Anomaly
+Querying the Qdrant index directly (`retriever_chunks_a5d51992`, 12,074 unique chunks across 22,422 points):
+- **Chunk text length distribution**: min 4 chars, p50 2,933 chars, p95 7,851 chars, p99 92,169 chars, max 1,516,213 chars.
+- **Oversized chunk counts**: 8,538 chunks > 2,000 chars (70.71%), 440 chunks > 10,000 chars (3.64%), 169 chunks > 50,000 chars (1.40%).
+- **Largest un-chunked document blocks**: Document `4d9febdbc2038dcd` (1,516,213 chars) and SEC filings (`d4afbf861ecaf6a9`, 571,883 chars) bypassed paragraph-break chunking. Sentence compression on these un-chunked blocks evaluated up to 5,522 sentence spans per query, inflating mean compression latency.
 
 Stack: Python, Qdrant, PyTorch, sentence-transformers, BM25, Docker, pytest.
+
 
 
