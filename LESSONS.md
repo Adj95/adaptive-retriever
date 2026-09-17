@@ -55,6 +55,12 @@ results table with confidence intervals that nobody could tell was wrong.
 > **Rule:** any filter applied to a batch result must preserve length or raise. A cache
 > statistic that has never been wrong is a statistic nobody is computing.
 
+### Prompt generation cache keys must include context content, not just candidate IDs
+
+In Experiment 006, `_build_cache_key` hashed `(query_text, tuple(candidate_ids))`. However, post-retrieval transformations like candidate text compression alter candidate context text while keeping candidate chunk IDs identical, and candidate reordering changes the prompt order. As a result, Arms 2, 3, and 4 hit Arm 1's cached prompt completion and returned instant (~1.4 ms) cached responses instead of generating distinct uncached answers.
+
+> **Rule:** a generation cache key must include a hash of the full rendered `context_str` (or prompt template), not just chunk identifiers. Compression alters text and reordering alters prompt order — neither changes chunk IDs.
+
 ---
 
 ## 2. Measuring the wrong unit
