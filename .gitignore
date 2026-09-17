@@ -33,3 +33,7 @@ data/generation/
 data/qdrant/
 sample_representations.txt
 reports/low_confidence_fingerprints.jsonl
+
+# regenerable experiment artifacts
+reports/*_raw.jsonl
+reports/*cache*.json
