@@ -234,10 +234,10 @@ a weaker claim, and the only one the evidence supports.
 
 ## Phase 5: Post-Retrieval Pipeline Evaluation (Experiment 006)
 
-### Null Control & Indistinguishable Arms
-At embedding threshold $T=0.40$, 131 out of 169 items had zero context characters removed (Arm 1 and Arm 3 received byte-identical context prompts). On this 131-item identical-input subset, sampling variance produced an observed citation rate difference of **+6.11%** (`[-0.76%, +13.74%]`, [`reports/experiment_006_raw.jsonl`](reports/experiment_006_raw.jsonl)).
+### Post-Retrieval Pipeline Evaluation & Prompt Formatting Confound
+At embedding threshold $T=0.40$, 131 out of 169 items had zero characters removed (`chars_removed == 0`). However, candidate sentence splitting in Arm 3 reformatted prompt context by inserting explicit newline (`\n`) separators between sentence spans, whereas Arm 1 preserved raw paragraph whitespace. This prompt-formatting difference altered prompt text for all items.
 
-Because this variance floor (+6.11%) is comparable to the full-sample Arm 3 delta (+5.92%), Experiment 006 measured sampling variance rather than the effect of context compression. Across all four arms ($N=169$, [`reports/experiment_006.json`](reports/experiment_006.json), [`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json)), no arm difference survives Bonferroni correction ($\alpha_{\text{Bonferroni}} = 0.008333$). The arms were statistically indistinguishable, and neither post-retrieval reordering nor sentence compression ships.
+Because generation with `temperature: 0.0` is 100% deterministic on fixed inputs, the observed citation rate difference of **+6.11%** (`[-0.76%, +13.74%]`, [`reports/experiment_006_raw.jsonl`](reports/experiment_006_raw.jsonl)) on the 131-item subset reflects a prompt-formatting whitespace confound rather than sampling variance. Across all four arms ($N=169$, [`reports/experiment_006.json`](reports/experiment_006.json), [`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json)), no arm difference survives Bonferroni correction ($\alpha_{\text{Bonferroni}} = 0.008333$). Neither post-retrieval reordering nor sentence compression ships.
 
 ### Grounded Generation & Sentence Attribution
 Citations are derived post-hoc via verbatim $n$-gram sentence attribution ($n \ge 8$ words, normalized whitespace and case) rather than requested from model generation output (`generation.citation_mode: attribution`). Evaluation across all 169 non-rejected evaluation items ([`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json)):
