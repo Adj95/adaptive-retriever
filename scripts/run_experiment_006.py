@@ -258,7 +258,7 @@ def main():
         arm_summary = {}
         for key in metric_keys:
             vals = [r[key] for r in results_list]
-            mean_val, (ci_lo, ci_hi) = bootstrap_ci(vals, n_bootstraps=1000)
+            mean_val, ci_lo, ci_hi = bootstrap_ci(vals, n=1000)
 
             metric_entry = {
                 "mean": round(float(mean_val), 4),
@@ -267,7 +267,7 @@ def main():
 
             if arm_name != base_arm_name:
                 base_vals = [r[key] for r in base_metrics]
-                diff_mean, (d_lo, d_hi) = bootstrap_difference_ci(vals, base_vals, n_bootstraps=1000)
+                diff_mean, d_lo, d_hi = bootstrap_difference_ci(vals, base_vals, n=1000)
                 metric_entry["diff_vs_baseline"] = {
                     "mean_diff": round(float(diff_mean), 4),
                     "ci_95": [round(float(d_lo), 4), round(float(d_hi), 4)],

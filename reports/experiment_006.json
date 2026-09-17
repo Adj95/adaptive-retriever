@@ -1,0 +1,362 @@
+{
+  "meta": {
+    "experiment_id": "experiment_006",
+    "timestamp": "2026-09-17T21:15:24Z",
+    "total_items": 169,
+    "multiplicity_count": 21,
+    "multiplicity_explanation": "3 comparative arms evaluated against Baseline (Arm 1: generation_alone) across 7 metrics = 21 hypothesis tests."
+  },
+  "arms": {
+    "Arm 1: generation_alone": {
+      "rouge_1": {
+        "mean": 0.2079,
+        "ci_95": [
+          0.1933,
+          0.2242
+        ]
+      },
+      "rouge_2": {
+        "mean": 0.0659,
+        "ci_95": [
+          0.0571,
+          0.0763
+        ]
+      },
+      "rouge_l": {
+        "mean": 0.1399,
+        "ci_95": [
+          0.129,
+          0.1529
+        ]
+      },
+      "bleurt_20": {
+        "mean": 0.7857,
+        "ci_95": [
+          0.7752,
+          0.7959
+        ]
+      },
+      "has_citation": {
+        "mean": 0.503,
+        "ci_95": [
+          0.426,
+          0.5741
+        ]
+      },
+      "unsupported_pct": {
+        "mean": 77.5846,
+        "ci_95": [
+          73.3674,
+          81.8964
+        ]
+      },
+      "tot_ms": {
+        "mean": 14842.5554,
+        "ci_95": [
+          10925.6476,
+          19607.2838
+        ]
+      }
+    },
+    "Arm 2: +reorder": {
+      "rouge_1": {
+        "mean": 0.2077,
+        "ci_95": [
+          0.1924,
+          0.2236
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": -0.0001,
+          "ci_95": [
+            -0.0118,
+            0.0107
+          ]
+        }
+      },
+      "rouge_2": {
+        "mean": 0.0662,
+        "ci_95": [
+          0.0567,
+          0.0764
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0002,
+          "ci_95": [
+            -0.0057,
+            0.0059
+          ]
+        }
+      },
+      "rouge_l": {
+        "mean": 0.1385,
+        "ci_95": [
+          0.1279,
+          0.1509
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": -0.0014,
+          "ci_95": [
+            -0.0089,
+            0.0059
+          ]
+        }
+      },
+      "bleurt_20": {
+        "mean": 0.7895,
+        "ci_95": [
+          0.7785,
+          0.7998
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0037,
+          "ci_95": [
+            -0.0021,
+            0.0098
+          ]
+        }
+      },
+      "has_citation": {
+        "mean": 0.5385,
+        "ci_95": [
+          0.4615,
+          0.6095
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0355,
+          "ci_95": [
+            -0.0357,
+            0.1124
+          ]
+        }
+      },
+      "unsupported_pct": {
+        "mean": 75.9334,
+        "ci_95": [
+          71.3186,
+          80.1185
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": -1.6512,
+          "ci_95": [
+            -5.8107,
+            2.5352
+          ]
+        }
+      },
+      "tot_ms": {
+        "mean": 16223.3149,
+        "ci_95": [
+          12143.9613,
+          21001.4175
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 1380.7595,
+          "ci_95": [
+            650.9281,
+            2424.3753
+          ]
+        }
+      }
+    },
+    "Arm 3: +compression": {
+      "rouge_1": {
+        "mean": 0.2134,
+        "ci_95": [
+          0.1995,
+          0.229
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0055,
+          "ci_95": [
+            -0.0071,
+            0.0171
+          ]
+        }
+      },
+      "rouge_2": {
+        "mean": 0.0617,
+        "ci_95": [
+          0.053,
+          0.0703
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": -0.0042,
+          "ci_95": [
+            -0.0109,
+            0.0019
+          ]
+        }
+      },
+      "rouge_l": {
+        "mean": 0.1425,
+        "ci_95": [
+          0.1315,
+          0.1543
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0026,
+          "ci_95": [
+            -0.0064,
+            0.0112
+          ]
+        }
+      },
+      "bleurt_20": {
+        "mean": 0.7905,
+        "ci_95": [
+          0.7801,
+          0.8
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0048,
+          "ci_95": [
+            -0.0015,
+            0.0114
+          ]
+        }
+      },
+      "has_citation": {
+        "mean": 0.5621,
+        "ci_95": [
+          0.4911,
+          0.6331
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0592,
+          "ci_95": [
+            -0.0118,
+            0.1303
+          ]
+        }
+      },
+      "unsupported_pct": {
+        "mean": 76.367,
+        "ci_95": [
+          72.3756,
+          80.3121
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": -1.2176,
+          "ci_95": [
+            -4.7,
+            2.5646
+          ]
+        }
+      },
+      "tot_ms": {
+        "mean": 27130.3999,
+        "ci_95": [
+          21338.5621,
+          34555.0479
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 12287.8446,
+          "ci_95": [
+            8851.7066,
+            18008.2432
+          ]
+        }
+      }
+    },
+    "Arm 4: +both": {
+      "rouge_1": {
+        "mean": 0.2111,
+        "ci_95": [
+          0.1973,
+          0.2268
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0032,
+          "ci_95": [
+            -0.0077,
+            0.0134
+          ]
+        }
+      },
+      "rouge_2": {
+        "mean": 0.0628,
+        "ci_95": [
+          0.0545,
+          0.0732
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": -0.0031,
+          "ci_95": [
+            -0.009,
+            0.0022
+          ]
+        }
+      },
+      "rouge_l": {
+        "mean": 0.1401,
+        "ci_95": [
+          0.1294,
+          0.1526
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0002,
+          "ci_95": [
+            -0.0075,
+            0.0079
+          ]
+        }
+      },
+      "bleurt_20": {
+        "mean": 0.7912,
+        "ci_95": [
+          0.7807,
+          0.8011
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0055,
+          "ci_95": [
+            -0.0004,
+            0.0122
+          ]
+        }
+      },
+      "has_citation": {
+        "mean": 0.5917,
+        "ci_95": [
+          0.5089,
+          0.6686
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 0.0888,
+          "ci_95": [
+            0.0178,
+            0.1598
+          ]
+        }
+      },
+      "unsupported_pct": {
+        "mean": 74.9998,
+        "ci_95": [
+          70.4596,
+          79.253
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": -2.5847,
+          "ci_95": [
+            -5.9455,
+            0.8874
+          ]
+        }
+      },
+      "tot_ms": {
+        "mean": 26167.3471,
+        "ci_95": [
+          21733.664,
+          31358.6398
+        ],
+        "diff_vs_baseline": {
+          "mean_diff": 11324.7917,
+          "ci_95": [
+            9523.2089,
+            13432.331
+          ]
+        }
+      }
+    }
+  }
+}
