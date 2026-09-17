@@ -50,9 +50,16 @@ DENSE_DIM = 384
 def _resolve_device(device: str) -> str:
     if device != "auto":
         return device
-    import torch
+    try:
+        import torch
 
-    return "cuda" if torch.cuda.is_available() else "cpu"
+        if torch.cuda.is_available():
+            # Test torch cuda capability to prevent AssertionError if torch binary lacks CUDA C++ runtime
+            _ = torch.cuda.device_count()
+            return "cuda"
+    except Exception:
+        pass
+    return "cpu"
 
 
 class DenseEmbeddingModel:

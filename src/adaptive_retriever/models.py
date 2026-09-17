@@ -108,6 +108,18 @@ class RetrievalCandidate(BaseModel):
     text: str
     metadata: Dict[str, Any] = Field(default_factory=dict)
 
+    @property
+    def score(self) -> float:
+        if self.rerank_score is not None:
+            return float(self.rerank_score)
+        if self.fused_score is not None:
+            return float(self.fused_score)
+        if self.dense_score is not None:
+            return float(self.dense_score)
+        if self.sparse_score is not None:
+            return float(self.sparse_score)
+        return 0.0
+
 
 class RelevantPassage(BaseModel):
     doc_id: str

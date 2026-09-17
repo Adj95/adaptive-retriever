@@ -1,0 +1,17 @@
+{
+  "model (zero-shot)": {
+    "pct_answers_with_at_least_one_citation": 0.0,
+    "mean_citations_per_answer": 0.0,
+    "pct_unsupported_sentences": 78.98
+  },
+  "model (few-shot)": {
+    "pct_answers_with_at_least_one_citation": 1.78,
+    "mean_citations_per_answer": 0.0237,
+    "pct_unsupported_sentences": 69.7
+  },
+  "attribution": {
+    "pct_answers_with_at_least_one_citation": 31.95,
+    "mean_citations_per_answer": 0.3373,
+    "pct_unsupported_sentences": 78.98
+  }
+}

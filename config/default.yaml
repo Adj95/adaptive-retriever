@@ -16,8 +16,8 @@ models:
   llm:
     provider: local_transformers
     model: Qwen/Qwen2.5-0.5B-Instruct
-    device: auto            # auto | cpu | cuda
-    dtype: float32            # auto -> float16 on cuda, float32 on cpu
+    device: cuda           # auto | cpu | cuda
+    dtype: float32         # keep fp32 on GTX 1650
     batch_size: 16
     max_new_tokens: 128 
     truncation_retry: false    # summaries ~60, questions ~30, keywords ~20
@@ -124,8 +124,8 @@ escalation:
 
 postretrieval:
   compression:
-    mode: cascade
-    embeddings_threshold: 0.35
+    mode: embeddings
+    embeddings_threshold: 0.40
     llm_extractor_if_below: 0.5
   reorder:
     enabled: true
@@ -134,6 +134,7 @@ generation:
   enabled: true
   cite_chunks: true
   refuse_if_confidence_below: 0.15
+  citation_mode: attribution
 
 riskgate:
   enabled: true

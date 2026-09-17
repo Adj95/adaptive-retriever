@@ -10,93 +10,93 @@
   "summary_metrics": {
     "Arm 1: Per-Class Routing": {
       "recall_10": {
-        "mean": 0.4793,
+        "mean": 0.4852,
         "ci95": [
           0.4112,
-          0.5562
+          0.5621
         ]
       },
       "ndcg_10": {
-        "mean": 0.5909,
+        "mean": 0.5986,
         "ci95": [
-          0.47,
-          0.7248
+          0.4748,
+          0.7228
         ]
       },
       "mrr": {
-        "mean": 0.3508,
+        "mean": 0.3542,
         "ci95": [
-          0.2876,
-          0.4142
+          0.2873,
+          0.4211
         ]
       }
     },
     "Arm 2: Fixed 0.5/0.5": {
       "recall_10": {
-        "mean": 0.4793,
+        "mean": 0.4852,
         "ci95": [
-          0.4053,
-          0.5562
+          0.4112,
+          0.5621
         ]
       },
       "ndcg_10": {
-        "mean": 0.5925,
+        "mean": 0.5986,
         "ci95": [
-          0.4687,
-          0.7192
+          0.4748,
+          0.7228
         ]
       },
       "mrr": {
-        "mean": 0.3556,
+        "mean": 0.3542,
         "ci95": [
-          0.2886,
-          0.4233
+          0.2873,
+          0.4211
         ]
       }
     },
     "Arm 3: Fixed 0.8/0.2": {
       "recall_10": {
-        "mean": 0.4556,
+        "mean": 0.4852,
         "ci95": [
-          0.3875,
-          0.5266
+          0.4112,
+          0.5621
         ]
       },
       "ndcg_10": {
-        "mean": 0.5725,
+        "mean": 0.5986,
         "ci95": [
-          0.453,
-          0.6987
+          0.4748,
+          0.7228
         ]
       },
       "mrr": {
-        "mean": 0.3571,
+        "mean": 0.3542,
         "ci95": [
-          0.2926,
-          0.4227
+          0.2873,
+          0.4211
         ]
       }
     },
     "Arm 4: Fixed 0.3/0.7": {
       "recall_10": {
-        "mean": 0.4911,
+        "mean": 0.4852,
         "ci95": [
-          0.4172,
-          0.5651
+          0.4112,
+          0.5621
         ]
       },
       "ndcg_10": {
-        "mean": 0.5973,
+        "mean": 0.5986,
         "ci95": [
-          0.4759,
-          0.7282
+          0.4748,
+          0.7228
         ]
       },
       "mrr": {
-        "mean": 0.3561,
+        "mean": 0.3542,
         "ci95": [
-          0.2929,
-          0.4247
+          0.2873,
+          0.4211
         ]
       }
     }
@@ -106,86 +106,86 @@
       "recall_10_diff": {
         "mean_diff": 0.0,
         "ci95": [
-          -0.0414,
-          0.0355
+          0.0,
+          0.0
         ],
-        "p_value": 1.09,
+        "p_value": 2.0,
         "sig_bonferroni": false
       },
       "ndcg_10_diff": {
-        "mean_diff": 0.0016,
+        "mean_diff": 0.0,
         "ci95": [
-          -0.0277,
-          0.0302
+          0.0,
+          0.0
         ],
-        "p_value": 0.916,
+        "p_value": 2.0,
         "sig_bonferroni": false
       },
       "mrr_diff": {
-        "mean_diff": 0.0048,
+        "mean_diff": 0.0,
         "ci95": [
-          -0.0165,
-          0.0275
+          0.0,
+          0.0
         ],
-        "p_value": 0.674,
+        "p_value": 2.0,
         "sig_bonferroni": false
       }
     },
     "Arm 3 (0.8/0.2) vs Arm 1": {
       "recall_10_diff": {
-        "mean_diff": -0.0237,
+        "mean_diff": 0.0,
         "ci95": [
-          -0.0592,
-          0.0118
+          0.0,
+          0.0
         ],
-        "p_value": 0.236,
+        "p_value": 2.0,
         "sig_bonferroni": false
       },
       "ndcg_10_diff": {
-        "mean_diff": -0.0184,
+        "mean_diff": 0.0,
         "ci95": [
-          -0.0487,
-          0.0123
+          0.0,
+          0.0
         ],
-        "p_value": 0.232,
+        "p_value": 2.0,
         "sig_bonferroni": false
       },
       "mrr_diff": {
-        "mean_diff": 0.0063,
+        "mean_diff": 0.0,
         "ci95": [
-          -0.0136,
-          0.0288
+          0.0,
+          0.0
         ],
-        "p_value": 0.544,
+        "p_value": 2.0,
         "sig_bonferroni": false
       }
     },
     "Arm 4 (0.3/0.7) vs Arm 1": {
       "recall_10_diff": {
-        "mean_diff": 0.0118,
+        "mean_diff": 0.0,
         "ci95": [
-          -0.0237,
-          0.0473
+          0.0,
+          0.0
         ],
-        "p_value": 0.594,
+        "p_value": 2.0,
         "sig_bonferroni": false
       },
       "ndcg_10_diff": {
-        "mean_diff": 0.0064,
+        "mean_diff": 0.0,
         "ci95": [
-          -0.0203,
-          0.031
+          0.0,
+          0.0
         ],
-        "p_value": 0.564,
+        "p_value": 2.0,
         "sig_bonferroni": false
       },
       "mrr_diff": {
-        "mean_diff": 0.0053,
+        "mean_diff": 0.0,
         "ci95": [
-          -0.012,
-          0.023
+          0.0,
+          0.0
         ],
-        "p_value": 0.508,
+        "p_value": 2.0,
         "sig_bonferroni": false
       }
     }

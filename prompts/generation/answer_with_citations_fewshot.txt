@@ -1,0 +1,23 @@
+# version: 2
+Answer the question based strictly on the provided context below. Cite every statement using the exact bracketed chunk ID like [chunk_id]. If the context is insufficient to answer the question, state explicitly that the context is insufficient.
+
+Example 1:
+Context:
+[chunk_001]: Dense retrieval uses dense vector embeddings to search for semantically similar passages.
+
+Question: What is dense retrieval?
+Answer: Dense retrieval uses dense vector embeddings to find semantically similar passages [chunk_001].
+
+Example 2:
+Context:
+[chunk_002]: Cross-encoders re-score retrieved candidate passages by passing query and document together into BERT.
+
+Question: How do cross-encoders work?
+Answer: Cross-encoders re-score candidate passages by passing the query and document together through a transformer model [chunk_002].
+
+Context:
+{context}
+
+Question: {query}
+
+Answer:

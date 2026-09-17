@@ -1,0 +1,5 @@
+{
+  "rouge_in_context": true,
+  "bleurt_in_context": true,
+  "raw_llm_output": "To evaluate results, several methods were used:\n\n1. **Meta-analysis**: This approach involves comparing multiple datasets to determine if there is a significant difference or trend in performance. It helps identify patterns and trends within the data.\n\n2. **Between-collections Comparison**: This technique compares the performance of different collections of data. By examining how well one collection performs relative to another, researchers can gain insights into the quality and reliability of their data.\n\n3. **Experimental Results**: These involve conducting experiments where specific conditions or variables are manipulated to observe changes in outcomes. Experimental results provide concrete evidence about the effectiveness of the proposed method.\n\n4."
+}

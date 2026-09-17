@@ -1,0 +1,28 @@
+{
+  "gold_span_survival": {
+    "total_retrieved_gold_passages": 175,
+    "total_survived_gold_passages": 173,
+    "survival_percentage": 98.86,
+    "destroyed_percentage": 1.14
+  },
+  "tier_fire_rates": {
+    "total_candidates_compressed": 1690,
+    "embeddings_tier_count": 1690,
+    "embeddings_tier_pct": 100.0,
+    "llm_extractor_tier_count": 0,
+    "llm_extractor_tier_pct": 0.0
+  },
+  "compression_ratio": {
+    "mean": 0.9434,
+    "p50": 0.9848,
+    "p95": 0.9997
+  },
+  "added_latency_ms": {
+    "overall_mean_ms": 3029.16,
+    "overall_p95_ms": 11974.41,
+    "embeddings_tier_mean_ms": 3029.16,
+    "embeddings_tier_p95_ms": 11974.41,
+    "llm_extractor_tier_mean_ms": 0.0,
+    "llm_extractor_tier_p95_ms": 0.0
+  }
+}

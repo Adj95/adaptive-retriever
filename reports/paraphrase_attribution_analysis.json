@@ -1,0 +1,93 @@
+{
+  "sentence_similarity_distribution": {
+    "supported_sentences_real_n8": {
+      "min": 0.5236,
+      "p25": 0.6987,
+      "p50": 0.7435,
+      "p75": 0.7998,
+      "p95": 0.8551,
+      "mean": 0.7436,
+      "count": 99
+    },
+    "unsupported_sentences_real_n8": {
+      "min": 0.4404,
+      "p25": 0.5729,
+      "p50": 0.6732,
+      "p75": 0.7332,
+      "p95": 0.8063,
+      "mean": 0.6609,
+      "count": 792
+    },
+    "unsupported_sentences_shuffled_control": {
+      "min": 0.3475,
+      "p25": 0.5184,
+      "p50": 0.5553,
+      "p75": 0.5959,
+      "p95": 0.695,
+      "mean": 0.5613,
+      "count": 891
+    }
+  },
+  "ngram_threshold_sweep": {
+    "real_candidate_pool": {
+      "n=8": {
+        "pct_answers_with_at_least_one_citation": 34.91,
+        "mean_citations_per_answer": 0.4379,
+        "pct_unsupported_sentences": 88.89,
+        "total_sentences": 891,
+        "unsupported_sentences_count": 792
+      },
+      "n=6": {
+        "pct_answers_with_at_least_one_citation": 45.56,
+        "mean_citations_per_answer": 0.5917,
+        "pct_unsupported_sentences": 83.39,
+        "total_sentences": 891,
+        "unsupported_sentences_count": 743
+      },
+      "n=5": {
+        "pct_answers_with_at_least_one_citation": 60.95,
+        "mean_citations_per_answer": 0.8047,
+        "pct_unsupported_sentences": 75.53,
+        "total_sentences": 891,
+        "unsupported_sentences_count": 673
+      },
+      "n=4": {
+        "pct_answers_with_at_least_one_citation": 79.88,
+        "mean_citations_per_answer": 1.1716,
+        "pct_unsupported_sentences": 63.41,
+        "total_sentences": 891,
+        "unsupported_sentences_count": 565
+      }
+    },
+    "shuffled_candidate_pool_control": {
+      "n=8": {
+        "pct_answers_with_at_least_one_citation": 0.59,
+        "mean_citations_per_answer": 0.0118,
+        "pct_unsupported_sentences": 99.55,
+        "total_sentences": 891,
+        "unsupported_sentences_count": 887
+      },
+      "n=6": {
+        "pct_answers_with_at_least_one_citation": 1.78,
+        "mean_citations_per_answer": 0.0237,
+        "pct_unsupported_sentences": 99.33,
+        "total_sentences": 891,
+        "unsupported_sentences_count": 885
+      },
+      "n=5": {
+        "pct_answers_with_at_least_one_citation": 3.55,
+        "mean_citations_per_answer": 0.0533,
+        "pct_unsupported_sentences": 98.77,
+        "total_sentences": 891,
+        "unsupported_sentences_count": 880
+      },
+      "n=4": {
+        "pct_answers_with_at_least_one_citation": 12.43,
+        "mean_citations_per_answer": 0.1479,
+        "pct_unsupported_sentences": 96.52,
+        "total_sentences": 891,
+        "unsupported_sentences_count": 860
+      }
+    }
+  }
+}

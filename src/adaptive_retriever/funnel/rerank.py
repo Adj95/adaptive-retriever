@@ -92,6 +92,10 @@ class Reranker:
         t3 = time.perf_counter()
         forward_ms = round((t3 - t2) * 1000, 2)
 
+        del features, outputs, logits
+        if torch.cuda.is_available():
+            torch.cuda.empty_cache()
+
         assert len(scores) == len(texts), (
             f"Reranker returned {len(scores)} scores for {len(texts)} texts"
         )

@@ -1,0 +1,40 @@
+{
+  "item1_survival_table": {
+    "0.40": {
+      "gold_survival_count": "174/175",
+      "gold_survival_pct": 99.43,
+      "text_removed_pct": 1.46,
+      "spans_retained_pct": 98.54
+    },
+    "0.45": {
+      "gold_survival_count": "171/175",
+      "gold_survival_pct": 97.71,
+      "text_removed_pct": 9.16,
+      "spans_retained_pct": 90.84
+    },
+    "0.50": {
+      "gold_survival_count": "157/175",
+      "gold_survival_pct": 89.71,
+      "text_removed_pct": 25.97,
+      "spans_retained_pct": 74.03
+    },
+    "0.55": {
+      "gold_survival_count": "146/175",
+      "gold_survival_pct": 83.43,
+      "text_removed_pct": 48.91,
+      "spans_retained_pct": 51.09
+    }
+  },
+  "item2_reconciliation": {
+    "total_eval_queries": 169,
+    "total_gold_passages_in_dataset": 180,
+    "binary_query_hit_count": 85,
+    "binary_query_hit_rate": 0.503,
+    "mean_per_query_fractional_recall_at_10": 0.4852
+  },
+  "item3_llm_tier_analysis": {
+    "trigger_candidate_count": 174,
+    "trigger_gold_candidate_count": 3,
+    "gold_candidate_share_pct": 1.72
+  }
+}

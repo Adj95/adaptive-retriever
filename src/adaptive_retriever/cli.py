@@ -878,5 +878,64 @@ def stats(
         typer.echo(f"  Vector Store status: Unavailable ({e})")
 
 
+@app.command("answer")
+def answer(
+    query_text: str,
+    config: Path = Path("config/default.yaml"),
+    trace: bool = typer.Option(False, "--trace", help="Print trace details."),
+):
+    """Run end-to-end RAG pipeline (retrieval -> postretrieval -> generation) to answer query."""
+    from adaptive_retriever.funnel.pipeline import run_funnel
+    from adaptive_retriever.funnel.rerank import Reranker
+    from adaptive_retriever.generation.generate import generate_answer
+    from adaptive_retriever.llm import get_llm_client
+    from adaptive_retriever.postretrieval.compress import compress
+    from adaptive_retriever.postretrieval.reorder import reorder_candidates
+    from adaptive_retriever.vectorstore import VectorStore
+
+    cfg = Config.load(config)
+    vs = VectorStore.from_config(cfg)
+    llm = get_llm_client(cfg)
+    reranker = Reranker(device=cfg.raw.get("models", {}).get("llm", {}).get("device", "auto"))
+    reranker.ensure_ready()
+
+    # 1. Retrieval funnel
+    cands, funnel_trace = run_funnel(query_text, vs=vs, reranker=reranker, cfg=cfg, llm=llm)
+
+    # 2. Post-retrieval (compression & reordering)
+    comp_cands, comp_trace = compress(query_text, cands, cfg=cfg, llm=llm, embedding_client=vs.embedding_client)
+    reordered_cands, reorder_trace = reorder_candidates(comp_cands, cfg=cfg)
+
+    # 3. Answer generation
+    ans = generate_answer(query_text, reordered_cands, cfg=cfg, llm=llm)
+
+    # Output answer and citations
+    typer.echo("\n=== ANSWER ===")
+    if ans.refused:
+        typer.echo(f"REFUSED: {ans.refusal_reason}")
+    else:
+        typer.echo(ans.text)
+
+    typer.echo("\n=== CITATIONS ===")
+    if not ans.citations:
+        typer.echo("No citations.")
+    else:
+        cand_map = {c.chunk_id: c for c in reordered_cands}
+        for cid in ans.citations:
+            c_item = cand_map.get(cid)
+            snippet = c_item.text[:120] + "..." if c_item and c_item.text else "N/A"
+            typer.echo(f"  [{cid}]: {snippet}")
+
+    if trace:
+        typer.echo("\n=== TRACE DETAILS ===")
+        typer.echo(json.dumps({
+            "funnel": funnel_trace,
+            "compression": comp_trace,
+            "reorder": reorder_trace,
+            "generation": ans.trace,
+        }, indent=2, default=str))
+
+
 if __name__ == "__main__":
     app()
+

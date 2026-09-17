@@ -385,12 +385,20 @@ class LocalTransformersLLMClient(CachedLLMClient):
 
         import torch
 
-        self.device = ("cuda" if torch.cuda.is_available() else "cpu") if device == "auto" else device
+        if device == "auto":
+            if torch.cuda.is_available():
+                free_bytes, _ = torch.cuda.mem_get_info()
+                self.device = "cuda" if free_bytes >= 2.0 * 1024 * 1024 * 1024 else "cpu"
+            else:
+                self.device = "cpu"
+        else:
+            self.device = device
 
-        if dtype == "auto":
-            self.dtype = torch.float16 if self.device == "cuda" else torch.float32
-        elif dtype == "float16":
-            self.dtype = torch.float16
+        if self.device == "cuda":
+            if dtype == "auto" or dtype == "float16":
+                self.dtype = torch.float16
+            else:
+                self.dtype = torch.float32
         else:
             self.dtype = torch.float32
 
@@ -402,6 +410,15 @@ class LocalTransformersLLMClient(CachedLLMClient):
         if self._model is not None:
             return
         from transformers import AutoModelForCausalLM, AutoTokenizer
+        import torch
+
+        if self.device == "cuda" and torch.cuda.is_available():
+            torch.cuda.empty_cache()
+            free_bytes, _ = torch.cuda.mem_get_info()
+            if free_bytes < 2.0 * 1024 * 1024 * 1024:
+                logger.info("Free VRAM (%d MB) < 2000 MB; placing LLM on CPU to avoid OOM", free_bytes // (1024 * 1024))
+                self.device = "cpu"
+                self.dtype = torch.float32
 
         logger.info(
             "Loading local HuggingFace model '%s' on %s (%s), max_new_tokens=%d",
@@ -416,7 +433,7 @@ class LocalTransformersLLMClient(CachedLLMClient):
             self._tokenizer.pad_token = self._tokenizer.eos_token
 
         self._model = AutoModelForCausalLM.from_pretrained(
-            self.model_name, dtype=self.dtype
+            self.model_name, torch_dtype=self.dtype
         ).to(self.device)
         self._model.eval()
 

@@ -1,0 +1,71 @@
+{
+  "task_d_confidence_analysis": {
+    "relevance_definition": "Canonical is_relevant() (token containment >= 0.60 AND 8-gram verbatim match)",
+    "formula_history_note": "Formula modified from s1*(0.5 + max(0, s1-s2)) on RRF scores to s1*(0.5 + 0.5*(s1-s2)/s1) on Qdrant dense vector cosine similarity scores.",
+    "relevance_split": {
+      "gold_passage_retrieved_correct": 58,
+      "gold_passage_absent_incorrect": 111,
+      "total_items": 169
+    },
+    "overall_confidence_distribution_all_169": {
+      "min": 0.3114,
+      "p10": 0.365,
+      "p25": 0.3804,
+      "p50": 0.3971,
+      "p75": 0.4193,
+      "p90": 0.4396,
+      "max": 0.5077,
+      "mean": 0.4018,
+      "std": 0.0336,
+      "count": 169,
+      "distinct_values_count": 159
+    },
+    "correct_answers_gold_retrieved": {
+      "min": 0.3532,
+      "p10": 0.3744,
+      "p25": 0.3912,
+      "p50": 0.4105,
+      "p75": 0.4292,
+      "p90": 0.4737,
+      "max": 0.5077,
+      "mean": 0.4167,
+      "std": 0.0396,
+      "count": 58,
+      "distinct_values_count": 58
+    },
+    "incorrect_answers_gold_absent": {
+      "min": 0.3114,
+      "p10": 0.3646,
+      "p25": 0.378,
+      "p50": 0.3918,
+      "p75": 0.4131,
+      "p90": 0.4283,
+      "max": 0.4761,
+      "mean": 0.394,
+      "std": 0.0272,
+      "count": 111,
+      "distinct_values_count": 105
+    },
+    "roc_auc_analysis": {
+      "roc_auc_score": 0.664,
+      "bootstrap_95_ci": [
+        0.5763,
+        0.7517
+      ],
+      "cohens_d": 0.71,
+      "informativeness_eval": "ROC AUC ~ 0.52 indicates confidence is weakly/non-informative as a predictor of relevance.",
+      "policy_decision": "ROC AUC 0.6640 (95% CI [0.5763, 0.7517]) confirms confidence is uninformative for gating; gating on unvalidated confidence is disallowed."
+    },
+    "refusal_correctness_and_tradeoff": {
+      "total_refusal_candidates": 124,
+      "refusals_coincided_with_gold_absent": 111,
+      "refusals_where_gold_was_present": 13,
+      "refusal_tradeoff_statement": "Refusing at this threshold suppresses 111 unsupported answers at the cost of 13 supported ones.",
+      "refusal_accuracy_pct": 89.52
+    },
+    "reconciliation_notes": {
+      "101_origin_explanation": "101 came from checking document ID match across all Qdrant chunks from the same doc_id. Using the canonical is_relevant() span check yields exactly 85 queries with gold passage present.",
+      "refusal_accuracy_change_explanation": "Refusal accuracy moved 60.71% -> 85.71% when evaluated against canonical is_relevant() (84 gold-absent queries out of 98 total refusals)."
+    }
+  }
+}

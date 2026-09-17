@@ -1,0 +1,11 @@
+# version: 1.0
+Given the user query and context chunk below, extract ONLY verbatim sentences from the context chunk that directly contain information relevant to answering the query.
+Do NOT rephrase, summarize, or alter any words. Every line in your response must be an exact substring of the context chunk.
+
+Context:
+{context}
+
+Query:
+{query}
+
+Verbatim Spans:

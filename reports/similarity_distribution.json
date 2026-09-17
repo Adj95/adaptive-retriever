@@ -1,0 +1,41 @@
+{
+  "n_candidates": 1690,
+  "n_sentences": 364226,
+  "best_sentence_sim_per_candidate": {
+    "min": 0.5403,
+    "p10": 0.6482,
+    "p25": 0.6918,
+    "p50": 0.7397,
+    "p75": 0.785,
+    "p90": 0.8261,
+    "p95": 0.8525,
+    "max": 0.9633,
+    "mean": 0.7392
+  },
+  "all_sentence_sims": {
+    "min": 0.2485,
+    "p10": 0.454,
+    "p25": 0.4972,
+    "p50": 0.5519,
+    "p75": 0.6115,
+    "p90": 0.6669,
+    "p95": 0.6992,
+    "max": 0.9633,
+    "mean": 0.557
+  },
+  "best_sim_threshold_triggers": {
+    "share_below_0_50": 0.0,
+    "share_below_0_55": 0.24,
+    "share_below_0_60": 2.43,
+    "share_below_0_65": 10.3,
+    "share_below_0_70": 28.11
+  },
+  "span_sim_retention_shares": {
+    "share_ge_0_35": 99.85,
+    "share_ge_0_40": 98.54,
+    "share_ge_0_45": 90.84,
+    "share_ge_0_50": 74.03,
+    "share_ge_0_55": 51.09,
+    "share_ge_0_60": 29.34
+  }
+}

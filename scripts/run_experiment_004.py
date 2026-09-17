@@ -135,6 +135,9 @@ def run_experiment_004():
             arm_results[arm_name]["ndcg"].append(ndcg_10)
             arm_results[arm_name]["mrr"].append(mrr_val)
 
+        import gc
+        gc.collect()
+
         if idx % 10 == 0 or idx == n_items:
             elapsed = time.time() - t0
             print(f"Evaluated {idx}/{n_items} items ({elapsed:.1f}s)...", flush=True)
