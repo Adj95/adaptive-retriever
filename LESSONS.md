@@ -234,13 +234,31 @@ removed as a direct result.
 
 ---
 
-## 9. Execution environment stealth drift
+## 9. Implementation and Comparison Discipline
 
-### Global python fallback masking GPU acceleration
+### 1. Three of four "this technique is harmful" findings were implementation bugs
 
-Script invocations running under the system path or standard shell defaulted to Anaconda's global `python.exe` (`torch 2.14.0+cpu`) instead of the project virtual environment (`.venv` with `torch 2.6.0+cu124`). Because PyTorch safely falls back to CPU when CUDA is unavailable, the pipeline executed to completion without errors, but suffered a 7× latency slowdown (6,844 ms vs 1,012 ms per rerank call) that was initially misdiagnosed and published as a hardware bottleneck.
+HyDE −0.196 $\to$ −0.003 once routing was fixed. Decomposition −0.204 $\to$ −0.010 once the original query was retained.
+
+> **Rule:** before publishing a large negative effect, check the implementation against the technique's definition.
+
+### 2. A number without a comparison is not evidence
+
+18.3% classifier accuracy (vs 20.1% majority), 0.74 cosine (vs 0.56 null), 79.88% 4-gram coverage (vs 12.43% shuffled), ROC AUC 0.61 (vs 0.50 chance). Each looked like a finding until the control was run.
+
+> **Rule:** every published metric must be reported alongside its random or default control.
+
+### 3. The wrong interpreter is invisible
+
+Anaconda's global python with a CPU-only torch produced a 7x slowdown that was reported as a hardware bottleneck.
 
 > **Rule:** every experiment script must print `sys.executable` and `torch.version.cuda` in its header. Never infer execution device or hardware performance from timing counters alone.
+
+### 4. A config value read at the call site is not the config value in the file
+
+Experiment 006 ran compression at a threshold that did not match `config/default.yaml`, and preflight did not print it.
+
+> **Rule:** every config key that changes a published number must be printed by `check_preflight.py`.
 
 ---
 
@@ -256,4 +274,5 @@ Not the test suite, and never an exception. In order of how much they found:
 4. **Auditing the data, not just the code.** Contiguity, periodicity, and identical inputs
    carrying different labels.
 5. **`ruff --select F821,E9`**, which found a syntax error 48 green tests had missed.
+
 
