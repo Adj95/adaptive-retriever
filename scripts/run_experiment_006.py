@@ -235,6 +235,15 @@ def main():
             f.write(json.dumps(record) + "\n")
             f.flush()
 
+        elapsed = time.time() - start_time
+        items_done = item_idx - len(processed_records)
+        if items_done > 0:
+            avg_sec = elapsed / items_done
+            items_left = len(eval_items) - item_idx
+            eta_sec = items_left * avg_sec
+            if item_idx % 5 == 0 or item_idx == len(eval_items):
+                logger.info(f"[PROGRESS] Item {item_idx}/{len(eval_items)} completed | Elapsed: {elapsed:.1f}s | Avg: {avg_sec:.1f}s/item | ETA: {eta_sec/60:.1f}m ({eta_sec:.0f}s)")
+
     total_exp_time = time.time() - start_time
     logger.info(f"Completed Experiment 006 evaluation in {total_exp_time:.2f} seconds")
 
