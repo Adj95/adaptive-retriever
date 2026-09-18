@@ -1,0 +1,23 @@
+{
+  "ingest_config_hash": "a5d51992c3eae89278a5e29932bbe3d9fee92014212ba1c912712a512570a706",
+  "collection_name": "retriever_chunks_a5d51992",
+  "total_documents": 428,
+  "total_chunks": 39814,
+  "total_points": 39814,
+  "max_tokens_asserted": 480,
+  "token_distribution": {
+    "min": 2,
+    "p50": 467.0,
+    "p95": 480.0,
+    "p99": 480.0,
+    "max": 480
+  },
+  "char_distribution": {
+    "min": 4,
+    "p50": 1809.0,
+    "p95": 2534.0,
+    "p99": 2708.8700000000026,
+    "max": 8085
+  },
+  "wall_clock_seconds": 1415.76
+}

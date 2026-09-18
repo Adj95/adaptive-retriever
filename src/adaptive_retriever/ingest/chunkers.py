@@ -12,34 +12,94 @@ Guarantee: parsed.text[chunk.char_start:chunk.char_end] == chunk.text
 
 import logging
 import re
-from typing import List, Optional
+from typing import List, Optional, Tuple
 from adaptive_retriever.models import Chunk
 from adaptive_retriever.ingest.parsers import ParsedDocument
 
 logger = logging.getLogger(__name__)
 
 
-def _estimate_tokens(text: str) -> int:
-    return max(1, len(text.split()))
+_BGE_TOKENIZER = None
+
+
+def _get_bge_tokenizer():
+    global _BGE_TOKENIZER
+    if _BGE_TOKENIZER is None:
+        from transformers import AutoTokenizer
+
+        _BGE_TOKENIZER = AutoTokenizer.from_pretrained("BAAI/bge-small-en-v1.5")
+    return _BGE_TOKENIZER
+
+
+def _count_bge_tokens(text: str) -> int:
+    tok = _get_bge_tokenizer()
+    return len(tok.encode(text, add_special_tokens=False))
+
+
+def _split_long_span_by_tokens(
+    text: str,
+    start_char_offset: int,
+    max_tokens: int = 480,
+    overlap_tokens: int = 48,
+) -> List[Tuple[int, int, str, int]]:
+    """Split long text span into character spans that do not exceed max_tokens under BGE tokenizer."""
+    tok = _get_bge_tokenizer()
+    encoded = tok(text, return_offsets_mapping=True, add_special_tokens=False)
+    input_ids = encoded["input_ids"]
+    offsets = encoded["offset_mapping"]
+
+    total_tokens = len(input_ids)
+    if total_tokens <= max_tokens:
+        return [(start_char_offset, start_char_offset + len(text), text, total_tokens)]
+
+    spans = []
+    i = 0
+    step = max_tokens - overlap_tokens
+    while i < total_tokens:
+        chunk_token_end = min(i + max_tokens, total_tokens)
+
+        char_start_local = offsets[i][0]
+        char_end_local = offsets[chunk_token_end - 1][1]
+
+        chunk_str = text[char_start_local:char_end_local]
+        actual_tokens = len(tok.encode(chunk_str, add_special_tokens=False))
+
+        while actual_tokens > max_tokens and chunk_token_end > i + 1:
+            chunk_token_end -= 1
+            char_end_local = offsets[chunk_token_end - 1][1]
+            chunk_str = text[char_start_local:char_end_local]
+            actual_tokens = len(tok.encode(chunk_str, add_special_tokens=False))
+
+        spans.append(
+            (
+                start_char_offset + char_start_local,
+                start_char_offset + char_end_local,
+                chunk_str,
+                actual_tokens,
+            )
+        )
+
+        if chunk_token_end >= total_tokens:
+            break
+        i += step
+
+    return spans
 
 
 def chunk_recursive_512(parsed: ParsedDocument, doc_id: str) -> List[Chunk]:
     text = parsed.text
-    if not text:
+    if not text or not text.strip():
         return []
 
-    target_tokens = 512
-    overlap_tokens = 64
+    target_tokens = 480
+    overlap_tokens = 48
     char_len = len(text)
-    words = text.split()
 
-    if not words:
-        return []
-
-    # If document is within 512 tokens, return single chunk
-    if len(words) <= target_tokens:
-        return [
-            Chunk(
+    # Fast-path check: if entire document fits under target_tokens
+    if char_len <= 1500:
+        doc_tokens = _count_bge_tokens(text)
+        if doc_tokens <= target_tokens:
+            c = Chunk(
                 chunk_id=f"{doc_id}_c0000",
                 doc_id=doc_id,
                 ordinal=0,
@@ -47,17 +107,13 @@ def chunk_recursive_512(parsed: ParsedDocument, doc_id: str) -> List[Chunk]:
                 char_start=0,
                 char_end=char_len,
                 chunker_used="recursive_512",
-                token_count=len(words),
+                token_count=doc_tokens,
             )
-        ]
+            assert c.token_count <= 512, f"PERMANENT ASSERTION FAILED: Chunk {c.chunk_id} has {c.token_count} tokens > 512!"
+            return [c]
 
     chunks: List[Chunk] = []
-    # Sliding window on paragraphs/sentences/line boundaries to preserve exact spans
     lines = text.splitlines(keepends=True)
-    curr_start = 0
-    curr_end = 0
-    curr_words = 0
-    ordinal = 0
 
     line_starts = []
     pos = 0
@@ -66,55 +122,90 @@ def chunk_recursive_512(parsed: ParsedDocument, doc_id: str) -> List[Chunk]:
         pos += len(line)
 
     idx = 0
+    ordinal = 0
     while idx < len(line_starts):
         start_char = line_starts[idx][0]
         end_char = start_char
-        chunk_lines = []
-        words_in_chunk = 0
-
+        accumulated_text = ""
         j = idx
+
         while j < len(line_starts):
             l_start, l_end, l_text = line_starts[j]
-            l_words = len(l_text.split())
-            if words_in_chunk > 0 and (words_in_chunk + l_words) > target_tokens:
-                break
+            candidate_text = accumulated_text + l_text
+            if len(candidate_text.split()) > 360 or len(candidate_text) > 1500:
+                tok_cnt = _count_bge_tokens(candidate_text)
+                if tok_cnt > target_tokens and accumulated_text != "":
+                    break
+
+            accumulated_text = candidate_text
             end_char = l_end
-            words_in_chunk += l_words
-            chunk_lines.append(l_text)
             j += 1
 
-        if j == idx:  # Single line exceeds target_tokens
+        if j == idx:  # Single line exceeds target_tokens!
             l_start, l_end, l_text = line_starts[idx]
-            end_char = l_end
-            words_in_chunk = len(l_text.split())
-            j = idx + 1
-
-        chunk_text = text[start_char:end_char]
-        chunks.append(
-            Chunk(
-                chunk_id=f"{doc_id}_c{ordinal:04d}",
-                doc_id=doc_id,
-                ordinal=ordinal,
-                text=chunk_text,
-                char_start=start_char,
-                char_end=end_char,
-                chunker_used="recursive_512",
-                token_count=_estimate_tokens(chunk_text),
+            sub_spans = _split_long_span_by_tokens(
+                l_text,
+                start_char_offset=l_start,
+                max_tokens=target_tokens,
+                overlap_tokens=overlap_tokens,
             )
-        )
-        ordinal += 1
+            for sub_start, sub_end, sub_text, sub_toks in sub_spans:
+                c = Chunk(
+                    chunk_id=f"{doc_id}_c{ordinal:04d}",
+                    doc_id=doc_id,
+                    ordinal=ordinal,
+                    text=sub_text,
+                    char_start=sub_start,
+                    char_end=sub_end,
+                    chunker_used="recursive_512_token_fallback",
+                    token_count=sub_toks,
+                )
+                assert c.token_count <= 512, f"PERMANENT ASSERTION FAILED: Chunk {c.chunk_id} has {c.token_count} tokens > 512!"
+                chunks.append(c)
+                ordinal += 1
+            idx += 1
+        else:
+            final_toks = _count_bge_tokens(accumulated_text)
+            if final_toks > target_tokens:
+                sub_spans = _split_long_span_by_tokens(
+                    accumulated_text,
+                    start_char_offset=start_char,
+                    max_tokens=target_tokens,
+                    overlap_tokens=overlap_tokens,
+                )
+                for sub_start, sub_end, sub_text, sub_toks in sub_spans:
+                    c = Chunk(
+                        chunk_id=f"{doc_id}_c{ordinal:04d}",
+                        doc_id=doc_id,
+                        ordinal=ordinal,
+                        text=sub_text,
+                        char_start=sub_start,
+                        char_end=sub_end,
+                        chunker_used="recursive_512_token_fallback",
+                        token_count=sub_toks,
+                    )
+                    assert c.token_count <= 512, f"PERMANENT ASSERTION FAILED: Chunk {c.chunk_id} has {c.token_count} tokens > 512!"
+                    chunks.append(c)
+                    ordinal += 1
+            else:
+                c = Chunk(
+                    chunk_id=f"{doc_id}_c{ordinal:04d}",
+                    doc_id=doc_id,
+                    ordinal=ordinal,
+                    text=accumulated_text,
+                    char_start=start_char,
+                    char_end=end_char,
+                    chunker_used="recursive_512",
+                    token_count=final_toks,
+                )
+                assert c.token_count <= 512, f"PERMANENT ASSERTION FAILED: Chunk {c.chunk_id} has {c.token_count} tokens > 512!"
+                chunks.append(c)
+                ordinal += 1
+            idx = j
 
-        # Advance window with overlap
-        if j >= len(line_starts):
-            break
-
-        # Step back for overlap
-        overlap_w = 0
-        back_idx = j - 1
-        while back_idx > idx and overlap_w < overlap_tokens:
-            overlap_w += len(line_starts[back_idx][2].split())
-            back_idx -= 1
-        idx = max(idx + 1, back_idx + 1)
+    # Permanent assertion check across all chunks returned
+    for c in chunks:
+        assert c.token_count <= 512, f"PERMANENT ASSERTION FAILED: Chunk {c.chunk_id} has {c.token_count} tokens > 512!"
 
     return chunks
 

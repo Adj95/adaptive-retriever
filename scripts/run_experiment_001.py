@@ -74,12 +74,14 @@ def main():
 
     print(f"\nExecuting evaluation over {len(valid_items)} queries across both arms (depth = 10)...")
 
-    # Data collection for baseline arm
+    # Data collection for baseline arm (Full-text and Truncated 2,000 chars)
     base_r5, base_ndcg5, base_r10, base_ndcg10, base_mrr = [], [], [], [], []
+    base_tr_r5, base_tr_ndcg5, base_tr_r10, base_tr_ndcg10, base_tr_mrr = [], [], [], [], []
     base_ret_lat, base_rr_lat, base_tot_lat = [], [], []
 
-    # Data collection for adaptive arm
+    # Data collection for adaptive arm (Full-text and Truncated 2,000 chars)
     ad_r5, ad_ndcg5, ad_r10, ad_ndcg10, ad_mrr = [], [], [], [], []
+    ad_tr_r5, ad_tr_ndcg5, ad_tr_r10, ad_tr_ndcg10, ad_tr_mrr = [], [], [], [], []
     ad_ret_lat, ad_rr_lat, ad_tot_lat = [], [], []
 
     # Gate analysis collection
@@ -90,11 +92,19 @@ def main():
         # 1. Baseline Arm (Fixed Twin, limit=10)
         cands_base, trace_base = run_baseline(item.query, vs=vs, cfg=cfg, limit=10)
         base_texts = [c.text for c in cands_base]
+        base_texts_tr = [c.text[:2000] for c in cands_base]
+        
         base_r5.append(recall_at_k(base_texts, item.relevant_passages, k=5))
         base_ndcg5.append(ndcg_at_k(base_texts, item.relevant_passages, k=5))
         base_r10.append(recall_at_k(base_texts, item.relevant_passages, k=10))
         base_ndcg10.append(ndcg_at_k(base_texts, item.relevant_passages, k=10))
         base_mrr.append(mrr(base_texts, item.relevant_passages))
+
+        base_tr_r5.append(recall_at_k(base_texts_tr, item.relevant_passages, k=5))
+        base_tr_ndcg5.append(ndcg_at_k(base_texts_tr, item.relevant_passages, k=5))
+        base_tr_r10.append(recall_at_k(base_texts_tr, item.relevant_passages, k=10))
+        base_tr_ndcg10.append(ndcg_at_k(base_texts_tr, item.relevant_passages, k=10))
+        base_tr_mrr.append(mrr(base_texts_tr, item.relevant_passages))
 
         b_ret_ms = float(trace_base.get("stages", {}).get("dense_search", {}).get("elapsed_ms", 0.0))
         base_ret_lat.append(b_ret_ms)
@@ -104,11 +114,19 @@ def main():
         # 2. Adaptive Arm (Funnel Orchestrator, output_size=10)
         cands_ad, trace_ad = run_funnel(item.query, vs=vs, cfg=cfg, reranker=reranker)
         ad_texts = [c.text for c in cands_ad]
+        ad_texts_tr = [c.text[:2000] for c in cands_ad]
+        
         ad_r5.append(recall_at_k(ad_texts, item.relevant_passages, k=5))
         ad_ndcg5.append(ndcg_at_k(ad_texts, item.relevant_passages, k=5))
         ad_r10.append(recall_at_k(ad_texts, item.relevant_passages, k=10))
         ad_ndcg10.append(ndcg_at_k(ad_texts, item.relevant_passages, k=10))
         ad_mrr.append(mrr(ad_texts, item.relevant_passages))
+
+        ad_tr_r5.append(recall_at_k(ad_texts_tr, item.relevant_passages, k=5))
+        ad_tr_ndcg5.append(ndcg_at_k(ad_texts_tr, item.relevant_passages, k=5))
+        ad_tr_r10.append(recall_at_k(ad_texts_tr, item.relevant_passages, k=10))
+        ad_tr_ndcg10.append(ndcg_at_k(ad_texts_tr, item.relevant_passages, k=10))
+        ad_tr_mrr.append(mrr(ad_texts_tr, item.relevant_passages))
 
         pf_ms = float(trace_ad.get("stages", {}).get("prefilter", {}).get("elapsed_ms", 0.0))
         hy_ms = float(trace_ad.get("stages", {}).get("hybrid_search", {}).get("elapsed_ms", 0.0))
@@ -127,7 +145,17 @@ def main():
             gate_margins.append(float(rr_gate["margin"]))
 
         if i % 25 == 0 or i == len(valid_items):
-            print(f"  Processed {i}/{len(valid_items)} items...")
+            print(f"  Processed {i}/{len(valid_items)} items...", flush=True)
+
+    # DUAL SCORING CHECK SUMMARY
+    match_count_base = sum(1 for a, b in zip(base_r10, base_tr_r10) if a == b)
+    match_count_ad = sum(1 for a, b in zip(ad_r10, ad_tr_r10) if a == b)
+    print("\n" + "="*80)
+    print(f"DUAL SCORING EQUIVALENCE CHECK:")
+    print(f"  Baseline Arm : {match_count_base}/{len(valid_items)} queries match between Full-text and 2,000-char truncated scoring ({(match_count_base/len(valid_items))*100:.1f}%)")
+    print(f"  Adaptive Arm : {match_count_ad}/{len(valid_items)} queries match between Full-text and 2,000-char truncated scoring ({(match_count_ad/len(valid_items))*100:.1f}%)")
+    print("  (Note: Every chunk in the index is capped at 480 BGE-small tokens, ensuring BGE-small never truncates any chunk.)")
+    print("="*80 + "\n")
 
     # Compute bootstrapped CIs for baseline arm
     b_ci_r5 = bootstrap_ci(base_r5, n=bootstrap_samples, ci=ci_level, seed=seed)
