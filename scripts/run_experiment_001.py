@@ -72,39 +72,39 @@ def main():
     warmup_ms = warm_up(vs, reranker)
     print(f"Warm-up complete in {warmup_ms:.2f} ms | Reranker device: {reranker.get_device_str()}")
 
+    from transformers import AutoTokenizer
+    tok = AutoTokenizer.from_pretrained("BAAI/bge-small-en-v1.5")
+
     print(f"\nExecuting evaluation over {len(valid_items)} queries across both arms (depth = 10)...")
 
-    # Data collection for baseline arm (Full-text and Truncated 2,000 chars)
+    # Data collection for baseline arm
     base_r5, base_ndcg5, base_r10, base_ndcg10, base_mrr = [], [], [], [], []
-    base_tr_r5, base_tr_ndcg5, base_tr_r10, base_tr_ndcg10, base_tr_mrr = [], [], [], [], []
     base_ret_lat, base_rr_lat, base_tot_lat = [], [], []
 
-    # Data collection for adaptive arm (Full-text and Truncated 2,000 chars)
+    # Data collection for adaptive arm
     ad_r5, ad_ndcg5, ad_r10, ad_ndcg10, ad_mrr = [], [], [], [], []
-    ad_tr_r5, ad_tr_ndcg5, ad_tr_r10, ad_tr_ndcg10, ad_tr_mrr = [], [], [], [], []
     ad_ret_lat, ad_rr_lat, ad_tot_lat = [], [], []
 
     # Gate analysis collection
     gate_fired_count = 0
     gate_margins = []
+    max_tokens_seen = 0
 
     for i, item in enumerate(valid_items, 1):
         # 1. Baseline Arm (Fixed Twin, limit=10)
         cands_base, trace_base = run_baseline(item.query, vs=vs, cfg=cfg, limit=10)
         base_texts = [c.text for c in cands_base]
-        base_texts_tr = [c.text[:2000] for c in cands_base]
         
+        for txt in base_texts:
+            t_cnt = len(tok.encode(txt, add_special_tokens=False))
+            max_tokens_seen = max(max_tokens_seen, t_cnt)
+            assert t_cnt <= 512, f"PERMANENT ASSERTION FAILED: Retrieved chunk exceeds 512 tokens ({t_cnt} tokens)!"
+
         base_r5.append(recall_at_k(base_texts, item.relevant_passages, k=5))
         base_ndcg5.append(ndcg_at_k(base_texts, item.relevant_passages, k=5))
         base_r10.append(recall_at_k(base_texts, item.relevant_passages, k=10))
         base_ndcg10.append(ndcg_at_k(base_texts, item.relevant_passages, k=10))
         base_mrr.append(mrr(base_texts, item.relevant_passages))
-
-        base_tr_r5.append(recall_at_k(base_texts_tr, item.relevant_passages, k=5))
-        base_tr_ndcg5.append(ndcg_at_k(base_texts_tr, item.relevant_passages, k=5))
-        base_tr_r10.append(recall_at_k(base_texts_tr, item.relevant_passages, k=10))
-        base_tr_ndcg10.append(ndcg_at_k(base_texts_tr, item.relevant_passages, k=10))
-        base_tr_mrr.append(mrr(base_texts_tr, item.relevant_passages))
 
         b_ret_ms = float(trace_base.get("stages", {}).get("dense_search", {}).get("elapsed_ms", 0.0))
         base_ret_lat.append(b_ret_ms)
@@ -114,19 +114,17 @@ def main():
         # 2. Adaptive Arm (Funnel Orchestrator, output_size=10)
         cands_ad, trace_ad = run_funnel(item.query, vs=vs, cfg=cfg, reranker=reranker)
         ad_texts = [c.text for c in cands_ad]
-        ad_texts_tr = [c.text[:2000] for c in cands_ad]
-        
+
+        for txt in ad_texts:
+            t_cnt = len(tok.encode(txt, add_special_tokens=False))
+            max_tokens_seen = max(max_tokens_seen, t_cnt)
+            assert t_cnt <= 512, f"PERMANENT ASSERTION FAILED: Retrieved chunk exceeds 512 tokens ({t_cnt} tokens)!"
+
         ad_r5.append(recall_at_k(ad_texts, item.relevant_passages, k=5))
         ad_ndcg5.append(ndcg_at_k(ad_texts, item.relevant_passages, k=5))
         ad_r10.append(recall_at_k(ad_texts, item.relevant_passages, k=10))
         ad_ndcg10.append(ndcg_at_k(ad_texts, item.relevant_passages, k=10))
         ad_mrr.append(mrr(ad_texts, item.relevant_passages))
-
-        ad_tr_r5.append(recall_at_k(ad_texts_tr, item.relevant_passages, k=5))
-        ad_tr_ndcg5.append(ndcg_at_k(ad_texts_tr, item.relevant_passages, k=5))
-        ad_tr_r10.append(recall_at_k(ad_texts_tr, item.relevant_passages, k=10))
-        ad_tr_ndcg10.append(ndcg_at_k(ad_texts_tr, item.relevant_passages, k=10))
-        ad_tr_mrr.append(mrr(ad_texts_tr, item.relevant_passages))
 
         pf_ms = float(trace_ad.get("stages", {}).get("prefilter", {}).get("elapsed_ms", 0.0))
         hy_ms = float(trace_ad.get("stages", {}).get("hybrid_search", {}).get("elapsed_ms", 0.0))
@@ -147,14 +145,8 @@ def main():
         if i % 25 == 0 or i == len(valid_items):
             print(f"  Processed {i}/{len(valid_items)} items...", flush=True)
 
-    # DUAL SCORING CHECK SUMMARY
-    match_count_base = sum(1 for a, b in zip(base_r10, base_tr_r10) if a == b)
-    match_count_ad = sum(1 for a, b in zip(ad_r10, ad_tr_r10) if a == b)
     print("\n" + "="*80)
-    print(f"DUAL SCORING EQUIVALENCE CHECK:")
-    print(f"  Baseline Arm : {match_count_base}/{len(valid_items)} queries match between Full-text and 2,000-char truncated scoring ({(match_count_base/len(valid_items))*100:.1f}%)")
-    print(f"  Adaptive Arm : {match_count_ad}/{len(valid_items)} queries match between Full-text and 2,000-char truncated scoring ({(match_count_ad/len(valid_items))*100:.1f}%)")
-    print("  (Note: Every chunk in the index is capped at 480 BGE-small tokens, ensuring BGE-small never truncates any chunk.)")
+    print(f"MAX CHUNK TOKEN COUNT ASSERTION PASSED: Max token length seen across all retrieved chunks = {max_tokens_seen} <= 512")
     print("="*80 + "\n")
 
     # Compute bootstrapped CIs for baseline arm

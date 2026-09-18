@@ -132,22 +132,38 @@ def ndcg_at_k(
     retrieved_chunk_texts: List[str],
     relevant_passages: List[RelevantPassage],
     k: int,
+    total_relevant_chunks: Optional[int] = None,
 ) -> float:
     top_k = retrieved_chunk_texts[:k]
     if not top_k or not relevant_passages:
         return 0.0
 
+    retrieved_rel_count = 0
     dcg = 0.0
     for i, chunk in enumerate(top_k):
         rel = 1.0 if passages_to_chunk_relevance(chunk, relevant_passages) else 0.0
-        dcg += rel / np.log2(i + 2)
+        if rel > 0:
+            retrieved_rel_count += 1
+            dcg += rel / np.log2(i + 2)
 
-    ideal_rels = [1.0] * min(len(relevant_passages), k)
-    idcg = sum(rel / np.log2(i + 2) for i, rel in enumerate(ideal_rels))
+    if dcg == 0.0:
+        return 0.0
+
+    # IDCG is computed over the candidate universe of relevant chunks.
+    if total_relevant_chunks is not None:
+        ideal_count = min(max(len(relevant_passages), total_relevant_chunks), k)
+    else:
+        ideal_count = min(max(len(relevant_passages), retrieved_rel_count), k)
+
+    ideal_rels = [1.0] * ideal_count
+    idcg = float(sum(rel / np.log2(i + 2) for i, rel in enumerate(ideal_rels)))
 
     if idcg == 0.0:
         return 0.0
-    return float(dcg / idcg)
+
+    score = float(dcg / idcg)
+    assert 0.0 <= score <= 1.0 + 1e-6, f"PERMANENT ASSERTION FAILED: nDCG score out of bounds: {score:.4f}"
+    return float(np.clip(score, 0.0, 1.0))
 
 
 def bootstrap_ci(

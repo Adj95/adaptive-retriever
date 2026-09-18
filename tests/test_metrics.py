@@ -134,3 +134,21 @@ def test_excluded_synthetic_rejected_changes_denominator(capsys):
 
     captured = capsys.readouterr()
     assert "Excluded (synthetic_rejected): 1" in captured.out
+
+
+def test_ndcg_bounded_when_multiple_matching_chunks():
+    """Verify nDCG <= 1.0 when 9 retrieved chunks match a single gold passage."""
+    p_text = "The quick brown fox jumps over the lazy dog in the sunny meadow today."
+    p = RelevantPassage(
+        doc_id="doc1",
+        passage_text=p_text,
+        passage_norm=normalise(p_text),
+        canonical_char_start=0,
+        canonical_char_end=len(p_text),
+        canonical_parser="pymupdf",
+    )
+    # 9 retrieved chunks all match 1 gold passage
+    retrieved = [p_text] * 9
+    ndcg = ndcg_at_k(retrieved, [p], k=10)
+    assert 0.0 <= ndcg <= 1.0, f"nDCG must be <= 1.0, got {ndcg}"
+    assert pytest.approx(ndcg, abs=1e-6) == 1.0

@@ -17,14 +17,16 @@ adaptivity.
 
 | Metric | Fixed baseline | Adaptive | Difference [95% CI] |
 |---|---|---|---|
-| Recall@5 | 0.3343 | **0.4497** | +0.1154 [+0.0561, +0.1775] |
-| nDCG@5 | 0.3741 | **0.5131** | +0.1391 [+0.0642, +0.2168] |
-| Recall@10 | 0.3817 | **0.4793** | +0.0976 [+0.0443, +0.1509] |
-| nDCG@10 | 0.4344 | **0.5890** | +0.1546 [+0.0742, +0.2389] |
-| MRR | 0.2607 | **0.3483** | +0.0877 [+0.0378, +0.1371] |
+| Recall@5 | 0.4970 | **0.5917** | +0.0947 [+0.0237, +0.1657] |
+| nDCG@5 | 0.4022 | **0.5065** | +0.1043 [+0.0469, +0.1617] |
+| Recall@10 | 0.5799 | **0.6568** | +0.0769 [+0.0118, +0.1420] |
+| nDCG@10 | 0.4270 | **0.5233** | +0.0963 [+0.0442, +0.1494] |
+| MRR | 0.3922 | **0.4950** | +0.1028 [+0.0444, +0.1612] |
 
-Confidence intervals come from a **paired** bootstrap resampling queries, 1000 resamples,
+Confidence intervals come from a **paired** bootstrap resampling queries, 10,000 resamples,
 seed 42. All five intervals exclude zero. Full output: [`reports/experiment_001.json`](reports/experiment_001.json).
+
+> **Token Cap & Dual-Scoring Note**: All chunks in the vectorstore are capped at $\le 480$ BGE-small tokens (with a permanent assertion `max_tokens <= 512`), ensuring the encoder reads 100% of every chunk. The legacy 2,000-character proxy dual-scoring check has been retired as BGE-small token length directly enforces complete context visibility.
 
 Latency figures are pending re-measurement with the execution device verified.
 

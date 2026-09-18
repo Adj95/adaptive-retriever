@@ -301,7 +301,7 @@ class VectorStore:
 
     def _ensure_collection(self) -> None:
         try:
-            collections = [c.name for c in self.client.get_collections().collections]
+            exists = self.client.collection_exists(self.collection_name)
         except (NameError, ImportError, AttributeError):
             raise
         except Exception as err:
@@ -311,7 +311,7 @@ class VectorStore:
                 ) from err
             raise
 
-        if self.collection_name not in collections:
+        if not exists:
             self.client.create_collection(
                 collection_name=self.collection_name,
                 vectors_config={

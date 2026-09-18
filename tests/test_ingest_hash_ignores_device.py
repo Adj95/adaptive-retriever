@@ -128,3 +128,25 @@ def test_ingest_hash_ignores_vectorstore_mode_and_url():
     raw_emb["models"]["dense_embedding"] = "some/other-embedding-model"
     cfg_emb = Config(raw_emb)
     assert cfg_emb.ingest_config_hash != hash_base, "Changing models.dense_embedding MUST change ingest_config_hash"
+
+
+def test_ingest_hash_changes_on_max_tokens():
+    base_raw = {
+        "models": {
+            "dense_embedding": "BAAI/bge-small-en-v1.5",
+        },
+        "ingest": {
+            "chunk_router": {
+                "params": {
+                    "recursive_512": {"max_tokens": 480}
+                }
+            }
+        }
+    }
+    cfg_base = Config(base_raw)
+    hash_base = cfg_base.ingest_config_hash
+
+    raw_mod = copy.deepcopy(base_raw)
+    raw_mod["ingest"]["chunk_router"]["params"]["recursive_512"]["max_tokens"] = 400
+    cfg_mod = Config(raw_mod)
+    assert cfg_mod.ingest_config_hash != hash_base, "Changing chunker max_tokens MUST change ingest_config_hash"

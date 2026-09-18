@@ -36,6 +36,11 @@ def _count_bge_tokens(text: str) -> int:
     return len(tok.encode(text, add_special_tokens=False))
 
 
+def _estimate_tokens(text: str) -> int:
+    return _count_bge_tokens(text)
+
+
+
 def _split_long_span_by_tokens(
     text: str,
     start_char_offset: int,

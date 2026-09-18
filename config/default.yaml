@@ -65,7 +65,7 @@ ingest:
       transcript: speaker_turn
       unknown: recursive_512
     params:
-      recursive_512: {chunk_size: 512, chunk_overlap: 64}
+      recursive_512: {chunk_size: 512, chunk_overlap: 64, max_tokens: 480, tokenizer_model: "BAAI/bge-small-en-v1.5"}
       structural: {max_tokens: 800, min_tokens: 120}
       table_preserving: {max_tokens: 1200}
       syntax_aware: {max_tokens: 600}
@@ -144,7 +144,7 @@ riskgate:
     escalation_exhausted: true
 
 eval:
-  bootstrap_samples: 1000
+  bootstrap_samples: 10000
   ci: 0.95
   judge:
     enabled: true

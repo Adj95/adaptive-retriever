@@ -11,6 +11,7 @@ def test_non_default_vectorstore_mode_reaches_client_construction(tmp_path):
     with patch("adaptive_retriever.vectorstore.QdrantClient") as mock_qdrant:
         mock_client_instance = MagicMock()
         mock_qdrant.return_value = mock_client_instance
+        mock_client_instance.collection_exists.return_value = False
         mock_client_instance.get_collections.return_value.collections = []
 
         cfg_local = Config({
@@ -30,6 +31,7 @@ def test_non_default_vectorstore_mode_reaches_client_construction(tmp_path):
     with patch("adaptive_retriever.vectorstore.QdrantClient") as mock_qdrant:
         mock_client_instance = MagicMock()
         mock_qdrant.return_value = mock_client_instance
+        mock_client_instance.collection_exists.return_value = False
         mock_client_instance.get_collections.return_value.collections = []
 
         cfg_server = Config({
@@ -50,6 +52,7 @@ def test_create_payload_index_raises_on_failure_in_server_mode():
     with patch("adaptive_retriever.vectorstore.QdrantClient") as mock_qdrant:
         mock_client_instance = MagicMock()
         mock_qdrant.return_value = mock_client_instance
+        mock_client_instance.collection_exists.return_value = False
         mock_client_instance.get_collections.return_value.collections = []
         mock_client_instance.create_payload_index.side_effect = Exception("Not supported in local mode")
 
@@ -66,6 +69,7 @@ def test_server_connection_failure_raises_runtime_error_with_url():
     with patch("adaptive_retriever.vectorstore.QdrantClient") as mock_qdrant:
         mock_client_instance = MagicMock()
         mock_qdrant.return_value = mock_client_instance
+        mock_client_instance.collection_exists.side_effect = Exception("Connection refused")
         mock_client_instance.get_collections.side_effect = Exception("Connection refused")
 
         with pytest.raises(RuntimeError) as exc_info:
@@ -75,3 +79,4 @@ def test_server_connection_failure_raises_runtime_error_with_url():
                 url="http://localhost:6333",
             )
         assert "http://localhost:6333" in str(exc_info.value)
+
