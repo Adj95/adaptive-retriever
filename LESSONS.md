@@ -61,6 +61,19 @@ In Experiment 006, `_build_cache_key` hashed `(query_text, tuple(candidate_ids))
 
 > **Rule:** a generation cache key must include a hash of the full rendered `context_str` (or prompt template), not just chunk identifiers. Compression alters text and reordering alters prompt order — neither changes chunk IDs.
 
+### Oversized chunks create retrieval evaluation artifacts
+
+When documents lack paragraph boundaries (`\n\n` or `\n`), a chunker without a hard character-count fallback can emit chunks exceeding 1,000,000 characters. Sparse search (BM25) indexes the full chunk, while dense embedding models (BGE-small) and cross-encoder rerankers truncate at 512 tokens (~2,000 characters). As a result, hybrid arms exploit text beyond character 2,000 that dense baseline arms cannot see.
+
+Under truncation-aware scoring (restricting `is_relevant()` to the first 2,000 characters), the headline improvement is roughly halved and no longer clears Bonferroni correction at $n=169$:
+- Recall@10: $+0.1036 \rightarrow +0.0473$ ($p=0.0506$)
+- nDCG@10: $+0.1642 \rightarrow +0.0542$ ($p=0.0378$)
+- MRR: $+0.0935 \rightarrow +0.0483$ ($p=0.0198$)
+
+About half the measured gain is BM25 exploiting oversized chunks; the remainder is positive across all three metrics but underpowered at $n=169$.
+
+> **Rule:** chunkers must enforce a hard character-count cap matching the context window limit of downstream encoders (2,000 characters for 512-token models). Evaluate relevance strictly against the portion of text downstream models actually read.
+
 ---
 
 ## 2. Measuring the wrong unit

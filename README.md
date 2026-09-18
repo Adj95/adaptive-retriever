@@ -234,7 +234,14 @@ a weaker claim, and the only one the evidence supports.
 
 ## Phase 5: Post-Retrieval Pipeline Evaluation (Experiment 006)
 
-### Post-Retrieval Pipeline Evaluation & Prompt Formatting Confound
+### Post-Retrieval Pipeline Evaluation & Truncation-Aware Verdict
+Under truncation-aware scoring (restricting relevance evaluation to the first 2,000 characters read by dense and cross-encoder models), the headline retrieval improvement is roughly halved and no longer clears Bonferroni correction at $n=169$:
+- Recall@10: $+0.1036 \rightarrow +0.0473$ ($p=0.0506$, 95% CI $[+0.0000, +0.0947]$)
+- nDCG@10: $+0.1642 \rightarrow +0.0542$ ($p=0.0378$, 95% CI $[+0.0020, +0.1055]$)
+- MRR: $+0.0935 \rightarrow +0.0483$ ($p=0.0198$, 95% CI $[+0.0072, +0.0896]$)
+
+About half the measured gain is BM25 exploiting oversized chunks; the remainder is positive across all three metrics but underpowered at $n=169$.
+
 At embedding threshold $T=0.40$, 131 out of 169 items had zero characters removed (`chars_removed == 0`). However, candidate sentence splitting in Arm 3 reformatted prompt context by inserting explicit newline (`\n`) separators between sentence spans, whereas Arm 1 preserved raw paragraph whitespace. This prompt-formatting difference altered prompt text for all items.
 
 Because generation with `temperature: 0.0` is 100% deterministic on fixed inputs, the observed citation rate difference of **+6.11%** (`[-0.76%, +13.74%]`, [`reports/experiment_006_raw.jsonl`](reports/experiment_006_raw.jsonl)) on the 131-item subset reflects a prompt-formatting whitespace confound rather than sampling variance. Across all four arms ($N=169$, [`reports/experiment_006.json`](reports/experiment_006.json), [`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json)), no arm difference survives Bonferroni correction ($\alpha_{\text{Bonferroni}} = 0.008333$). Neither post-retrieval reordering nor sentence compression ships.
