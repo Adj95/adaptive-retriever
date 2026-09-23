@@ -128,5 +128,6 @@
       "p_CB": 0.186
     }
   ],
-  "verdict": "(b) C does not beat B -> generating 7,270 LLM representations across 8.75% coverage did not repay its cost on this corpus."
+  "arm_c_description": "Summaries + Questions on 3,483 chunks plus Keywords on 304 chunks (~2.1 representation kinds per covered chunk, 8.75% corpus coverage)",
+  "verdict": "On the 32 queries whose gold passages received representations (8.75% corpus coverage), all four moving metrics improved but none reached significance; n=32 cannot resolve an effect of this size. From the observed standard error, roughly 104 powered queries would be required (or 174 under 10-test Bonferroni alpha=0.0050)."
 }

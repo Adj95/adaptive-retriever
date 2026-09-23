@@ -273,6 +273,12 @@ Experiment 006 ran compression at a threshold that did not match `config/default
 
 > **Rule:** every config key that changes a published number must be printed by `check_preflight.py`.
 
+### 5. Multi-representation indexing at partial coverage is harmful, not neutral
+
+At 8.75% coverage, representations improved the covered queries and degraded the rest, because added points compete for the same top-k slots. It must be applied at high coverage or not at all.
+
+> **Rule:** multi-representation indexing at partial coverage is harmful, not neutral. Added representation points compete for the same top-k slots as raw chunks, degrading un-covered queries. Apply at high coverage or not at all.
+
 ---
 
 ## What actually caught these
