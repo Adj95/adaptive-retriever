@@ -30,6 +30,12 @@ report you produce against §3 before sending it.
     4,295 MB. It fits.
 12. **Read the exit code of every task you launch before describing its status.** A crashed
     job reported as running has happened twice.
+13. **NEVER RUN THE SAME SCRIPT A THIRD TIME.** If a script fails or times out twice, STOP and
+    report: the command, the error or the timeout, what you believe the cause is, and what you
+    would change. Do not retry. Do not rewrite it and retry. Five identical runs of fast_analyze_h3.py
+    produced four hours of nothing. Any script expected to take over 5 minutes must print progress
+    every 30 seconds (items processed / total). A silent script is an unmonitorable one.
+
 
 ---
 
