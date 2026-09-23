@@ -35,6 +35,12 @@ report you produce against §3 before sending it.
     would change. Do not retry. Do not rewrite it and retry. Five identical runs of fast_analyze_h3.py
     produced four hours of nothing. Any script expected to take over 5 minutes must print progress
     every 30 seconds (items processed / total). A silent script is an unmonitorable one.
+14. **NEVER write an illustrative, mocked or reconstructed example in a report.**
+    If asked for verbatim output, print it from the file. If you cannot read
+    the file, say "I could not read it" and stop. In R-01d-final you reported
+    sample lines showing model "qwen2.5:3b-instruct-q4_K_M" and chunk_ids
+    "<doc>_0007" that did not exist on disk. Plausible-looking output is worse
+    than no output: it cannot be distinguished from real data by the reader.
 
 
 ---
