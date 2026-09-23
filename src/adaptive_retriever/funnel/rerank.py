@@ -54,11 +54,9 @@ class Reranker:
 
         logger.info("Loading reranker '%s' on %s", self.model_name, self.device)
         try:
+            self._model = CrossEncoder(self.model_name, device=self.device, local_files_only=True)
+        except Exception:
             self._model = CrossEncoder(self.model_name, device=self.device)
-        except Exception as err:
-            raise RuntimeError(
-                f"Failed to load reranker model '{self.model_name}': {err}"
-            ) from err
 
     def ensure_ready(self) -> None:
         """Eagerly load the model to fail at startup rather than mid-run."""

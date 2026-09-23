@@ -17,7 +17,7 @@ import urllib.request
 from pathlib import Path
 
 EXPECTED_HASH = "2e6f1c8d"
-EXPECTED_POINTS = 40703
+EXPECTED_POINTS = 47034
 
 fails, warns = [], []
 SEP = "=" * 72
