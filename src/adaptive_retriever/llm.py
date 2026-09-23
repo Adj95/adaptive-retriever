@@ -412,21 +412,22 @@ class LocalTransformersLLMClient(CachedLLMClient):
         from transformers import AutoModelForCausalLM, AutoTokenizer
         import torch
 
-        if self.device == "cuda" and torch.cuda.is_available():
+        if self.device == "cuda":
+            if not torch.cuda.is_available():
+                raise RuntimeError(
+                    "Config requested 'cuda' device for LLM but torch.cuda.is_available() is False! "
+                    "Silent CPU fallbacks are strictly forbidden."
+                )
             torch.cuda.empty_cache()
             free_bytes, _ = torch.cuda.mem_get_info()
-            if free_bytes < 2.0 * 1024 * 1024 * 1024:
-                logger.info("Free VRAM (%d MB) < 2000 MB; placing LLM on CPU to avoid OOM", free_bytes // (1024 * 1024))
-                self.device = "cpu"
-                self.dtype = torch.float32
+            required_bytes = 2.0 * 1024 * 1024 * 1024
+            if free_bytes < required_bytes:
+                raise RuntimeError(
+                    f"Insufficient VRAM for LLM: Free VRAM is {free_bytes // (1024 * 1024)} MB, "
+                    f"but at least {int(required_bytes // (1024 * 1024))} MB is required! "
+                    f"Silent CPU fallbacks are strictly forbidden under AGENT_OPERATING_MANUAL §4."
+                )
 
-        logger.info(
-            "Loading local HuggingFace model '%s' on %s (%s), max_new_tokens=%d",
-            self.model_name,
-            self.device,
-            self.dtype,
-            self.max_new_tokens,
-        )
         self._tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         self._tokenizer.padding_side = "left"
         if self._tokenizer.pad_token is None:
@@ -436,6 +437,20 @@ class LocalTransformersLLMClient(CachedLLMClient):
             self.model_name, torch_dtype=self.dtype
         ).to(self.device)
         self._model.eval()
+
+        if self.device == "cuda":
+            resolved_type = next(self._model.parameters()).device.type
+            assert resolved_type == "cuda", (
+                f"PERMANENT ASSERTION FAILED: LLM model parameters on '{resolved_type}', expected 'cuda'!"
+            )
+
+        logger.info(
+            "Resolved LLM model '%s' loaded on %s (%s), max_new_tokens=%d",
+            self.model_name,
+            self.device,
+            self.dtype,
+            self.max_new_tokens,
+        )
 
     def _format(self, prompt: str, system: Optional[str]) -> str:
         msgs = []

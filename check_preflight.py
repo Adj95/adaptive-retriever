@@ -17,7 +17,7 @@ import urllib.request
 from pathlib import Path
 
 EXPECTED_HASH = "2e6f1c8d"
-EXPECTED_POINTS = 39814
+EXPECTED_POINTS = 40703
 
 fails, warns = [], []
 SEP = "=" * 72
@@ -103,6 +103,18 @@ try:
         fails.append(f"embeddings_threshold is {emb_thresh} (expected 0.40 - the shipped results value)")
     line("postretrieval.reorder.enabled", pr_reorder.get("enabled"))
     line("generation.max_new_tokens", max_tokens)
+
+    try:
+        from adaptive_retriever.llm import get_llm_client
+        client = get_llm_client(cfg)
+        client._ensure_loaded()
+        resolved_llm_dev = str(client.device)
+        line("llm.resolved_device", resolved_llm_dev, resolved_llm_dev == "cuda")
+        if resolved_llm_dev != "cuda":
+            fails.append(f"LLM client resolved device is '{resolved_llm_dev}' (expected 'cuda')")
+    except Exception as exc:
+        line("llm.resolved_device", f"FAILED: {exc}", False)
+        fails.append(f"LLM client resolution failed: {exc}")
 
     w = hy.get("weights") or {}
     if w and abs(sum(float(v) for v in w.values()) - 1.0) > 1e-6:

@@ -48,8 +48,16 @@ DENSE_DIM = 384
 
 
 def _resolve_device(device: str) -> str:
-    target = device if device != "auto" else "cuda"
-    if target == "cuda":
+    if device == "cuda":
+        try:
+            import torch
+            if not torch.cuda.is_available():
+                raise RuntimeError("Config requested 'cuda' device but torch.cuda.is_available() is False!")
+            _ = torch.zeros(1).cuda()
+            return "cuda"
+        except Exception as err:
+            raise RuntimeError(f"Config requested 'cuda' device but CUDA tensor allocation failed: {err}") from err
+    elif device == "auto":
         try:
             import torch
             if torch.cuda.is_available():
@@ -58,7 +66,7 @@ def _resolve_device(device: str) -> str:
         except Exception:
             pass
         return "cpu"
-    return target
+    return device
 
 
 class DenseEmbeddingModel:
