@@ -111,6 +111,18 @@ def load_prompt_template(filename: str) -> Tuple[str, str]:
     return content, ver
 
 
+META_COMMENTARY_PATTERNS = [
+    re.compile(p, re.IGNORECASE) for p in [
+        r"does not contain",
+        r"no specific technical",
+        r"no key terms",
+        r"no technical information",
+        r"cannot be identified",
+        r"not provide any",
+    ]
+]
+
+
 def post_process_representation(text: str, kind: RepresentationKind, strict_mode: bool = False) -> str:
     cleaned = text.strip()
 
@@ -153,8 +165,11 @@ def post_process_representation(text: str, kind: RepresentationKind, strict_mode
         if cleaned and cleaned[0].islower():
             cleaned = cleaned[0].upper() + cleaned[1:]
 
+    contains_meta = any(pat.search(cleaned) for pat in META_COMMENTARY_PATTERNS)
+
     is_invalid = (
         not cleaned
+        or contains_meta
         or any(pat.match(cleaned) for pat in PREAMBLE_PATTERNS)
         or (kind == RepresentationKind.KEYWORDS and ("\n" in cleaned or bool(re.search(r"\d+\.\s", cleaned))))
     )
@@ -162,10 +177,12 @@ def post_process_representation(text: str, kind: RepresentationKind, strict_mode
     if is_invalid:
         if strict_mode:
             raise ValueError(
-                f"Post-processing failed for representation '{kind.value}': output is empty or contains forbidden preamble/format! "
+                f"Post-processing failed for representation '{kind.value}': output is empty, meta-commentary, or contains forbidden preamble/format! "
                 f"Raw text: '{text[:60]}', Cleaned: '{cleaned[:60]}'"
             )
-        return text.strip()
+        raise ValueError(
+            f"Invalid representation output for kind '{kind.value}': '{cleaned[:60]}'"
+        )
 
     return cleaned
 

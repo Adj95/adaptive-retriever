@@ -15,15 +15,15 @@ Adaptive funnel vs a fixed dense-retrieval baseline. Same corpus, same chunks, s
 embedding model, same index, same 169 evaluation queries. The only difference is
 adaptivity.Across 5 comparative metrics evaluated at Bonferroni-corrected threshold $\alpha = 0.05 / 5 = 0.01$:
 
-| Metric | Fixed baseline | Adaptive | Difference [95% CI] | Two-Sided $p$-value | Survives Bonferroni ($\alpha = 0.01$) |
+| Metric | Dense-only baseline | Hybrid + rerank (raw index) | Difference [95% CI] | Two-Sided $p$-value | Survives Bonferroni ($\alpha = 0.01$) |
 |---|---|---|---|---|---|
 | Recall@5 | 0.4970 | **0.5917** | +0.0947 [+0.0237, +0.1657] | $p = 0.0078$ | **PASS** |
 | nDCG@5 | 0.4034 | **0.5061** | +0.1027 [+0.0448, +0.1609] | $p = 0.0006$ | **PASS** |
-| Recall@10 | 0.5799 | **0.6568** | +0.0769 [+0.0118, +0.1420] | $p = 0.0248$ | **FAIL** |
+| Recall@10 | 0.5799 | **0.6568** | +0.0769 [+0.0118, +0.1420] | $p = 0.0234$ | **FAIL** |
 | nDCG@10 | 0.4311 | **0.5280** | +0.0969 [+0.0430, +0.1512] | $p = 0.0006$ | **PASS** |
-| MRR | 0.3922 | **0.4949** | +0.1027 [+0.0444, +0.1612] | $p = 0.0004$ | **PASS** |
+| MRR | 0.3922 | **0.4949** | +0.1027 [+0.0444, +0.1612] | $p = 0.0006$ | **PASS** |
 
-Confidence intervals come from a **paired** bootstrap resampling queries, 10,000 resamples, seed 42. Four of five metrics (nDCG@5, nDCG@10, MRR, Recall@5) survive Bonferroni correction at $\alpha = 0.01$. Recall@10 ($p = 0.0248$) fails Bonferroni correction. Full output: [`reports/experiment_001.json`](reports/experiment_001.json).
+Confidence intervals come from a **paired** bootstrap resampling queries, 10,000 resamples, seed 42. Four of five metrics (nDCG@5, nDCG@10, MRR, Recall@5) survive Bonferroni correction at $\alpha = 0.01$. Recall@10 ($p = 0.0234$) fails Bonferroni correction. Full output: [`reports/experiment_001.json`](reports/experiment_001.json).
 
 > **Token Cap & Dual-Scoring Note**: All chunks in the vectorstore are capped at $\le 480$ BGE-small tokens (with a permanent assertion `max_tokens <= 512`), ensuring the encoder reads 100% of every chunk. The legacy 2,000-character proxy dual-scoring check has been retired as BGE-small token length directly enforces complete context visibility.
 
@@ -47,10 +47,7 @@ shows that **cross-encoder reranking improves ordering but not coverage.**
 Recall@10 is statistically flat across the entire sweep — reranking every query instead of
 none changes coverage by `+0.0059 [-0.0473, +0.0651]`. nDCG and MRR do move.
 
-So the entire `0.3817 → 0.4793` coverage gain in the headline table comes from **hybrid
-multi-representation retrieval**, not from the reranker. The reranker only reorders what
-retrieval already found. That is what a cross-encoder should do, and now it is measured
-rather than assumed.
+So the coverage gain in the headline table comes from **hybrid retrieval (dense + BM25)** on the raw index, not from the reranker. The reranker only reorders what retrieval already found. That is what a cross-encoder should do, and now it is measured rather than assumed.
 
 ---
 
@@ -62,15 +59,12 @@ query
   ├─ profiler ──────────► query class, recorded in the trace as an observation
   │                       (it routes nothing — see Status)
   │
-  ├─ stage 1  structured pre-filter    22,422 → N   (indexed payload fields only)
+  ├─ stage 1  structured pre-filter    39,814 → N   (indexed payload fields only)
   ├─ stage 2  hybrid retrieval             N → 100  (dense + BM25, weighted RRF)
   └─ stage 3  gated cross-encoder        100 → 10   (fires only when ranking is uncertain)
 ```
 
-**Multi-representation indexing.** Every chunk is indexed several times — its raw text plus
-LLM-generated summaries, questions and keywords, under a value-based tiering policy that
-only spends generation on chunks dense enough to warrant it. 12,074 chunks become 22,422
-indexed vectors.
+**Index Structure.** The Qdrant vectorstore holds 39,814 token-capped raw chunks (max 480 BGE-small tokens per chunk). Multi-representation generation is supported by the ingest pipeline but remains un-indexed at scale as offline generation costs were not measured to repay their generation time.
 
 **Representations collapse to chunks *before* fusion, not after.** This is the load-bearing
 detail. If you fuse at representation level and merge afterwards, a chunk with four
