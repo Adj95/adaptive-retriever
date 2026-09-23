@@ -1,0 +1,204 @@
+{
+  "summary_stats": {
+    "summary": {
+      "n_total": 3483,
+      "vf_mean": 0.16798665260596304,
+      "vf_median": 0.0,
+      "vf_p25": 0.0,
+      "vf_p75": 0.2777777777777778,
+      "vf_p95": 0.65625,
+      "ge_80_count": 99,
+      "ge_80_pct": 2.842377260981912,
+      "le_20_count": 2292,
+      "le_20_pct": 65.80534022394488,
+      "tok_min": 7,
+      "tok_p50": 39.0,
+      "tok_p95": 103.0,
+      "tok_max": 283
+    },
+    "question": {
+      "n_total": 3483,
+      "vf_mean": 0.1477296552797442,
+      "vf_median": 0.0,
+      "vf_p25": 0.0,
+      "vf_p75": 0.3125,
+      "vf_p95": 0.625,
+      "ge_80_count": 61,
+      "ge_80_pct": 1.751363766867643,
+      "le_20_count": 2347,
+      "le_20_pct": 67.38443870226816,
+      "tok_min": 5,
+      "tok_p50": 19.0,
+      "tok_p95": 35.0,
+      "tok_max": 139
+    },
+    "keywords": {
+      "n_total": 304,
+      "vf_mean": 0.15098920591131773,
+      "vf_median": 0.0,
+      "vf_p25": 0.0,
+      "vf_p75": 0.17648015614834095,
+      "vf_p95": 0.9354591836734687,
+      "ge_80_count": 23,
+      "ge_80_pct": 7.565789473684211,
+      "le_20_count": 230,
+      "le_20_pct": 75.6578947368421,
+      "tok_min": 3,
+      "tok_p50": 41.0,
+      "tok_p95": 106.0,
+      "tok_max": 169
+    }
+  },
+  "strengthened_assertions": {
+    "total_recs": 7270,
+    "fail_vf_90": 105,
+    "fail_kw_len": 154,
+    "total_failed": 242
+  },
+  "examples": {
+    "summary": {
+      "abstractive_le_20": [
+        {
+          "request_id": "070068e91aeaffdf",
+          "chunk_id": "bdfaa68d8984f0dc_c0000",
+          "verbatim_fraction": 0.0,
+          "text": "Google has granted permission to reproduce tables and figures from this paper solely for journalistic or scholarly purposes.",
+          "source_chunk_snippet": "Provided proper attribution is provided, Google hereby grants permission to reproduce the tables and figures in this paper solely for use in journalistic or scholarly works. \n\n# **Attention Is All You"
+        },
+        {
+          "request_id": "c19b4a409517cd40",
+          "chunk_id": "bdfaa68d8984f0dc_c0001",
+          "verbatim_fraction": 0.0,
+          "text": "The proposed Transformer-based model outperforms state-of-the-art models in both quality and training efficiency compared to existing approaches.",
+          "source_chunk_snippet": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and"
+        },
+        {
+          "request_id": "2e89a43da4947cfd",
+          "chunk_id": "bdfaa68d8984f0dc_c0004",
+          "verbatim_fraction": 0.0,
+          "text": "The text describes the architecture and functionality of two types of neural sequence transduction models: one using an encoder-decoder structure and another employing softmax, linear activation functions, and multi-head attention mechanisms.",
+          "source_chunk_snippet": "Most competitive neural sequence transduction models have an encoder-decoder structure [5, 2, 35]. Here, the encoder maps an input sequence of symbol representations ( _x_ 1 _, ..., xn_ ) to a sequenc"
+        }
+      ],
+      "extractive_ge_80": [
+        {
+          "request_id": "0bbc2a68ce59eca8",
+          "chunk_id": "bdfaa68d8984f0dc_c0022",
+          "verbatim_fraction": 1.0,
+          "text": "For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-French translation tasks, we achieve a new state of the art.",
+          "source_chunk_snippet": "For translation tasks, the Transformer can be trained significantly faster than architectures based on recurrent or convolutional layers. On both WMT 2014 English-to-German and WMT 2014 English-to-Fre"
+        },
+        {
+          "request_id": "af60549feffa8970",
+          "chunk_id": "97fd272f1fdfc186_c0028",
+          "verbatim_fraction": 1.0,
+          "text": "In Figure 3.1, we display training curves for the 8 models described in Section 2. We also include 6 additional extra-small models with as few as 100,000 parameters.",
+          "source_chunk_snippet": "# **3 Results** \n\nIn Figure 3.1 we display training curves for the 8 models described in Section 2. For this graph we also include 6 additional extra-small models with as few as 100,000 parameters. As"
+        },
+        {
+          "request_id": "5372689dfa03d326",
+          "chunk_id": "97fd272f1fdfc186_c0081",
+          "verbatim_fraction": 1.0,
+          "text": "I tried to hit the ball with the bat, but my swing missed.",
+          "source_chunk_snippet": "`Poor English input: I have tried to hit ball with bat, but my swing is has miss.` Good English output: I tried to hit the ball with the bat, but my swing missed. \n\n**Figure 3.17:** Representative GPT"
+        }
+      ]
+    },
+    "question": {
+      "abstractive_le_20": [
+        {
+          "request_id": "c2e300b227857bc6",
+          "chunk_id": "bdfaa68d8984f0dc_c0000",
+          "verbatim_fraction": 0.0,
+          "text": "What are the responsibilities of the individuals mentioned in the given text?",
+          "source_chunk_snippet": "Provided proper attribution is provided, Google hereby grants permission to reproduce the tables and figures in this paper solely for use in journalistic or scholarly works. \n\n# **Attention Is All You"
+        },
+        {
+          "request_id": "83656c9f3bf91b5b",
+          "chunk_id": "bdfaa68d8984f0dc_c0001",
+          "verbatim_fraction": 0.0,
+          "text": "What is the proposed new simple network architecture for transduction models based on attention mechanisms?",
+          "source_chunk_snippet": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and"
+        },
+        {
+          "request_id": "f3cd043ee2f4532a",
+          "chunk_id": "bdfaa68d8984f0dc_c0003",
+          "verbatim_fraction": 0.0,
+          "text": "What is the main difference between ConvS2S and ByteNet in terms of their approach to reducing sequential computation?",
+          "source_chunk_snippet": "The goal of reducing sequential computation also forms the foundation of the Extended Neural GPU [16], ByteNet [18] and ConvS2S [9], all of which use convolutional neural networks as basic building bl"
+        }
+      ],
+      "extractive_ge_80": [
+        {
+          "request_id": "48ad8e503dd60e9b",
+          "chunk_id": "97fd272f1fdfc186_c0163",
+          "verbatim_fraction": 1.0,
+          "text": "What is 65360 plus 16204?",
+          "source_chunk_snippet": "||`Context` _\u2192_|`Q: What is 65360 plus 16204?`<br>`A:`|\n|---|---|---|\n|`Target `|`Completion` _\u2192_|`81564`|\n|||**Figure G.51:** Formatted dataset example for Arithmetic 5D+|\n\n\n\n62 \n\n# **H Results on Al"
+        },
+        {
+          "request_id": "dc23447d2fef5fa1",
+          "chunk_id": "e9a0d3128767db61_c0042",
+          "verbatim_fraction": 1.0,
+          "text": "What can ResNet learn efficiently, going beyond kernels?",
+          "source_chunk_snippet": "- Armen Aghajanyan, Luke Zettlemoyer, and Sonal Gupta. Intrinsic Dimensionality Explains the Effectiveness of Language Model Fine-Tuning. _arXiv:2012.13255 [cs]_ , December 2020. URL http://arxiv.org/"
+        },
+        {
+          "request_id": "5a8c972b63cbfa77",
+          "chunk_id": "ad07e47cedf437a4_c0079",
+          "verbatim_fraction": 1.0,
+          "text": "Why was Joey surprised the morning he woke up for breakfast?",
+          "source_chunk_snippet": "13: </b>Their fur was wet, and the breeze chilled them.<br><b>Sent 14: </b>When\nthey got home, they dried off, and Jimmy put on his favorite purple shirt.<br><b>Sent\n15: </b>Joey put on a blue shirt w"
+        }
+      ]
+    },
+    "keywords": {
+      "abstractive_le_20": [
+        {
+          "request_id": "5965b9737ba0a24e",
+          "chunk_id": "bdfaa68d8984f0dc_c0000",
+          "verbatim_fraction": 0.0,
+          "text": "Strict Rules:\n- Attribution\n- Reproduction\n- Journalistic or Scholarly Works\n\nKey Technical Terms:\n- Google\n- Attribution\n- Reproduction\n- Tables\n- Figures\n- Journalistic or Scholarly Works\n- Noam Shazeer\n- Niki Parmar\n- Jakob Uszkoreit\n- Ashish Vaswani\n- Llion Jones\n- Aidan N.",
+          "source_chunk_snippet": "Provided proper attribution is provided, Google hereby grants permission to reproduce the tables and figures in this paper solely for use in journalistic or scholarly works. \n\n# **Attention Is All You"
+        },
+        {
+          "request_id": "61c7081890d84594",
+          "chunk_id": "bdfaa68d8984f0dc_c0001",
+          "verbatim_fraction": 0.0,
+          "text": "Transformer, attention mechanism, recurrent neural network, convolutional neural network, machine translation, BLEU score",
+          "source_chunk_snippet": "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and"
+        },
+        {
+          "request_id": "adc3b1a3f0387673",
+          "chunk_id": "bdfaa68d8984f0dc_c0003",
+          "verbatim_fraction": 0.0,
+          "text": "Convolutional Neural Network, Parallel Processing, Hidden Representations, Distance Between Positions, Effective Resolution",
+          "source_chunk_snippet": "The goal of reducing sequential computation also forms the foundation of the Extended Neural GPU [16], ByteNet [18] and ConvS2S [9], all of which use convolutional neural networks as basic building bl"
+        }
+      ],
+      "extractive_ge_80": [
+        {
+          "request_id": "c5160428af9299aa",
+          "chunk_id": "bdfaa68d8984f0dc_c0010",
+          "verbatim_fraction": 1.0,
+          "text": "|Self-Attention|_O_(_n_<sup>2</sup> _\u00b7 d_)|_O_(1)|_O_(1)|\n|Recurrent|_O_(_n \u00b7 d_<sup>2</sup>)|_O_(_n_)|_O_(_n_)|\n|Convolutional|_O_(_k \u00b7 n \u00b7",
+          "source_chunk_snippet": "|Self-Attention|_O_(_n_<sup>2</sup> _\u00b7 d_)|_O_(1)|_O_(1)|\n|Recurrent|_O_(_n \u00b7 d_<sup>2</sup>)|_O_(_n_)|_O_(_n_)|\n|Convolutional|_O_(_k \u00b7 n \u00b7 d_<sup>2</sup>)|_O_(1)|_O_(_logk_(_n_))|\n|Self-Attention (r"
+        },
+        {
+          "request_id": "3ebef998f144e238",
+          "chunk_id": "bdfaa68d8984f0dc_c0012",
+          "verbatim_fraction": 1.0,
+          "text": "kernel width _k < n_ does not connect all pairs of input and output positions. Doing so requires a stack of _O_ ( _n/k_ ) convolutional layers in the case of contiguous",
+          "source_chunk_snippet": "length _n_ is smaller than the representation dimensionality _d_ , which is most often the case with sentence representations used by state-of-the-art models in machine translations, such as word-piec"
+        },
+        {
+          "request_id": "22a5b076ed14f0c4",
+          "chunk_id": "3fd3632a8ef48171_c0000",
+          "verbatim_fraction": 1.0,
+          "text": "Training, Compute-Optimal, Large Language Models, Jordan Ho\ufb00mann, Sebastian Borgeaud, Arthur Mensch, Elena Buchatskaya, Trevor Cai, Eliza Rutherford, Diego de Las Casas, Lisa Anne Hendricks, Johannes Welbl, Aidan Clark, Tom Hennigan, Eric Noland, Katie Millican, George van den Driessche, Bogdan Damoc, Aurelia Guy, Simon Osindero,",
+          "source_chunk_snippet": "Training Compute-Optimal Large Language Models\nJordan Ho\ufb00mann\u2605, Sebastian Borgeaud\u2605, Arthur Mensch\u2605, Elena Buchatskaya, Trevor Cai, Eliza Rutherford,\nDiego de Las Casas, Lisa Anne Hendricks, Johannes "
+        }
+      ]
+    }
+  }
+}
