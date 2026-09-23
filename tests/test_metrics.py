@@ -152,3 +152,39 @@ def test_ndcg_bounded_when_multiple_matching_chunks():
     ndcg = ndcg_at_k(retrieved, [p], k=10)
     assert 0.0 <= ndcg <= 1.0, f"nDCG must be <= 1.0, got {ndcg}"
     assert pytest.approx(ndcg, abs=1e-6) == 1.0
+
+
+def test_ndcg_bounded_three_matching_chunks():
+    """Verify nDCG <= 1.0 when a gold passage matches 3 chunks."""
+    p_text = "The quick brown fox jumps over the lazy dog in the sunny meadow today."
+    p = RelevantPassage(
+        doc_id="doc1",
+        passage_text=p_text,
+        passage_norm=normalise(p_text),
+        canonical_char_start=0,
+        canonical_char_end=len(p_text),
+        canonical_parser="pymupdf",
+    )
+    retrieved = [p_text, p_text, p_text]
+    ndcg = ndcg_at_k(retrieved, [p], k=5)
+    assert 0.0 <= ndcg <= 1.0, f"nDCG must be <= 1.0, got {ndcg}"
+    assert pytest.approx(ndcg, abs=1e-6) == 1.0
+
+
+def test_recall_and_mrr_bounds_and_assertions():
+    """Verify recall_at_k and mrr are bounded in [0, 1]."""
+    p_text = "The quick brown fox jumps over the lazy dog in the sunny meadow today."
+    p = RelevantPassage(
+        doc_id="doc1",
+        passage_text=p_text,
+        passage_norm=normalise(p_text),
+        canonical_char_start=0,
+        canonical_char_end=len(p_text),
+        canonical_parser="pymupdf",
+    )
+    retrieved = [p_text] * 5
+    r = recall_at_k(retrieved, [p], k=5)
+    m = mrr(retrieved, [p])
+    assert 0.0 <= r <= 1.0
+    assert 0.0 <= m <= 1.0
+

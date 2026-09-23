@@ -102,7 +102,9 @@ def recall_at_k(
         for passage in relevant_passages
         if any(is_relevant(chunk, passage) for chunk in top_k)
     )
-    return float(covered) / float(len(relevant_passages))
+    score = float(covered) / float(len(relevant_passages))
+    assert 0.0 <= score <= 1.0 + 1e-6, f"PERMANENT ASSERTION FAILED: Recall score out of bounds: {score:.4f}"
+    return float(np.clip(score, 0.0, 1.0))
 
 
 def precision_at_k(
@@ -116,7 +118,9 @@ def precision_at_k(
     relevant_count = sum(
         1 for chunk in top_k if passages_to_chunk_relevance(chunk, relevant_passages)
     )
-    return float(relevant_count) / float(len(top_k))
+    score = float(relevant_count) / float(len(top_k))
+    assert 0.0 <= score <= 1.0 + 1e-6, f"PERMANENT ASSERTION FAILED: Precision score out of bounds: {score:.4f}"
+    return float(np.clip(score, 0.0, 1.0))
 
 
 def mrr(
@@ -124,7 +128,9 @@ def mrr(
 ) -> float:
     for rank, chunk in enumerate(retrieved_chunk_texts, start=1):
         if passages_to_chunk_relevance(chunk, relevant_passages):
-            return 1.0 / float(rank)
+            score = 1.0 / float(rank)
+            assert 0.0 <= score <= 1.0 + 1e-6, f"PERMANENT ASSERTION FAILED: MRR score out of bounds: {score:.4f}"
+            return float(np.clip(score, 0.0, 1.0))
     return 0.0
 
 
@@ -132,31 +138,36 @@ def ndcg_at_k(
     retrieved_chunk_texts: List[str],
     relevant_passages: List[RelevantPassage],
     k: int,
-    total_relevant_chunks: Optional[int] = None,
 ) -> float:
+    """Passage-level nDCG@k (H1 canonical definition).
+
+    - Collapse retrieved chunks to the DISTINCT gold passages they match.
+    - Each gold passage contributes gain AT MOST ONCE, at the rank (1-indexed)
+      of the highest-ranked chunk that matches it.
+    - IDCG = ideal DCG over len(gold_passages) capped at k. Depends ONLY on the query.
+    - DCG <= IDCG by construction.
+    """
+    if not retrieved_chunk_texts or not relevant_passages:
+        return 0.0
+
     top_k = retrieved_chunk_texts[:k]
-    if not top_k or not relevant_passages:
+    matched_ranks: List[int] = []
+
+    for passage in relevant_passages:
+        best_rank: Optional[int] = None
+        for i, chunk in enumerate(top_k):
+            if is_relevant(chunk, passage):
+                best_rank = i + 1
+                break
+        if best_rank is not None:
+            matched_ranks.append(best_rank)
+
+    if not matched_ranks:
         return 0.0
 
-    retrieved_rel_count = 0
-    dcg = 0.0
-    for i, chunk in enumerate(top_k):
-        rel = 1.0 if passages_to_chunk_relevance(chunk, relevant_passages) else 0.0
-        if rel > 0:
-            retrieved_rel_count += 1
-            dcg += rel / np.log2(i + 2)
-
-    if dcg == 0.0:
-        return 0.0
-
-    # IDCG is computed over the candidate universe of relevant chunks.
-    if total_relevant_chunks is not None:
-        ideal_count = min(max(len(relevant_passages), total_relevant_chunks), k)
-    else:
-        ideal_count = min(max(len(relevant_passages), retrieved_rel_count), k)
-
-    ideal_rels = [1.0] * ideal_count
-    idcg = float(sum(rel / np.log2(i + 2) for i, rel in enumerate(ideal_rels)))
+    dcg = sum(1.0 / np.log2(r + 1) for r in matched_ranks)
+    ideal_count = min(len(relevant_passages), k)
+    idcg = sum(1.0 / np.log2(j + 2) for j in range(ideal_count))
 
     if idcg == 0.0:
         return 0.0
@@ -171,27 +182,43 @@ def bootstrap_ci(
     n: int = 1000,
     ci: float = 0.95,
     seed: int = 42,
+    bounded_unit: bool = True,
 ) -> Tuple[float, float, float]:
-    """Returns (point_estimate, lower_ci, upper_ci) deterministically by resampling QUERIES."""
+    """Returns (point_estimate, lower_ci, upper_ci) deterministically by resampling QUERIES.
+
+    Method: Non-parametric percentile bootstrap using query-level resampling.
+    """
     if not values:
         return (0.0, 0.0, 0.0)
 
     arr = np.array(values, dtype=float)
+    if bounded_unit:
+        assert np.all((arr >= 0.0) & (arr <= 1.0 + 1e-6)), "Input values to bootstrap_ci contain out-of-bound elements"
+        arr = np.clip(arr, 0.0, 1.0)
+
     point_estimate = float(np.mean(arr))
 
     rng = np.random.default_rng(seed)
-    boot_means = []
+    boot_means = np.empty(n, dtype=float)
     n_samples = len(arr)
 
-    for _ in range(n):
+    for i in range(n):
         sample = rng.choice(arr, size=n_samples, replace=True)
-        boot_means.append(np.mean(sample))
+        boot_means[i] = np.mean(sample)
 
     alpha = (1.0 - ci) / 2.0
     lower = float(np.percentile(boot_means, alpha * 100))
     upper = float(np.percentile(boot_means, (1.0 - alpha) * 100))
 
+    if bounded_unit:
+        lower = float(np.clip(lower, 0.0, 1.0))
+        upper = float(np.clip(upper, 0.0, 1.0))
+        assert 0.0 <= point_estimate <= 1.0, f"Point estimate {point_estimate} out of bounds"
+        assert 0.0 <= lower <= 1.0, f"Lower CI {lower} out of bounds"
+        assert 0.0 <= upper <= 1.0, f"Upper CI {upper} out of bounds"
+
     return (point_estimate, lower, upper)
+
 
 
 def bootstrap_difference_ci(

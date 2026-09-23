@@ -90,60 +90,86 @@ def main():
     gate_margins = []
     max_tokens_seen = 0
 
-    for i, item in enumerate(valid_items, 1):
-        # 1. Baseline Arm (Fixed Twin, limit=10)
-        cands_base, trace_base = run_baseline(item.query, vs=vs, cfg=cfg, limit=10)
-        base_texts = [c.text for c in cands_base]
-        
-        for txt in base_texts:
-            t_cnt = len(tok.encode(txt, add_special_tokens=False))
-            max_tokens_seen = max(max_tokens_seen, t_cnt)
-            assert t_cnt <= 512, f"PERMANENT ASSERTION FAILED: Retrieved chunk exceeds 512 tokens ({t_cnt} tokens)!"
+    raw_log_path = Path("reports/experiment_001_raw.jsonl")
+    with open(raw_log_path, "w", encoding="utf-8") as raw_f:
+        for i, item in enumerate(valid_items, 1):
+            # 1. Baseline Arm (Fixed Twin, limit=10)
+            cands_base, trace_base = run_baseline(item.query, vs=vs, cfg=cfg, limit=10)
+            base_texts = [c.text for c in cands_base]
+            
+            for txt in base_texts:
+                t_cnt = len(tok.encode(txt, add_special_tokens=False))
+                max_tokens_seen = max(max_tokens_seen, t_cnt)
+                assert t_cnt <= 512, f"PERMANENT ASSERTION FAILED: Retrieved chunk exceeds 512 tokens ({t_cnt} tokens)!"
 
-        base_r5.append(recall_at_k(base_texts, item.relevant_passages, k=5))
-        base_ndcg5.append(ndcg_at_k(base_texts, item.relevant_passages, k=5))
-        base_r10.append(recall_at_k(base_texts, item.relevant_passages, k=10))
-        base_ndcg10.append(ndcg_at_k(base_texts, item.relevant_passages, k=10))
-        base_mrr.append(mrr(base_texts, item.relevant_passages))
+            b_r5 = recall_at_k(base_texts, item.relevant_passages, k=5)
+            b_n5 = ndcg_at_k(base_texts, item.relevant_passages, k=5)
+            b_r10 = recall_at_k(base_texts, item.relevant_passages, k=10)
+            b_n10 = ndcg_at_k(base_texts, item.relevant_passages, k=10)
+            b_m = mrr(base_texts, item.relevant_passages)
 
-        b_ret_ms = float(trace_base.get("stages", {}).get("dense_search", {}).get("elapsed_ms", 0.0))
-        base_ret_lat.append(b_ret_ms)
-        base_rr_lat.append(0.0)
-        base_tot_lat.append(float(trace_base.get("total_elapsed_ms", b_ret_ms)))
+            base_r5.append(b_r5)
+            base_ndcg5.append(b_n5)
+            base_r10.append(b_r10)
+            base_ndcg10.append(b_n10)
+            base_mrr.append(b_m)
 
-        # 2. Adaptive Arm (Funnel Orchestrator, output_size=10)
-        cands_ad, trace_ad = run_funnel(item.query, vs=vs, cfg=cfg, reranker=reranker)
-        ad_texts = [c.text for c in cands_ad]
+            b_ret_ms = float(trace_base.get("stages", {}).get("dense_search", {}).get("elapsed_ms", 0.0))
+            base_ret_lat.append(b_ret_ms)
+            base_rr_lat.append(0.0)
+            base_tot_lat.append(float(trace_base.get("total_elapsed_ms", b_ret_ms)))
 
-        for txt in ad_texts:
-            t_cnt = len(tok.encode(txt, add_special_tokens=False))
-            max_tokens_seen = max(max_tokens_seen, t_cnt)
-            assert t_cnt <= 512, f"PERMANENT ASSERTION FAILED: Retrieved chunk exceeds 512 tokens ({t_cnt} tokens)!"
+            # 2. Adaptive Arm (Funnel Orchestrator, output_size=10)
+            cands_ad, trace_ad = run_funnel(item.query, vs=vs, cfg=cfg, reranker=reranker)
+            ad_texts = [c.text for c in cands_ad]
 
-        ad_r5.append(recall_at_k(ad_texts, item.relevant_passages, k=5))
-        ad_ndcg5.append(ndcg_at_k(ad_texts, item.relevant_passages, k=5))
-        ad_r10.append(recall_at_k(ad_texts, item.relevant_passages, k=10))
-        ad_ndcg10.append(ndcg_at_k(ad_texts, item.relevant_passages, k=10))
-        ad_mrr.append(mrr(ad_texts, item.relevant_passages))
+            for txt in ad_texts:
+                t_cnt = len(tok.encode(txt, add_special_tokens=False))
+                max_tokens_seen = max(max_tokens_seen, t_cnt)
+                assert t_cnt <= 512, f"PERMANENT ASSERTION FAILED: Retrieved chunk exceeds 512 tokens ({t_cnt} tokens)!"
 
-        pf_ms = float(trace_ad.get("stages", {}).get("prefilter", {}).get("elapsed_ms", 0.0))
-        hy_ms = float(trace_ad.get("stages", {}).get("hybrid_search", {}).get("elapsed_ms", 0.0))
-        rr_ms = float(trace_ad.get("stages", {}).get("rerank", {}).get("elapsed_ms", 0.0))
-        tot_ms = float(trace_ad.get("total_elapsed_ms", pf_ms + hy_ms + rr_ms))
+            a_r5 = recall_at_k(ad_texts, item.relevant_passages, k=5)
+            a_n5 = ndcg_at_k(ad_texts, item.relevant_passages, k=5)
+            a_r10 = recall_at_k(ad_texts, item.relevant_passages, k=10)
+            a_n10 = ndcg_at_k(ad_texts, item.relevant_passages, k=10)
+            a_m = mrr(ad_texts, item.relevant_passages)
 
-        ad_ret_lat.append(pf_ms + hy_ms)
-        ad_rr_lat.append(rr_ms)
-        ad_tot_lat.append(tot_ms)
+            ad_r5.append(a_r5)
+            ad_ndcg5.append(a_n5)
+            ad_r10.append(a_r10)
+            ad_ndcg10.append(a_n10)
+            ad_mrr.append(a_m)
 
-        # Gate stats
-        rr_gate = trace_ad.get("stages", {}).get("rerank", {}).get("gate", {})
-        if rr_gate.get("should_rerank", False):
-            gate_fired_count += 1
-        if "margin" in rr_gate:
-            gate_margins.append(float(rr_gate["margin"]))
+            pf_ms = float(trace_ad.get("stages", {}).get("prefilter", {}).get("elapsed_ms", 0.0))
+            hy_ms = float(trace_ad.get("stages", {}).get("hybrid_search", {}).get("elapsed_ms", 0.0))
+            rr_ms = float(trace_ad.get("stages", {}).get("rerank", {}).get("elapsed_ms", 0.0))
+            tot_ms = float(trace_ad.get("total_elapsed_ms", pf_ms + hy_ms + rr_ms))
 
-        if i % 25 == 0 or i == len(valid_items):
-            print(f"  Processed {i}/{len(valid_items)} items...", flush=True)
+            ad_ret_lat.append(pf_ms + hy_ms)
+            ad_rr_lat.append(rr_ms)
+            ad_tot_lat.append(tot_ms)
+
+            # Gate stats
+            rr_gate = trace_ad.get("stages", {}).get("rerank", {}).get("gate", {})
+            if rr_gate.get("should_rerank", False):
+                gate_fired_count += 1
+            if "margin" in rr_gate:
+                gate_margins.append(float(rr_gate["margin"]))
+
+            raw_rec = {
+                "item_id": item.item_id,
+                "query": item.query,
+                "baseline_retrieved": base_texts,
+                "adaptive_retrieved": ad_texts,
+                "base_metrics": {"recall_5": b_r5, "ndcg_5": b_n5, "recall_10": b_r10, "ndcg_10": b_n10, "mrr": b_m},
+                "ad_metrics": {"recall_5": a_r5, "ndcg_5": a_n5, "recall_10": a_r10, "ndcg_10": a_n10, "mrr": a_m},
+            }
+            raw_f.write(json.dumps(raw_rec) + "\n")
+            raw_f.flush()
+
+            if i % 25 == 0 or i == len(valid_items):
+                print(f"  Processed {i}/{len(valid_items)} items...", flush=True)
+
 
     print("\n" + "="*80)
     print(f"MAX CHUNK TOKEN COUNT ASSERTION PASSED: Max token length seen across all retrieved chunks = {max_tokens_seen} <= 512")

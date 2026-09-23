@@ -18,10 +18,11 @@ adaptivity.
 | Metric | Fixed baseline | Adaptive | Difference [95% CI] |
 |---|---|---|---|
 | Recall@5 | 0.4970 | **0.5917** | +0.0947 [+0.0237, +0.1657] |
-| nDCG@5 | 0.4022 | **0.5065** | +0.1043 [+0.0469, +0.1617] |
+| nDCG@5 | 0.4034 | **0.5061** | +0.1027 [+0.0448, +0.1609] |
 | Recall@10 | 0.5799 | **0.6568** | +0.0769 [+0.0118, +0.1420] |
-| nDCG@10 | 0.4270 | **0.5233** | +0.0963 [+0.0442, +0.1494] |
-| MRR | 0.3922 | **0.4950** | +0.1028 [+0.0444, +0.1612] |
+| nDCG@10 | 0.4311 | **0.5280** | +0.0969 [+0.0430, +0.1512] |
+| MRR | 0.3922 | **0.4949** | +0.1027 [+0.0444, +0.1612] |
+
 
 Confidence intervals come from a **paired** bootstrap resampling queries, 10,000 resamples,
 seed 42. All five intervals exclude zero. Full output: [`reports/experiment_001.json`](reports/experiment_001.json).

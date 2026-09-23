@@ -133,6 +133,14 @@ try:
     line("payload indexes", f"{len(schema)} present", not missing)
     if missing:
         fails.append(f"payload indexes missing: {sorted(missing)}")
+
+    # Check for stale collections not matching current ingest_config_hash
+    with urllib.request.urlopen(f"{url}/collections", timeout=8) as r:
+        all_cols = json.loads(r.read())["result"]["collections"]
+    stale_cols = [c["name"] for c in all_cols if c["name"] != collection]
+    line("stale collections", "None" if not stale_cols else f"FOUND: {stale_cols}", not stale_cols)
+    if stale_cols:
+        fails.append(f"Qdrant contains collections that do not match ingest_config_hash '{EXPECTED_HASH}': {stale_cols}")
 except Exception as exc:  # noqa: BLE001
     line("url", f"{url}  UNREACHABLE: {type(exc).__name__}", False)
     fails.append("Qdrant server unreachable")
