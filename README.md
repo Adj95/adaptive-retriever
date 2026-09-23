@@ -13,19 +13,17 @@ control, with confidence intervals — including the parts that did nothing.
 
 Adaptive funnel vs a fixed dense-retrieval baseline. Same corpus, same chunks, same
 embedding model, same index, same 169 evaluation queries. The only difference is
-adaptivity.
+adaptivity.Across 5 comparative metrics evaluated at Bonferroni-corrected threshold $\alpha = 0.05 / 5 = 0.01$:
 
-| Metric | Fixed baseline | Adaptive | Difference [95% CI] |
-|---|---|---|---|
-| Recall@5 | 0.4970 | **0.5917** | +0.0947 [+0.0237, +0.1657] |
-| nDCG@5 | 0.4034 | **0.5061** | +0.1027 [+0.0448, +0.1609] |
-| Recall@10 | 0.5799 | **0.6568** | +0.0769 [+0.0118, +0.1420] |
-| nDCG@10 | 0.4311 | **0.5280** | +0.0969 [+0.0430, +0.1512] |
-| MRR | 0.3922 | **0.4949** | +0.1027 [+0.0444, +0.1612] |
+| Metric | Fixed baseline | Adaptive | Difference [95% CI] | Two-Sided $p$-value | Survives Bonferroni ($\alpha = 0.01$) |
+|---|---|---|---|---|---|
+| Recall@5 | 0.4970 | **0.5917** | +0.0947 [+0.0237, +0.1657] | $p = 0.0078$ | **PASS** |
+| nDCG@5 | 0.4034 | **0.5061** | +0.1027 [+0.0448, +0.1609] | $p = 0.0006$ | **PASS** |
+| Recall@10 | 0.5799 | **0.6568** | +0.0769 [+0.0118, +0.1420] | $p = 0.0248$ | **FAIL** |
+| nDCG@10 | 0.4311 | **0.5280** | +0.0969 [+0.0430, +0.1512] | $p = 0.0006$ | **PASS** |
+| MRR | 0.3922 | **0.4949** | +0.1027 [+0.0444, +0.1612] | $p = 0.0004$ | **PASS** |
 
-
-Confidence intervals come from a **paired** bootstrap resampling queries, 10,000 resamples,
-seed 42. All five intervals exclude zero. Full output: [`reports/experiment_001.json`](reports/experiment_001.json).
+Confidence intervals come from a **paired** bootstrap resampling queries, 10,000 resamples, seed 42. Four of five metrics (nDCG@5, nDCG@10, MRR, Recall@5) survive Bonferroni correction at $\alpha = 0.01$. Recall@10 ($p = 0.0248$) fails Bonferroni correction. Full output: [`reports/experiment_001.json`](reports/experiment_001.json).
 
 > **Token Cap & Dual-Scoring Note**: All chunks in the vectorstore are capped at $\le 480$ BGE-small tokens (with a permanent assertion `max_tokens <= 512`), ensuring the encoder reads 100% of every chunk. The legacy 2,000-character proxy dual-scoring check has been retired as BGE-small token length directly enforces complete context visibility.
 
@@ -99,6 +97,9 @@ Moving from embedded Qdrant to a server, or from CPU to GPU, does not trigger a 
 ## Honest caveats
 
 These belong in the README, not buried:
+
+- `is_relevant()`'s 8-gram match can fire on SEC table delimiters (`"| | | | | | | |"`). 4 of 169 items are flagged `boilerplate_suspect`; excluding them moves Recall@10 by 0.004 (0.5799/0.6568 -> 0.5758/0.6485) and nDCG@10 by 0.009 (0.4311/0.5280 -> 0.4264/0.5195). Normalising table delimiters before n-gram matching remains unfixed.
+
 
 - The evaluation set is **LLM-generated**. Of 197 items, 31 are human-verified, 138 are
   unverified synthetic, and 28 were excluded.

@@ -48,18 +48,17 @@ DENSE_DIM = 384
 
 
 def _resolve_device(device: str) -> str:
-    if device != "auto":
-        return device
-    try:
-        import torch
-
-        if torch.cuda.is_available():
-            # Test torch cuda capability to prevent AssertionError if torch binary lacks CUDA C++ runtime
-            _ = torch.cuda.device_count()
-            return "cuda"
-    except Exception:
-        pass
-    return "cpu"
+    target = device if device != "auto" else "cuda"
+    if target == "cuda":
+        try:
+            import torch
+            if torch.cuda.is_available():
+                _ = torch.zeros(1).cuda()
+                return "cuda"
+        except Exception:
+            pass
+        return "cpu"
+    return target
 
 
 class DenseEmbeddingModel:
@@ -240,6 +239,7 @@ class VectorStore:
         url: str = "http://localhost:6333",
         api_key: Optional[str] = None,
         cfg: Optional[Any] = None,
+        timeout: float = 60.0,
     ):
         if config_hash is None:
             raise ValueError(
@@ -251,10 +251,11 @@ class VectorStore:
         self.url = url
         self.api_key = api_key if api_key is not None else os.environ.get("QDRANT_API_KEY")
         self.cfg = cfg
+        self.timeout = timeout
 
         if self.mode == "server":
             try:
-                self.client = QdrantClient(url=self.url, api_key=self.api_key)
+                self.client = QdrantClient(url=self.url, api_key=self.api_key, timeout=self.timeout)
             except (NameError, ImportError, AttributeError):
                 raise
             except Exception as err:

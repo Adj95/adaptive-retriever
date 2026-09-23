@@ -9,11 +9,17 @@ logger = logging.getLogger(__name__)
 
 
 def _resolve_device(device: str) -> str:
-    if device != "auto":
-        return device
-    import torch
-
-    return "cuda" if torch.cuda.is_available() else "cpu"
+    target = device if device != "auto" else "cuda"
+    if target == "cuda":
+        try:
+            import torch
+            if torch.cuda.is_available():
+                _ = torch.zeros(1).cuda()
+                return "cuda"
+        except Exception:
+            pass
+        return "cpu"
+    return target
 
 
 class Reranker:

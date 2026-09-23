@@ -160,12 +160,15 @@ def post_process_representation(text: str, kind: RepresentationKind, strict_mode
     )
 
     if is_invalid:
-        raise ValueError(
-            f"Post-processing failed for representation '{kind.value}': output is empty or contains forbidden preamble/format! "
-            f"Raw text: '{text[:60]}', Cleaned: '{cleaned[:60]}'"
-        )
+        if strict_mode:
+            raise ValueError(
+                f"Post-processing failed for representation '{kind.value}': output is empty or contains forbidden preamble/format! "
+                f"Raw text: '{text[:60]}', Cleaned: '{cleaned[:60]}'"
+            )
+        return text.strip()
 
     return cleaned
+
 
 
 def plan_representations(

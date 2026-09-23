@@ -139,7 +139,8 @@ class EvalItem(BaseModel):
     query_class_expected_reliable: bool = True
     unreliable_reason: Optional[str] = None
     answer_reference: Optional[str] = None
-    provenance: Literal["synthetic", "synthetic_verified", "synthetic_rejected", "human", "correction"]
+    provenance: Literal["synthetic", "synthetic_verified", "synthetic_rejected", "human", "correction", "boilerplate_suspect"]
+
     split: Literal["dev", "test"]
     verified_at: Optional[str] = None
     verified_by: Optional[str] = None
