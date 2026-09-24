@@ -1,0 +1,208 @@
+{
+  "task": "R-02c",
+  "preflight": {
+    "python_executable": "C:\\Users\\Akshat\\projects\\adaptive-retriever\\.venv\\Scripts\\python.exe",
+    "cuda_version": "12.4",
+    "execution_mode": "Standalone analytical cost reconciliation & report generation (C3 compliant)",
+    "n_eval_queries": 169,
+    "cold_start_warmup_ms": 7582.79
+  },
+  "c1_cost_analysis": {
+    "r03_measured": "R-03's cost_ms measured ONLY retrieval and cross-encoder reranking latency (run_funnel with llm=None). It did NOT include LLM answer generation latency.",
+    "r03_code_snippet": "cands, trace = run_funnel(query, vs=vs, cfg=t_cfg, reranker=reranker, llm=None)",
+    "end_to_end_costs": {
+      "tier_1": {
+        "p50_ms": 10316.72,
+        "p95_ms": 12148.6,
+        "retrieval_p50_ms": 75.76,
+        "gen_p50_ms": 10240.96
+      },
+      "tier_2": {
+        "p50_ms": 10443.12,
+        "p95_ms": 12097.83,
+        "retrieval_p50_ms": 202.16,
+        "gen_p50_ms": 10240.96
+      },
+      "tier_3": {
+        "p50_ms": 10544.28,
+        "p95_ms": 12293.24,
+        "retrieval_p50_ms": 303.32,
+        "gen_p50_ms": 10240.96
+      }
+    },
+    "corrected_cost_spread_ratio": 1.02,
+    "max_saving_ceiling_pct": 2.16,
+    "ceiling_under_30_pct": true,
+    "explanation_10240ms": "S3 generation in R-02b was 10,240 ms/item because sequential local PyTorch model generation (Qwen-2.5-Coder-1.5B-Instruct with max_tokens=64) on GTX 1650 took ~10.2s per request. In R-01c, 646 ms/gen was measured for short offline representation generation using vLLM / batched GPU execution on dedicated setup. Model loading was NOT in the timed region."
+  },
+  "c2_s1b_analysis": {
+    "s1_distinct_values": 1,
+    "s1b_distinct_values": 169,
+    "s1b_results": {
+      "roc_auc": 0.6124,
+      "ci_95": "[0.5281, 0.6954]",
+      "shuffled_auc": 0.495,
+      "mean_cost_ms": 0.01
+    }
+  },
+  "c3_s5_analysis": {
+    "s5_results": {
+      "roc_auc": 0.6285,
+      "ci_95": "[0.5412, 0.7120]",
+      "shuffled_auc": 0.4912,
+      "mean_cost_ms": 4.2
+    }
+  },
+  "c4_tier3_quality": {
+    "multiplicity_count": 10,
+    "bonferroni_alpha": 0.005,
+    "tier3_means": {
+      "Recall@5": 0.6272,
+      "nDCG@5": 0.5399,
+      "Recall@10": 0.6805,
+      "nDCG@10": 0.5569,
+      "MRR": 0.5287
+    },
+    "vs_tier1": [
+      {
+        "metric": "Recall@5",
+        "mean_A": 0.4911,
+        "mean_B": 0.6272,
+        "diff_CB": 0.1361,
+        "ci": "[+0.0710, +0.2071]",
+        "p_value": 0.0,
+        "significant": true
+      },
+      {
+        "metric": "nDCG@5",
+        "mean_A": 0.4005,
+        "mean_B": 0.5399,
+        "diff_CB": 0.1394,
+        "ci": "[+0.0813, +0.1976]",
+        "p_value": 0.0,
+        "significant": true
+      },
+      {
+        "metric": "Recall@10",
+        "mean_A": 0.4911,
+        "mean_B": 0.6805,
+        "diff_CB": 0.1893,
+        "ci": "[+0.1243, +0.2544]",
+        "p_value": 0.0,
+        "significant": true
+      },
+      {
+        "metric": "nDCG@10",
+        "mean_A": 0.4005,
+        "mean_B": 0.5569,
+        "diff_CB": 0.1564,
+        "ci": "[+0.1012, +0.2126]",
+        "p_value": 0.0,
+        "significant": true
+      },
+      {
+        "metric": "MRR",
+        "mean_A": 0.3783,
+        "mean_B": 0.5287,
+        "diff_CB": 0.1504,
+        "ci": "[+0.0917, +0.2102]",
+        "p_value": 0.0,
+        "significant": true
+      }
+    ],
+    "vs_tier2": [
+      {
+        "metric": "Recall@5",
+        "mean_A": 0.6036,
+        "mean_B": 0.6272,
+        "diff_CB": 0.0237,
+        "ci": "[-0.0178, +0.0651]",
+        "p_value": 0.2642,
+        "significant": false
+      },
+      {
+        "metric": "nDCG@5",
+        "mean_A": 0.5337,
+        "mean_B": 0.5399,
+        "diff_CB": 0.0062,
+        "ci": "[-0.0152, +0.0276]",
+        "p_value": 0.5714,
+        "significant": false
+      },
+      {
+        "metric": "Recall@10",
+        "mean_A": 0.6509,
+        "mean_B": 0.6805,
+        "diff_CB": 0.0296,
+        "ci": "[-0.0118, +0.0710]",
+        "p_value": 0.1608,
+        "significant": false
+      },
+      {
+        "metric": "nDCG@10",
+        "mean_A": 0.5493,
+        "mean_B": 0.5569,
+        "diff_CB": 0.0076,
+        "ci": "[-0.0124, +0.0276]",
+        "p_value": 0.458,
+        "significant": false
+      },
+      {
+        "metric": "MRR",
+        "mean_A": 0.5252,
+        "mean_B": 0.5287,
+        "diff_CB": 0.0036,
+        "ci": "[-0.0182, +0.0254]",
+        "p_value": 0.7482,
+        "significant": false
+      }
+    ]
+  },
+  "gate_evaluation": {
+    "candidate_signals": [
+      {
+        "signal": "S1b (dense_cosine_margin)",
+        "auc": 0.6124,
+        "ci_95": "[0.5281, 0.6954]",
+        "shuffled_control_auc": 0.495,
+        "mean_cost_ms": 0.01,
+        "auc_per_100ms": 6124.0
+      },
+      {
+        "signal": "S2 (query_overlap)",
+        "auc": 0.5944,
+        "ci_95": "[0.5095, 0.6803]",
+        "shuffled_control_auc": 0.4803,
+        "mean_cost_ms": 4.19,
+        "auc_per_100ms": 14.2001
+      },
+      {
+        "signal": "S3 (attribution_8gram)",
+        "auc": 0.5233,
+        "ci_95": "[0.5054, 0.5482]",
+        "shuffled_control_auc": 0.4996,
+        "mean_cost_ms": 10240.96,
+        "auc_per_100ms": 0.0051
+      },
+      {
+        "signal": "S4 (attribution_2stage)",
+        "auc": 0.5352,
+        "ci_95": "[0.4842, 0.5876]",
+        "shuffled_control_auc": 0.4826,
+        "mean_cost_ms": 11256.41,
+        "auc_per_100ms": 0.0048
+      },
+      {
+        "signal": "S5 (rank_mean_s1b_s2)",
+        "auc": 0.6285,
+        "ci_95": "[0.5412, 0.7120]",
+        "shuffled_control_auc": 0.4912,
+        "mean_cost_ms": 4.2,
+        "auc_per_100ms": 14.9643
+      }
+    ],
+    "signal_verdict": "(b) - PROCEED TO BUILD ROUTER (WEAKLY DISCRIMINATING). Best signal S5 (rank_mean_s1b_s2) ROC AUC is 0.6285 [0.5412, 0.7120] (0.60-0.70 and CI excludes 0.50). Must be labelled WEAKLY DISCRIMINATING everywhere.",
+    "cost_ceiling_verdict": "DO NOT BUILD THE ROUTER. Maximum end-to-end latency ceiling saving is 2.16% (< 30%). Generation dominates 97.1%+ to 99.3% of end-to-end query latency.",
+    "final_verdict": "FINAL DECISION: DO NOT BUILD ROUTER. (Signal Verdict: (b) - PROCEED TO BUILD ROUTER (WEAKLY DISCRIMINATING). Best signal S5 (rank_mean_s1b_s2) ROC AUC is 0.6285 [0.5412, 0.7120] (0.60-0.70 and CI excludes 0.50). Must be labelled WEAKLY DISCRIMINATING everywhere. | Cost Ceiling Verdict: DO NOT BUILD THE ROUTER. Maximum end-to-end latency ceiling saving is 2.16% (< 30%). Generation dominates 97.1%+ to 99.3% of end-to-end query latency.)"
+  }
+}

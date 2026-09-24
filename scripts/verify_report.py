@@ -36,7 +36,7 @@ def check_range(data: Dict[str, Any]) -> List[str]:
                         val = float(v)
                         if "pct" in k_lower and val > 1.0 and val <= 100.0:
                             val = val / 100.0
-                        min_b = -1.0 if "diff" in k_lower else 0.0
+                        min_b = -1.0 if any(d in new_path.lower() for d in ["diff", "vs_", "delta"]) else 0.0
                         if val < min_b - 1e-6 or val > 1.0 + 1e-6:
                             raise VerificationError(f"RANGE violation at '{new_path}': value {v} outside [{min_b}, 1]")
                 elif isinstance(v, str) and "[" in v and "]" in v:
@@ -44,7 +44,7 @@ def check_range(data: Dict[str, Any]) -> List[str]:
                     if any(m in k_lower for m in ["arm", "diff", "ci", "metric", "recall", "ndcg", "mrr"]):
                         try:
                             low, high = parse_ci_str(v)
-                            min_b = -1.0 if "diff" in k_lower else 0.0
+                            min_b = -1.0 if any(d in new_path.lower() for d in ["diff", "vs_", "delta"]) else 0.0
                             if low < min_b - 1e-6 or low > 1.0 + 1e-6 or high < min_b - 1e-6 or high > 1.0 + 1e-6:
                                 raise VerificationError(f"RANGE violation at '{new_path}': CI [{low}, {high}] outside [{min_b}, 1]")
                         except VerificationError:
