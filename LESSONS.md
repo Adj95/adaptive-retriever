@@ -273,11 +273,11 @@ Experiment 006 ran compression at a threshold that did not match `config/default
 
 > **Rule:** every config key that changes a published number must be printed by `check_preflight.py`.
 
-### 5. Multi-representation indexing at partial coverage is harmful, not neutral
+### 5. Multi-representation indexing at partial coverage: no resolvable effect
 
-At 8.75% coverage, representations improved the covered queries and degraded the rest, because added points compete for the same top-k slots. It must be applied at high coverage or not at all.
+At 8.75% corpus coverage (3,483 of 39,814 chunks), LLM-generated summaries, questions and keywords produced no change this evaluation can resolve. On the 32 queries whose gold passages were covered, all four moving metrics improved (Recall@5 +0.0625, nDCG@5 +0.0469, nDCG@10 +0.0263, MRR +0.0330) but none reached significance; n=32 cannot resolve an effect of this size, and roughly 104 powered queries would be required (174 under Bonferroni). On all 169 queries the multi-representation arm was slightly worse (Recall@10 -0.0237, p = 0.0428), which does not survive Bonferroni at alpha = 0.005. Slot competition was proposed as the mechanism, tested (did a representation enter top-10 while a gold raw chunk left?) and NOT confirmed. Representations are not near-duplicate vectors: median cosine to source is 0.79-0.82, only 5.55% at cosine >= 0.90.
 
-> **Rule:** multi-representation indexing at partial coverage is harmful, not neutral. Added representation points compete for the same top-k slots as raw chunks, degrading un-covered queries. Apply at high coverage or not at all.
+> **Rule:** report what the data resolves. A small negative that fails multiplicity correction, with a mechanism that failed its own test, is a null - not a finding.
 
 ### 6. Small LLM keyword generation is unviable
 

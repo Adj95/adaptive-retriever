@@ -64,7 +64,7 @@ query
   └─ stage 3  gated cross-encoder        100 → 10   (fires only when ranking is uncertain)
 ```
 
-**Index Structure.** The Qdrant vectorstore holds 39,814 token-capped raw chunks (max 480 BGE-small tokens per chunk). Multi-representation generation is supported by the ingest pipeline but remains un-indexed at scale as offline generation costs were not measured to repay their generation time.
+**Index Structure.** The Qdrant vectorstore holds 39,814 token-capped raw chunks (max 480 BGE-small tokens per chunk). Multi-representation generation is supported by the ingest pipeline but remains un-indexed at scale as offline generation costs were not measured to repay their generation time. Some source documents are themselves Q&A datasets formatted "Question: ... Answer: ...", so generated question representations trivially copy the existing question.
 
 **Representations collapse to chunks *before* fusion, not after.** This is the load-bearing
 detail. If you fuse at representation level and merge afterwards, a chunk with four

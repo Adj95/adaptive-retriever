@@ -41,6 +41,10 @@ report you produce against §3 before sending it.
     sample lines showing model "qwen2.5:3b-instruct-q4_K_M" and chunk_ids
     "<doc>_0007" that did not exist on disk. Plausible-looking output is worse
     than no output: it cannot be distinguished from real data by the reader.
+15. **Every report containing numbers must be accompanied by the committed JSON**
+    those numbers came from and by the output of
+    `python scripts/verify_report.py <that json>`. A report without a passing
+    verify_report output is not a finished report.
 
 
 ---
