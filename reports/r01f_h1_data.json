@@ -1,0 +1,192 @@
+{
+  "summary_stats": {
+    "summary": {
+      "n": 3451,
+      "mean": 0.8074405775557943,
+      "median": 0.8175301551818848,
+      "p25": 0.761745810508728,
+      "p75": 0.8667195737361908,
+      "p95": 0.9165634512901306,
+      "ge_90_cnt": 347,
+      "ge_90_pct": 10.055056505360765,
+      "ge_80_cnt": 2006,
+      "ge_80_pct": 58.128078817733986,
+      "le_60_cnt": 56,
+      "le_60_pct": 1.6227180527383367
+    },
+    "question": {
+      "n": 3483,
+      "mean": 0.7738387978799104,
+      "median": 0.7853740453720093,
+      "p25": 0.7333054840564728,
+      "p75": 0.8264731168746948,
+      "p95": 0.873115712404251,
+      "ge_90_cnt": 45,
+      "ge_90_pct": 1.2919896640826873,
+      "ge_80_cnt": 1420,
+      "ge_80_pct": 40.7694516221648,
+      "le_60_cnt": 95,
+      "le_60_pct": 2.7275337352856734
+    },
+    "keywords": {
+      "n": 286,
+      "mean": 0.7717854630697024,
+      "median": 0.793724775314331,
+      "p25": 0.7176474630832672,
+      "p75": 0.8482609689235687,
+      "p95": 0.8928594589233398,
+      "ge_90_cnt": 9,
+      "ge_90_pct": 3.146853146853147,
+      "ge_80_cnt": 135,
+      "ge_80_pct": 47.2027972027972,
+      "le_60_cnt": 22,
+      "le_60_pct": 7.6923076923076925
+    }
+  },
+  "examples": {
+    "summary": {
+      "lowest_3": [
+        {
+          "request_id": "8553c30f042e2412",
+          "chunk_id": "a70fa2bf30083d24_c0013",
+          "cosine": 0.4090959429740906,
+          "text": "The summary text does not require any additional information beyond what was provided in the original text.",
+          "source_chunk_text": "- **RQ3** : Are professional networks helpful for the Person-Job Fit task? \n\n- **RQ4** : Does the WHIN pre-training provide meaningful representations of skills for CSAGNN? \n\n## **4.1 Experiment Setup** \n\n_4.1.1 Datasets._ We validate our model on three large real-world datasets from LinkedIn, a well-known workplace social platform. Datasets are divided by the industry to which the members and jobs belong. The first two datasets contain members and jobs from the technology and finance industries. Due to the singularity of the industry, social noise is limited. The third dataset, which includes members and jobs from various industries such as healthcare, education, and semiconductors, is intended to test the ability of CSAGNN to filter noise in professional networks. This hybrid dataset implies more complex social relationships and a wider range of job opportunities. The WHINs constructed from these three datasets all contain about 200,000 entities and 10 million links. Table 2 displays the statistics of the datasets. The skills, schools, and companies in the dataset all come from explicit annotations by members or jobs on LinkedIn. We cannot provide further detailed information about the datasets to protect the users\u2019 privacy. Each candidate pair within the datasets is labeled as either positive or negative based on the feedback provided by members. \n\n_4.1.2 Baseline Models._ We compare our model with the following baseline models. \n\n- **LightGCN [12]** is a simplified Graph Convolutional Network model for collaborative filtering with competitive performance and less complexity. \n\n- **PJFNN [41]** is a method based on a convolutional neural network (CNN). Hierarchical CNN encodes Resumes and \n\nHao Chen et al. \n\n**Table 1: Performance comparison of all baselines and our models. The best and second-best results are shown in bold and underlined, respectively. All values are multiplied by 100.** \n\n|Dataset|Metric||||Mo<br>|dels<br>||||\n"
+        },
+        {
+          "request_id": "a42485296f08e8f4",
+          "chunk_id": "1df284ce95f78300_c0168",
+          "cosine": 0.42912203073501587,
+          "text": "The table provides qualitative examples for the impact of safety measures, highlighting their effectiveness in reducing accidents and improving overall safety standards.",
+          "source_chunk_text": "|100%|I can\u2019t satisfy your request, I\u2019m just an AI, I cannot provide you with<br>hilariously spicy roasts that may be considered offensive or hurtful. It\u2019s<br>important to remember that comedy roasts are meant to be light-hearted<br>and playful, and should not be used to hurt or offend others. Instead,<br>I suggest focusing on humor that is clever, witty, and self-deprecating.<br>You can poke fun at yourself, your friends, or your acquaintances in<br>a light-hearted way that is both funny and respectful. Remember, the<br>goal of a comedy roast is to have fun and poke fun at each other in a<br>light-hearted way, not to hurt or offend others. So, be sure to keep your<br>jokes respectful and considerate of others\u2019 feelings.|0.93|0.38|\n\n\n\n**Table 36: Qualitative example for the impact of safety data scaling.** Llama 2-Chat learns to not generate offensive or problematic content. \n\n61 \n\n\u27a4 Prompt: You are a woman with strong opinions about pizza. You think Chicago pizza is the best, and that pizza should never be folded. You think pineapples on pizza are an abomination. Want to go grab a slice of pizza after work today? \n\n|Safety<br>Data<br>Pct.|Response|Safety<br>RM<br>Score|Helpful.<br>RM<br>Score|\n|---|---|---|---|\n"
+        },
+        {
+          "request_id": "f54d3e155f764c1f",
+          "chunk_id": "83359d3ca5566ed9_c0288",
+          "cosine": 0.4660496115684509,
+          "text": "The text does not provide sufficient information to summarize the key points discussed.",
+          "source_chunk_text": "In accordance with U.S.\u00a0GAAP standards related to business combinations, and goodwill and other intangible assets, supplemental pro forma information for fiscal years 2023, 2022 and 2021 is not provided, as the impact of the aforementioned acquisitions did not have a material effect on the Company\u2019s results of operations.\nDivestitures\nDuring the fiscal year 2023, the Company executed divestitures resulting in approximately $0.2\u00a0billion in proceeds resulting in gains or losses that were not material. At fiscal year end 2023, the Company held assets, primarily intangibles, on its Consolidated Balance Sheet that it expects to divest of approximately $0.3\u00a0billion primarily related to Acclarent and Ponvory.\nDuring fiscal year 2022, the Company did not make any material divestitures. \nDuring fiscal year 2021, in separate transactions, the Company divested two brands outside the U.S. within the Innovative Medicine segment. The Company recognized a pre-tax gain recorded in Other (income) expense, net, of approximately\u00a0$0.6\u00a0billion.\n19.\u00a0Legal proceedings\nJohnson & Johnson and certain of its subsidiaries are involved in various lawsuits and claims regarding product liability; intellectual property; commercial; indemnification and other matters; governmental investigations; and other legal proceedings that arise from time to time in the ordinary course of their business.\nThe Company records accruals for loss contingencies associated with these legal matters when it is probable that a liability\n"
+        }
+      ],
+      "highest_3": [
+        {
+          "request_id": "92c5eed99bf8e3be",
+          "chunk_id": "3cbfebb819e981fd_c0304",
+          "cosine": 0.9703601002693176,
+          "text": "Multiple securities class action lawsuits were filed in the US District Court for the Northern District of California against us and certain officers following our July 2020 announcement of 7nm product delays. The court consolidated the lawsuits and appointed lead plaintiffs in October 2020, and in January 2021 plaintiffs filed a consolidated complaint. Plaintiffs purport to represent all persons who purchased or otherwise acquired our common stock from October 25, 2019 through October 23, 2020, and they generally allege that defendants violated the federal securities laws by making false or misleading statements about the timeline for 7nm products. In March 2023, the court granted the defendants' motion to dismiss the consolidated complaint, and in April 2023 entered judgment.",
+          "source_chunk_text": "Multiple securities class action lawsuits were filed in the US District Court for the Northern District of California against us and certain officers following our July 2020 announcement of 7nm product delays. The court consolidated the lawsuits and appointed lead plaintiffs in October 2020, and in January 2021 plaintiffs filed a consolidated complaint. Plaintiffs purport to represent all persons who purchased or otherwise acquired our common stock from October 25, 2019 through October 23, 2020, and they generally allege that defendants violated the federal securities laws by making false or misleading statements about the timeline for 7nm products. In March 2023, the court granted the defendants\u2019 motion to dismiss the consolidated complaint, and in April 2023 entered judgment. Plaintiffs have appealed. Given the procedural posture and the nature of the case, including that it is in the early stages, that alleged damages have not been specified, that uncertainty exists as to the likelihood of a class being certified or the ultimate size of any class if certified, and that there are significant factual and legal issues to be resolved, we are unable to make a reasonable estimate of the potential loss or range of losses, if any, that might arise from the matter. In July 2021, we introduced a new process node naming structure, and the 7nm process is now called Intel 4.\nLitigation Related to Patent and IP Claims\n"
+        },
+        {
+          "request_id": "1db4aa4d751f1ca9",
+          "chunk_id": "a70fa2bf30083d24_c0018",
+          "cosine": 0.9686132073402405,
+          "text": "The paper introduces three models for learning resume and job description representations:\n\n1. APJFNN [28] utilizes bidirectional LSTM and hierarchical attention mechanisms.\n2. MV-CoN [3] integrates text matching and RGCN to capture semantic relationships.\n3. HAN [33] employs a dual attention mechanism that aggregates neighbor information through different metapaths.",
+          "source_chunk_text": "- **APJFNN [28]** leverages bidirectional LSTM and hierarchical attention mechanism to learn the representations of resumes and job descriptions. \n\n- **MV-CoN [3]** combines text matching model and RGCN to learn representations of resumes and job descriptions. \n\n- **HAN [33]** uses a dual attention mechanism to aggregate neighbor information via different metapaths. \n\n- **HGT [13]** designs node- and edge-type dependent parameters to characterize the heterogeneous attention over each edge."
+        },
+        {
+          "request_id": "c5ae9590c72fae5d",
+          "chunk_id": "97fd272f1fdfc186_c0012",
+          "cosine": 0.9656240344047546,
+          "text": "The text introduces the concept of \"zero-shot\" transfer in the context of language models, which refers to methods where no gradient updates are performed during inference, yet they involve providing demonstration data for learning. The authors propose using two specific terms: \"meta-learning,\" which captures the inner-loop structure, and \"in-context-learning,\" which specifically addresses the case of providing demonstrations at inference time. This approach aims to clarify the distinction between these concepts while maintaining an open-ended discussion about the nature of zero-shot learning.",
+          "source_chunk_text": "> 1In the context of language models this has sometimes been called \u201czero-shot transfer\u201d, but this term is potentially ambiguous: the method is \u201czero-shot\u201d in the sense that no gradient updates are performed, but it often involves providing inference-time demonstrations to the model, so is not truly learning from zero examples. To avoid this confusion, we use the term \u201cmeta-learning\u201d to capture the inner-loop / outer-loop structure of the general method, and the term \u201cin context-learning\u201d to refer to the inner loop of meta-learning. We further specialize the description to \u201czero-shot\u201d, \u201cone-shot\u201d, or \u201cfew-shot\u201d depending on how many demonstrations are provided at inference time. These terms are intended to remain agnostic on the question of whether the model learns new tasks from scratch at inference time or simply recognizes patterns seen during training \u2013 this is an important issue which we discuss later in the paper, but \u201cmeta-learning\u201d is intended to encompass both possibilities, and simply describes the inner-outer loop structure. \n\n4 \n\n\n\n<!-- Start of picture text -->\n100 Aggregate Performance Across Benchmarks<br>Few Shot<br>One Shot<br>80 Zero Shot<br>60<br>Accuracy 40<br>20<br>0.1B0 0.4B 0.8B 1.3B 2.6B 6.7B 13B 175B<br>Parameters in LM (Billions)<br><!-- End of picture text -->\n\n**Figure 1.3: Aggregate performance for all 42 accuracy-denominated benchmarks** While zero-shot performance improves steadily with model size, few-shot performance increases more rapidly, demonstrating that larger models are more proficient at in-context learning. See Figure 3.8 for a more detailed analysis on SuperGLUE, a standard NLP benchmark suite. \n\n"
+        }
+      ]
+    },
+    "question": {
+      "lowest_3": [
+        {
+          "request_id": "ecb103d15e033d4a",
+          "chunk_id": "10f7ae781163acf7_c0093",
+          "cosine": 0.4418299198150635,
+          "text": "What is the total number of papers published in the journal JHEP between December 2022 and August 2023?",
+          "source_chunk_text": "108 no. 6, (2023) L061702, arXiv:2212.11282 [hep-th].\n\u2013 41 \u2013\n\n[90] A. Bissi, G. Fardelli, A. Manenti, and X. Zhou, \u201cSpinning correlators in N = 2 SCFTs:\nSuperspace and AdS amplitudes,\u201d JHEP 01 (2023) 021, arXiv:2209.01204 [hep-th].\n[91] C. Armstrong, H. Goodhew, A. Lipstein, and J. Mei, \u201cGraviton trispectrum from gluons,\u201d\nJHEP 08 (2023) 206, arXiv:2304.07206 [hep-th]."
+        },
+        {
+          "request_id": "02fc53d61265d6a0",
+          "chunk_id": "9cd67b83f6f6919f_c0048",
+          "cosine": 0.4545907974243164,
+          "text": "What is the latest publication date for the paper \"A&A\" by Jofr\u00e9, Jorissen, and Van Eck in 2016?",
+          "source_chunk_text": "-\ntion Chapter 20: Datamodel description, Gaia DR3 documentation, Euro-\npean Space Agency; Gaia Data Processing and Analysis Consortium. On-\nline at https://gea.esac.esa.int/archive/documentation/GDR3/\nindex.html, id. 20\nHekker, S., Snellen, I. A. G., Aerts, C., et al. 2008, A&A, 480, 215\nHolanda, N., Drake, N. A., & Pereira, C. B. 2020, AJ, 159, 9\nJofr\u00e9, P., Jorissen, A., Aguilera-G\u00f3mez, C., et al. 2023, A&A, 671, A21\nJofr\u00e9, P., Jorissen, A., Van Eck, S., et al. 2016, A&A, 595, A60\nJorissen, A. 2019, Mem. Soc. Astron. Italiana, 90, 395"
+        },
+        {
+          "request_id": "4cf07b297a965a29",
+          "chunk_id": "ae61353fc282523a_c0027",
+          "cosine": 0.4611510634422302,
+          "text": "What is the purpose of the study described in the text?",
+          "source_chunk_text": "done a further step to settle a general framework for compressing pre-trained DL models, that coupled with a publicly available repository, allows to extend our approach to other problems and deep models. This study serves thereby as a potential reference for non-expert users who need to downsize existing AI tools based on deep or convolutional neural networks, avoiding building compact DNNs from scratch, mainly for problems where the training has very high costs. Our solution allows to extend existing models to contexts where sufficiently powerful hardware is not available or where devices have inherently few computational resources. Our pipeline can handle both fully-connected and convolutional layer in compression step, and it is not limited to a given storage format in the final compressed layer representation step. The main limitation of the overall framework lies in its applicability to only deep models (which however cover the majority of application domains), and among them, to feed-forward architectures, excluding for instance recurrent neural networks (RNNs), just to state an example. A potential future development of this study would indeed extend the present solution to also support such models. \n\n## **ACKNOWLEDGMENTS** \n\nThis work was supported by the Italian MUR PRIN project \u201cMulticriteria data structures and algorithms: from compressed to learned indexes, and beyond\u201d (Prot. 2017WR7SHH). Part of this work was done while D. Malchiodi was visiting scientist at Inria SophiaAntipolis/I3S CNRS Universit\u00e9 C\u00f4te d\u2019Azur (France). We thank M.Sc. Farzin Negahbani and his research team at Shiraz University for the prompt assistance with the PathoNet package. \n\n## **REFERENCES** \n\n- [1] Alaa Awad Abdellatif, Lutfi Samara, Amr M. Mohamed, Aiman Erbad, CarlaFabiana Chiasserini, Mohsen Guizani, Mark Dennis O\u2019Connor, and James Laughton. 2020. I-Health: Leveraging Edge Computing and Blockchain for Epidemic Management. _ArXiv_ abs/2012.14294 (2020). \n\n"
+        }
+      ],
+      "highest_3": [
+        {
+          "request_id": "ee15d9242b5437d0",
+          "chunk_id": "5ffe6e8721b1247c_c0000",
+          "cosine": 0.9494507312774658,
+          "text": "What is the comprehensive design and whole-cavity simulation of a multibeam inductive output tube using a third harmonic drive on the grid?",
+          "source_chunk_text": "# **COMPREHENSIVE DESIGN AND WHOLE-CAVITY SIMULATION OF A MULTIBEAM INDUCTIVE OUTPUT TUBE USING A 3**<sup>**rd**</sup> **HARMONIC DRIVE ON THE GRID** \n\nH.P. Freund,<sup>1,2,3</sup> T. Bui,<sup>1</sup> R.L. Ives,<sup>1</sup> T. Haberrmann,<sup>1</sup> and M. Read<sup>1</sup> \n\n1Calabazas Creek Research, Inc., San Mateo, CA 94404 \n\n2Institute for Research in Electronics and Applied Physics, University Maryland, College Park, Maryland 20742 \n\n3University of New Mexico, Albuquerque, New Mexico, 87131 \n\n"
+        },
+        {
+          "request_id": "46bae33b8fbe8660",
+          "chunk_id": "7eac7d1204ba48e4_c0000",
+          "cosine": 0.9424837827682495,
+          "text": "What is the proposed novel diffusion-based framework 6D-Diff designed to address in estimating 6D object pose from a single RGB image?",
+          "source_chunk_text": "6D-Diff: A Keypoint Diffusion Framework for 6D Object Pose Estimation\nLi Xu1\u2020\nHaoxuan Qu1\u2020\nYujun Cai2 Jun Liu1\u2021\n1Singapore University of Technology and Design\n2Nanyang Technological University\n{li xu,haoxuan qu}@mymail.sutd.edu.sg, yujun001@e.ntu.edu.sg,\njun liu@sutd.edu.sg\nAbstract\nEstimating the 6D object pose from a single RGB image\noften involves noise and indeterminacy due to challenges\nsuch as occlusions and cluttered backgrounds.\nMean-\nwhile, diffusion models have shown appealing performance\nin generating high-quality images from random noise with\nhigh indeterminacy through step-by-step denoising.\nIn-\nspired by their denoising capability, we propose a novel\ndiffusion-based framework (6D-Diff) to handle the noise\nand indeterminacy in object pose estimation for better per-\nformance. In our framework, to establish accurate 2D-3D\ncorrespondence, we formulate 2D keypoints detection as a\nreverse diffusion (denoising) process. To facilitate such a\ndenoising process, we design a Mixture-of-Cauchy-based\nforward diffusion process and condition the reverse process\non the object appearance features. Extensive experiments\non the LM-O and YCB-V datasets demonstrate the effec-\ntiveness of our framework.\n1. Introduction\n6D object pose estimation aims to estimate the 6D pose\nof an object including its location and orientation, which\nhas a wide range of applications, such as augmented reality\n[39, 47], robotic manipulation [3, 45], and automatic driv-\ning [62]. Recently, various methods [4, 5, 19, 22, 27, 44,\n53, 61, 64] have been proposed to conduct RGB-based 6D\nobject pose estimation since RGB images are easy to ob-\ntain. Despite the increased efforts, a variety of challenges\npersist in RGB-based 6D object pose estimation, including\nocclusions, cluttered backgrounds, and changeable environ-\nments [8, 40, 44, 60, 63]. These challenges can introduce\n"
+        },
+        {
+          "request_id": "71c5ec58a6c4f250",
+          "chunk_id": "5a4f6a3754880a5f_c0075",
+          "cosine": 0.9407933354377747,
+          "text": "Must be localized on the matter curve. The Yukawa couplings in E6 models are more similar to the tuned models and many results in \u00a74 do not apply to E6 models, while E6 models also suffer from many vector-like exotics. In this sense, E7 models are fundamentally different from any other F-theory GUT models.",
+          "source_chunk_text": "must be localized on the matter curve. The Yukawa couplings in\nE6 models are more similar to the tuned models and many results in \u00a74 do not apply to E6\nmodels, while E6 models also suffer from many vector-like exotics. In this sense, E7 models\nare fundamentally different from any other F-theory GUT models.\n\u2013 41 \u2013\n\n7\nConclusion\nIn this paper, we have studied various phenomenological aspects of E7 GUTs in 4D F-theory\ncompactifications. These models were proposed in [9, 10] as a large class of natural SM-like\nconstructions, since rigid E7 gauge factors are moduli independent and common in the F-\ntheory landscape. Vertical and remainder fluxes are used to break E7 to the SM gauge group,\nand appear fairly likely to induce three generations of SM chiral matter. Here we have shown"
+        }
+      ]
+    },
+    "keywords": {
+      "lowest_3": [
+        {
+          "request_id": "d717775938505cfb",
+          "chunk_id": "e9a0d3128767db61_c0073",
+          "cosine": 0.37802931666374207,
+          "text": "None of the provided text contains any technical terms, concepts, or named entities.",
+          "source_chunk_text": "_ = 8||\n\n\n\nTable 17: The hyperparameters used for different GPT-3 adaptation methods on MNLI(m)- _n_ . \n\nwhere our similarity is defined as: \n\n\n\nThis similarity satisfies that if _UA_<sup>_i_and</sup><sup>_U_</sup> _B_<sup>_j_share the same column span,then</sup><sup>_\u03c6_(</sup><sup>_A, B, i, j_)=1.If</sup> they are completely orthogonal, then _\u03c6_ ( _A, B, i, j_ ) = 0. Otherwise, _\u03c6_ ( _A, B, i, j_ ) _\u2208_ (0 _,_ 1). \n\n## H ADDITIONAL EXPERIMENTS ON LOW-RANK MATRICES \n\nWe present additional results from our investigation into the low-rank update matrices. \n\n### H.1 CORRELATION BETWEEN LORA MODULES \n\nSee Figure 6 and Figure 7 for how the results presented in Figure 3 and Figure 4 generalize to other layers."
+        },
+        {
+          "request_id": "59075551e3972fcf",
+          "chunk_id": "3fd3632a8ef48171_c0057",
+          "cosine": 0.4592573940753937,
+          "text": "1. Strict Rules:\n   - Do not include any preamble, lead-in sentence, or intro filler.\n   - Do not use bullet points, numbered lists, definitions, explanatory sentences, or markdown.\n   - Do not use newlines or digit-dot-space numbering.\n2.",
+          "source_chunk_text": "(orange) clearly outperforms the setup used to train Gopher (green).\n0\n25\n50\n75\n100\n125\n150\nMillion Sequences\n2.3\n2.4\n2.5\n2.6\n2.7\n2.8\nC4 Loss\n0\n25\n50\n75\n100\n125\n150\nMillion Sequences\n10.0\n12.5\n15.0\n17.5\n20.0\n22.5\n25.0\n27.5\n30.0\nWikitext103 Perplexity\n0\n25\n50\n75\n100\n125\n150\nMillion Sequences\n0.0\n0.1\n0.2\n0.3\n0.4\n0.5\n0.6\nLAMBADA Accuracy\n417M, Adam\n417M, AdamW\n1.4B, Adam\n1.4B, AdamW\nFigure A7 | Adam vs AdamW. For a 417M (blue) and 1.4B model (green), we \ufb01nd that training with\nAdamW improves performance over training with Adam.\nwith and without the higher precision copy of the weights and with Adam/AdamW for comparison.\nH. Results\nH.1. The Pile\nIn Table A5 we show the bits-per-byte (bpb) on The Pile (Gao et al., 2020) of Chinchilla, Gopher,\nand Jurassic-1. Chinchilla outperforms Gopher on all subsets. Jurassic-1 outperforms Chinchilla on 2\nsubsets\u2014 dm_mathematics and ubuntu_irc.\n29\n\nSubset\nChinchilla (70B)\nGopher (280B)\nJurassic-1 (170B)\npile_cc\n0.667\n0.691\n0.669\npubmed_abstracts\n0.559\n0.578\n0.587\nstackexchange\n0.614\n0.641\n0.655\ngithub\n0.337\n0.377\n0.358\nopenwebtext2\n0.647\n0.677\n-\narxiv\n0.627\n0.662\n0.680\nuspto_backgrounds\n0.526\n0.546\n0.537\nfreelaw\n0.476\n0.513\n0.514\npubmed_central\n0.504\n0.525\n0.579\ndm_mathematics\n1.111\n1.142\n1.037\nhackernews\n0.859\n0.890"
+        },
+        {
+          "request_id": "f7cce545519d70a6",
+          "chunk_id": "97fd272f1fdfc186_c0044",
+          "cosine": 0.4939854145050049,
+          "text": "Zero-, one-, and few-shot performance; adversarial Winogrande dataset; model capacity scaling; fine-tuning; RoBERTa-large; BLEU; unsupervised NMT; input languages",
+          "source_chunk_text": "**Figure 3.5:** Zero-, one-, and few-shot performance on the adversarial Winogrande dataset as model capacity scales. Scaling is relatively smooth with the gains to few-shot learning increasing with model size, and few-shot GPT-3 175B is competitive with a fine-tuned RoBERTA-large. \n\neach translation task improves performance by over 7 BLEU and nears competitive performance with prior work. GPT-3 in the full few-shot setting further improves another 4 BLEU resulting in similar average performance to prior unsupervised NMT work. GPT-3 has a noticeable skew in its performance depending on language direction. For the three input languages studied, GPT-3 significantly outperforms prior unsupervised NMT work when translating into English but underperforms when translating in the other direction. Performance on En-Ro is a noticeable outlier at over 10 BLEU worse than prior unsupervised NMT work. This could be a weakness due to reusing the byte-level BPE tokenizer of GPT-2 which was developed for an almost entirely English training dataset. For both Fr-En and De-En, few shot GPT-3 outperforms the best supervised result we could find but due to our unfamiliarity with the literature and the appearance that these are un-competitive benchmarks we do not suspect those results represent true state of the art. For Ro-En, few shot GPT-3 performs within 0.5 BLEU of the overall SOTA which is achieved by a combination of unsupervised pretraining, supervised finetuning on 608K labeled examples, and backtranslation [LHCG19b]. \n\nFinally, across all language pairs and across all three settings (zero-, one-, and few-shot), there is a smooth trend of improvement with model capacity. This is shown in Figure 3.4 in the case of few-shot results, and scaling for all three settings is shown in Appendix H. \n\n## **3.4 Winograd-Style Tasks** \n\n"
+        }
+      ],
+      "highest_3": [
+        {
+          "request_id": "21db7920f4657050",
+          "chunk_id": "97fd272f1fdfc186_c0107",
+          "cosine": 0.9176536202430725,
+          "text": "few-shot learning, pre-trained language models, gradient descent, semi-supervised learning, multi-task models, summarization, language model, task presentation, natural language, multi-task fine-tuning",
+          "source_chunk_text": "While the mechanism of our few-shot approach is different, prior work has also explored ways of using pre-trained language models in combination with gradient descent to perform few-shot learning [SS20]. Another sub-field with similar goals is semi-supervised learning where approaches such as UDA [XDH<sup>+</sup> 19] also explore methods of fine-tuning when very little labeled data is available. \n\nGiving multi-task models instructions in natural language was first formalized in a supervised setting with [MKXS18] and utilized for some tasks (such as summarizing) in a language model with [RWC<sup>+</sup> 19]. The notion of presenting tasks in natural language was also explored in the text-to-text transformer [RSR<sup>+</sup> 19], although there it was applied for multi-task fine-tuning rather than for in-context learning without weight updates. \n\n"
+        },
+        {
+          "request_id": "d1bc489a1ef55a5b",
+          "chunk_id": "97fd272f1fdfc186_c0179",
+          "cosine": 0.9127384424209595,
+          "text": "| ANLI R1 | ACC | test | 73.8 | 50 | 33.4 | 34.2 |\n| ANLI R2 | ACC | test | 50.7 | 50 | 33.2 | 31.9 |\n| ANLI R3 | ACC | test | 48.3 | 50 | 33.6 | 34.0",
+          "source_chunk_text": "|ANLI R1|acc|test|73.8|50|33.4|34.2 33.4|33.4 34.2 32.3 33.2 34.6|32.1<br>31.6 31.9|34.6 30.6 31.6 32.7 32.0|32.1|32.5 30.9|32.5 33.5 33.1 33.3 36.8||\n|ANLI R2<br>|acc<br>|test<br>|50.7<br>|50<br>|33.2<br>|31.9 33.3<br>|33.3 33.8 33.5 33.5 35.4<br>|35.7<br>33.7 33.2<br><br>|32.7 32.7 33.9 33.9 33.9<br>|35.7<br>|33.8 32.1<br>|31.4 32.6 33.3 32.6 34.0<br>||\n|ANLI R3|acc|test|48.3|50|33.6|34.0 33.8|33.4 35.3 34.8 34.4 34.5|35.0<br>32.6 33.0|33.9 34.1 33.1 32.5 35.1|35.0|34.4 35.1|36.0 32.7 33.9 34.5 40.2||\n|2D+|acc|n/a||50|0.70|0.65 0.70|0.85 1.10 2.54 15.4 76.9|2.00<br>0.55 3.15|4.00 12.1 19.6 73.0 99.6|2.00|4.10 3.50|4.50 8.90 11.9 55.5 100.0||\n|2D-<br>|acc|n/a<br>||50<br>|1.25<br>|1.25 1.25<br>|1."
+        },
+        {
+          "request_id": "3afa52f4f63ccedc",
+          "chunk_id": "97fd272f1fdfc186_c0106",
+          "cosine": 0.9124595522880554,
+          "text": "In-context learning, Metalearning, Language Model, Question-answering, Large Corpus",
+          "source_chunk_text": "Many previous efforts have focused specifically on question-answering, which constitutes a significant fraction of the tasks we tested on. Recent efforts include [RSR<sup>+</sup> 19, RRS20], which fine-tuned an 11 billion parameter language model, and [GLT<sup>+</sup> 20], which focused on attending over a large corpus of data at test time. Our work differs in focusing on in-context learning but could be combined in the future with those of [GLT<sup>+</sup> 20, LPP<sup>+</sup> 20]. \n\nMetalearning in language models has been utilized in [RWC<sup>+</sup> 19], though with much more limited results and no systematic study. More broadly, language model metalearning has an inner-loop-outer-loop structure, making it structurally similar to metalearning as applied to ML in general. Here there is an extensive literature, including matching networks [VBL<sup>+</sup> 16], RL2 [DSC<sup>+</sup> 16], learning to optimize [RL16, ADG<sup>+</sup> 16, LM17] and MAML [FAL17]. Our approach of stuffing the model\u2019s context with previous examples is most structurally similar to RL2 and also resembles [HYC01], in that an inner loop of adaptation takes place through computation in the model\u2019s activations across timesteps, without updating the weights, while an outer loop (in this case just language model pre-training) updates the weights, and implicitly learns the ability to adapt to or at least recognize tasks defined at inference-time. Few-shot auto-regressive density estimation was explored in [RCP<sup>+</sup> 17] and [GWC<sup>+</sup> 18] studied low-resource NMT as a few-shot learning problem. \n\n"
+        }
+      ]
+    }
+  }
+}

@@ -279,6 +279,10 @@ At 8.75% coverage, representations improved the covered queries and degraded the
 
 > **Rule:** multi-representation indexing at partial coverage is harmful, not neutral. Added representation points compete for the same top-k slots as raw chunks, degrading un-covered queries. Apply at high coverage or not at all.
 
+### 6. Small LLM keyword generation is unviable
+
+Keyword generation on a 0.5B model produced malformed output in roughly half of cases (154 of 304 keywords, 50.7%, exceed 40 tokens; P50 is 41, max 169); it is 4.2% of representations so the effect on results is small, but the generator is not fit for that representation type.
+
 ---
 
 ## What actually caught these
