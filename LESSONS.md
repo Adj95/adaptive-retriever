@@ -299,3 +299,14 @@ Not the test suite, and never an exception. In order of how much they found:
 5. **`ruff --select F821,E9`**, which found a syntax error 48 green tests had missed.
 
 
+
+
+---
+
+## 10. Cascade Router Cancellation (Task R-02 Closure)
+
+1. Retrieval is 1.0% to 5.4% of end-to-end query cost (75.76-303.32 ms out of 1,410-1,536 ms); tiering retrieval alone saves -0.51%.
+2. The extractive tier (Tier 0) is 20.29x cheaper (75.76 ms vs 1,536.83 ms) but succeeds on 37.87% of queries, capping a perfect oracle router at 38.62% maximum cost saving against Always-T2 (32.79% against Always-T3).
+3. The best escalation signal is ROC AUC 0.6124 - identically the Phase 5 confidence score, already measured and rejected. No new signal exists.
+
+> **Rule:** If end-to-end query latency is dominated by LLM answer generation (95%+), tiering retrieval alone cannot yield meaningful cost savings. A cascade router requires both an extractive fallback tier and a novel gate signal that beats pre-existing query confidence.

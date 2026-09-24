@@ -1,0 +1,115 @@
+{
+  "task": "R-02e",
+  "definitions": {
+    "success": "Retrieval result contains a gold passage per is_relevant().",
+    "oracle_knowledge": "Oracle knows the cheapest tier that succeeds per query; unhandled queries charged most expensive tier (T2).",
+    "tier_costs_e2e_p50_ms": {
+      "tier_0": 75.76,
+      "tier_1": 1410.43,
+      "tier_2": 1536.83,
+      "tier_3": 1403.32
+    }
+  },
+  "e1_oracle_bound": {
+    "per_tier_success_rates": {
+      "tier_0": 0.3787,
+      "tier_1": 0.5089,
+      "tier_2": 0.6509,
+      "tier_3": 0.6805
+    },
+    "per_tier_success_counts": {
+      "tier_0": 64,
+      "tier_1": 86,
+      "tier_2": 110,
+      "tier_3": 115
+    },
+    "oracle_distribution": {
+      "tier_0": 64,
+      "tier_3": 51,
+      "tier_1": 0,
+      "tier_2": 0,
+      "failed_unsuccessful_charged_t2": 54
+    },
+    "oracle_mean_cost_ms": 943.24,
+    "always_t0_mean_cost_ms": 75.76,
+    "always_t1_mean_cost_ms": 1410.43,
+    "always_t2_mean_cost_ms": 1536.83,
+    "always_t3_mean_cost_ms": 1403.32,
+    "max_achievable_saving_vs_always_t2_pct": 38.62,
+    "max_achievable_saving_vs_always_t3_pct": 32.79
+  },
+  "e2_router_simulation": [
+    {
+      "threshold_percentile_t2": 0.0,
+      "mean_cost_ms": 75.76,
+      "success_rate": 0.3787,
+      "fraction_oracle_saving_captured": 1.0
+    },
+    {
+      "threshold_percentile_t2": 0.1,
+      "mean_cost_ms": 221.87,
+      "success_rate": 0.4077,
+      "fraction_oracle_saving_captured": 1.0
+    },
+    {
+      "threshold_percentile_t2": 0.2,
+      "mean_cost_ms": 367.97,
+      "success_rate": 0.4363,
+      "fraction_oracle_saving_captured": 1.0
+    },
+    {
+      "threshold_percentile_t2": 0.3,
+      "mean_cost_ms": 514.08,
+      "success_rate": 0.4646,
+      "fraction_oracle_saving_captured": 1.0
+    },
+    {
+      "threshold_percentile_t2": 0.4,
+      "mean_cost_ms": 660.19,
+      "success_rate": 0.4924,
+      "fraction_oracle_saving_captured": 1.0
+    },
+    {
+      "threshold_percentile_t2": 0.5,
+      "mean_cost_ms": 806.29,
+      "success_rate": 0.5198,
+      "fraction_oracle_saving_captured": 1.0
+    },
+    {
+      "threshold_percentile_t2": 0.6,
+      "mean_cost_ms": 952.4,
+      "success_rate": 0.5468,
+      "fraction_oracle_saving_captured": 0.9846
+    },
+    {
+      "threshold_percentile_t2": 0.7,
+      "mean_cost_ms": 1098.51,
+      "success_rate": 0.5734,
+      "fraction_oracle_saving_captured": 0.7384
+    },
+    {
+      "threshold_percentile_t2": 0.8,
+      "mean_cost_ms": 1244.62,
+      "success_rate": 0.5997,
+      "fraction_oracle_saving_captured": 0.4923
+    },
+    {
+      "threshold_percentile_t2": 0.9,
+      "mean_cost_ms": 1390.72,
+      "success_rate": 0.6255,
+      "fraction_oracle_saving_captured": 0.2461
+    },
+    {
+      "threshold_percentile_t2": 1.0,
+      "mean_cost_ms": 1536.83,
+      "success_rate": 0.6509,
+      "fraction_oracle_saving_captured": 0.0
+    }
+  ],
+  "e3_findings": {
+    "finding_1": "1. Retrieval is 1.0% to 5.4% of end-to-end query cost (75.76-303.32 ms out of 1,410-1,536 ms); tiering retrieval alone saves -0.51%.",
+    "finding_2": "2. The extractive tier is 20.29x cheaper (75.76 ms vs 1,536.83 ms) but succeeds on 37.87% of queries, capping a perfect oracle router at 38.62% saving.",
+    "finding_3": "3. The best escalation signal is ROC AUC 0.6124 - identically the Phase 5 confidence score, already measured and rejected. No new signal exists.",
+    "conclusion": "Conclusion: the cascade was cancelled before implementation."
+  }
+}
