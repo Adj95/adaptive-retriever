@@ -646,11 +646,17 @@ class VectorStore:
             )
 
         t_ds = time.perf_counter()
-        dense_hits = self.search_dense(dense_vec, limit=dense_limit, query_filter=effective_filter)
+        if dense_limit > 0 and weights.get("dense", 0.0) > 0.0:
+            dense_hits = self.search_dense(dense_vec, limit=dense_limit, query_filter=effective_filter)
+        else:
+            dense_hits = []
         dense_search_ms = round((time.perf_counter() - t_ds) * 1000, 2)
 
         t_ss = time.perf_counter()
-        sparse_hits = self.search_sparse(sparse_vec, limit=sparse_limit, query_filter=effective_filter)
+        if sparse_limit > 0 and weights.get("sparse", 0.0) > 0.0:
+            sparse_hits = self.search_sparse(sparse_vec, limit=sparse_limit, query_filter=effective_filter)
+        else:
+            sparse_hits = []
         sparse_search_ms = round((time.perf_counter() - t_ss) * 1000, 2)
 
         t_fu = time.perf_counter()

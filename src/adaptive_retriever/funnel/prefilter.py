@@ -91,6 +91,12 @@ def build_prefilter(
             must_conditions.append(rest.FieldCondition(key=key, match=match))
             applied_constraints[key] = v_str
 
+    kind_filter = prefilter_cfg.get("kind_filter", None)
+    if kind_filter and kind_filter != "all" and "kind" not in applied_constraints:
+        match = rest.MatchValue(value=str(kind_filter))
+        must_conditions.append(rest.FieldCondition(key="kind", match=match))
+        applied_constraints["kind"] = str(kind_filter)
+
     if not must_conditions:
         return None, {
             "skipped": False,
