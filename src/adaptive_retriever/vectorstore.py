@@ -304,6 +304,7 @@ class VectorStore:
             mode=kwargs.pop("mode", vs.get("mode", "server")),
             url=kwargs.pop("url", vs.get("url", "http://localhost:6333")),
             api_key=kwargs.pop("api_key", None),
+            timeout=kwargs.pop("timeout", vs.get("timeout", 60.0)),
             cfg=cfg,
             **kwargs,
         )

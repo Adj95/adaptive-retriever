@@ -1,0 +1,65 @@
+{
+  "tier1_config_confirmation": {
+    "dense_limit": 5,
+    "weights": {
+      "dense": 1.0,
+      "sparse": 0.0
+    },
+    "kind_filter": "raw",
+    "rerank_mode": "never",
+    "context_top_k": 3
+  },
+  "positive_rate": 0.5088757396449705,
+  "shuffled_null_p95_cosine": 0.641347284482051,
+  "comparison_count": 4,
+  "query_side_confidence_auc": "0.6124 [0.5281, 0.6954]",
+  "table": [
+    {
+      "signal": "S1 (rrf_margin)",
+      "auc": "0.5000 [0.5000, 0.5000]",
+      "shuffled_control_auc": "0.5000",
+      "mean_cost_ms": 0.01,
+      "p95_cost_ms": 0.01,
+      "auc_per_100ms": 500.0,
+      "auc_val": 0.5,
+      "ci_low": 0.5,
+      "ci_high": 0.5
+    },
+    {
+      "signal": "S2 (query_overlap)",
+      "auc": "0.5944 [0.5095, 0.6803]",
+      "shuffled_control_auc": "0.4803",
+      "mean_cost_ms": 4.19,
+      "p95_cost_ms": 0.25,
+      "auc_per_100ms": 14.2001,
+      "auc_val": 0.594424208461754,
+      "ci_low": 0.5094522281158047,
+      "ci_high": 0.680262045646661
+    },
+    {
+      "signal": "S3 (attribution_8gram)",
+      "auc": "0.5233 [0.5054, 0.5482]",
+      "shuffled_control_auc": "0.4996",
+      "mean_cost_ms": 10240.96,
+      "p95_cost_ms": 10240.96,
+      "auc_per_100ms": 0.0051,
+      "auc_val": 0.5232558139534884,
+      "ci_low": 0.5053763440860215,
+      "ci_high": 0.5481927710843374
+    },
+    {
+      "signal": "S4 (attribution_2stage)",
+      "auc": "0.5352 [0.4842, 0.5876]",
+      "shuffled_control_auc": "0.4826",
+      "mean_cost_ms": 11256.41,
+      "p95_cost_ms": 11816.44,
+      "auc_per_100ms": 0.0048,
+      "auc_val": 0.5351639114597927,
+      "ci_low": 0.48415175269442096,
+      "ci_high": 0.5876091585423588
+    }
+  ],
+  "verdict_code": "(c)",
+  "verdict": "DO NOT BUILD THE ROUTER. Best signal ROC AUC is 0.5944 [0.5095, 0.6803] (< 0.60 or CI includes 0.50). The project reports the oracle bound and the null instead.",
+  "beats_query_side_confidence": false
+}
