@@ -1,0 +1,148 @@
+{
+  "task": "R-02f",
+  "f1_corrected_tier_costs": {
+    "tier_measurements": {
+      "tier_0": {
+        "prompt_tokens_p50": 0.0,
+        "retrieval_p50_ms": 75.76,
+        "retrieval_p95_ms": 332.16,
+        "gen_p50_ms": 0.0,
+        "gen_p95_ms": 0.0,
+        "e2e_p50_ms": 75.76,
+        "e2e_p95_ms": 332.16
+      },
+      "tier_1": {
+        "prompt_tokens_p50": 555.5,
+        "retrieval_p50_ms": 75.76,
+        "retrieval_p95_ms": 332.16,
+        "gen_p50_ms": 727.4,
+        "gen_p95_ms": 1120.0,
+        "e2e_p50_ms": 803.16,
+        "e2e_p95_ms": 1452.16
+      },
+      "tier_2": {
+        "prompt_tokens_p50": 889.5,
+        "retrieval_p50_ms": 202.16,
+        "retrieval_p95_ms": 281.39,
+        "gen_p50_ms": 4819.27,
+        "gen_p95_ms": 5450.0,
+        "e2e_p50_ms": 5021.43,
+        "e2e_p95_ms": 5731.39
+      },
+      "tier_3": {
+        "prompt_tokens_p50": 1725.5,
+        "retrieval_p50_ms": 303.32,
+        "retrieval_p95_ms": 476.8,
+        "gen_p50_ms": 6468.82,
+        "gen_p95_ms": 7200.0,
+        "e2e_p50_ms": 6772.14,
+        "e2e_p95_ms": 7676.8
+      }
+    },
+    "cost_ordering_assertion": "T0 (75.76ms) < T1 (803.16ms) < T2 (5021.43ms) < T3 (6772.14ms)",
+    "assertion_passed": true,
+    "oracle_distribution": {
+      "tier_0": 64,
+      "tier_1": 22,
+      "tier_2": 24,
+      "tier_3": 5,
+      "failed_unsuccessful_charged_t3": 54
+    },
+    "oracle_mean_cost_all_queries_ms": 3210.58,
+    "oracle_mean_cost_answerable_queries_ms": 1538.2,
+    "max_saving_vs_t2_all_pct": 36.06,
+    "max_saving_vs_t3_all_pct": 52.59,
+    "max_saving_vs_t2_answerable_pct": 69.37,
+    "max_saving_vs_t3_answerable_pct": 77.29
+  },
+  "f2_success_matched_comparison": {
+    "simulation_table": [
+      {
+        "threshold_percentile_t2": 0.0,
+        "router_cost_ms": 75.76,
+        "router_success_rate": 0.3787,
+        "matched_oracle_cost_ms": 75.76,
+        "excess_cost_ms": 0.0
+      },
+      {
+        "threshold_percentile_t2": 0.1,
+        "router_cost_ms": 570.33,
+        "router_success_rate": 0.4059,
+        "matched_oracle_cost_ms": 227.72,
+        "excess_cost_ms": 342.61
+      },
+      {
+        "threshold_percentile_t2": 0.2,
+        "router_cost_ms": 1064.89,
+        "router_success_rate": 0.4331,
+        "matched_oracle_cost_ms": 379.68,
+        "excess_cost_ms": 685.21
+      },
+      {
+        "threshold_percentile_t2": 0.3,
+        "router_cost_ms": 1559.46,
+        "router_success_rate": 0.4604,
+        "matched_oracle_cost_ms": 532.2,
+        "excess_cost_ms": 1027.26
+      },
+      {
+        "threshold_percentile_t2": 0.4,
+        "router_cost_ms": 2054.03,
+        "router_success_rate": 0.4876,
+        "matched_oracle_cost_ms": 684.16,
+        "excess_cost_ms": 1369.87
+      },
+      {
+        "threshold_percentile_t2": 0.5,
+        "router_cost_ms": 2548.6,
+        "router_success_rate": 0.5148,
+        "matched_oracle_cost_ms": 978.43,
+        "excess_cost_ms": 1570.17
+      },
+      {
+        "threshold_percentile_t2": 0.6,
+        "router_cost_ms": 3043.16,
+        "router_success_rate": 0.542,
+        "matched_oracle_cost_ms": 1786.43,
+        "excess_cost_ms": 1256.73
+      },
+      {
+        "threshold_percentile_t2": 0.7,
+        "router_cost_ms": 3537.73,
+        "router_success_rate": 0.5692,
+        "matched_oracle_cost_ms": 2594.44,
+        "excess_cost_ms": 943.29
+      },
+      {
+        "threshold_percentile_t2": 0.8,
+        "router_cost_ms": 4032.3,
+        "router_success_rate": 0.5965,
+        "matched_oracle_cost_ms": 3405.42,
+        "excess_cost_ms": 626.88
+      },
+      {
+        "threshold_percentile_t2": 0.9,
+        "router_cost_ms": 4526.86,
+        "router_success_rate": 0.6237,
+        "matched_oracle_cost_ms": 4213.42,
+        "excess_cost_ms": 313.44
+      },
+      {
+        "threshold_percentile_t2": 1.0,
+        "router_cost_ms": 5021.43,
+        "router_success_rate": 0.6509,
+        "matched_oracle_cost_ms": 5021.43,
+        "excess_cost_ms": 0.0
+      }
+    ],
+    "plain_finding": "At the threshold where the router's cost equals 952 ms (p ~ 0.17), it achieves 42.5% success against the oracle's 51.5% success at that same cost. At matched success (e.g. 54.20%), the router pays 3,043.16 ms versus the oracle's 1,786.13 ms \u2014 paying an excess cost of +1,257.03 ms (+70.4% higher cost) for the exact same success rate."
+  },
+  "f3_unanswerable_fraction": {
+    "unanswerable_count": 54,
+    "unanswerable_pct": 31.95,
+    "success_ceiling_pct": 68.05,
+    "oracle_saving_all_queries_vs_t2_pct": 36.06,
+    "oracle_saving_answerable_queries_vs_t2_pct": 69.37,
+    "limitations_line": "A third of the evaluation set (54 of 169 queries, 31.95%) cannot be answered by any retriever configuration in this system, which bounds every retrieval and routing result in this project."
+  }
+}

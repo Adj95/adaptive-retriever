@@ -92,6 +92,8 @@ Moving from embedded Qdrant to a server, or from CPU to GPU, does not trigger a 
 
 These belong in the README, not buried:
 
+- **Unanswerable Fraction**: A third of the evaluation set (54 of 169 queries, 31.95%) cannot be answered by any retriever configuration in this system, which bounds every retrieval and routing result in this project.
+
 - `is_relevant()`'s 8-gram match can fire on SEC table delimiters (`"| | | | | | | |"`). 4 of 169 items are flagged `boilerplate_suspect`; excluding them moves Recall@10 by 0.004 (0.5799/0.6568 -> 0.5758/0.6485) and nDCG@10 by 0.009 (0.4311/0.5280 -> 0.4264/0.5195). Normalising table delimiters before n-gram matching remains unfixed.
 
 
