@@ -24,121 +24,121 @@
     "indexing_wall_clock_seconds": 177.87,
     "sanity_retrievals": [
       {
-        "query_id": "PLAIN-3",
-        "query_text": "Breast Cancer Cells Feed on Cholesterol",
+        "query_id": "PLAIN-2",
+        "query_text": "Do Cholesterol Statin Drugs Cause Breast Cancer?",
         "top3_retrieved": [
           {
-            "chunk_id": "MED-2434_c0000",
-            "doc_id": "MED-2434",
-            "score": 0.84535193,
+            "chunk_id": "MED-10_c0000",
+            "doc_id": "MED-10",
+            "score": 0.8751321,
+            "is_relevant": true
+          },
+          {
+            "chunk_id": "MED-14_c0000",
+            "doc_id": "MED-14",
+            "score": 0.87283456,
+            "is_relevant": true
+          },
+          {
+            "chunk_id": "MED-2429_c0000",
+            "doc_id": "MED-2429",
+            "score": 0.8687897,
+            "is_relevant": true
+          }
+        ]
+      },
+      {
+        "query_id": "PLAIN-12",
+        "query_text": "Exploiting Autophagy to Live Longer",
+        "top3_retrieved": [
+          {
+            "chunk_id": "MED-1432_c0000",
+            "doc_id": "MED-1432",
+            "score": 0.7455344,
             "is_relevant": false
           },
           {
-            "chunk_id": "MED-2439_c0000",
-            "doc_id": "MED-2439",
-            "score": 0.82004833,
+            "chunk_id": "MED-2510_c0000",
+            "doc_id": "MED-2510",
+            "score": 0.73946625,
             "is_relevant": false
           },
           {
-            "chunk_id": "MED-2440_c0001",
-            "doc_id": "MED-2440",
-            "score": 0.8128379,
+            "chunk_id": "MED-2509_c0000",
+            "doc_id": "MED-2509",
+            "score": 0.73696005,
             "is_relevant": false
           }
         ]
       },
       {
-        "query_id": "PLAIN-4",
-        "query_text": "Using Diet to Treat Asthma and Eczema",
+        "query_id": "PLAIN-23",
+        "query_text": "How to Reduce Exposure to Alkylphenols Through Your Diet",
         "top3_retrieved": [
           {
-            "chunk_id": "MED-2456_c0000",
-            "doc_id": "MED-2456",
-            "score": 0.85107934,
-            "is_relevant": false
+            "chunk_id": "MED-118_c0000",
+            "doc_id": "MED-118",
+            "score": 0.78518605,
+            "is_relevant": true
           },
           {
-            "chunk_id": "MED-2452_c0000",
-            "doc_id": "MED-2452",
-            "score": 0.84136367,
-            "is_relevant": false
+            "chunk_id": "MED-2651_c0000",
+            "doc_id": "MED-2651",
+            "score": 0.78518605,
+            "is_relevant": true
           },
           {
-            "chunk_id": "MED-2476_c0000",
-            "doc_id": "MED-2476",
-            "score": 0.83121395,
+            "chunk_id": "MED-1174_c0000",
+            "doc_id": "MED-1174",
+            "score": 0.7741561,
             "is_relevant": false
           }
         ]
       },
       {
-        "query_id": "PLAIN-5",
-        "query_text": "Treating Asthma With Plants vs. Pills",
+        "query_id": "PLAIN-33",
+        "query_text": "What\u2019s Driving America\u2019s Obesity Problem?",
         "top3_retrieved": [
           {
-            "chunk_id": "MED-2472_c0000",
-            "doc_id": "MED-2472",
-            "score": 0.8030188,
+            "chunk_id": "MED-2721_c0000",
+            "doc_id": "MED-2721",
+            "score": 0.7851939,
+            "is_relevant": true
+          },
+          {
+            "chunk_id": "MED-5006_c0000",
+            "doc_id": "MED-5006",
+            "score": 0.7676752,
             "is_relevant": false
           },
           {
-            "chunk_id": "MED-2458_c0001",
-            "doc_id": "MED-2458",
-            "score": 0.78576577,
-            "is_relevant": false
-          },
-          {
-            "chunk_id": "MED-5072_c0000",
-            "doc_id": "MED-5072",
-            "score": 0.7773396,
-            "is_relevant": false
+            "chunk_id": "MED-2723_c0000",
+            "doc_id": "MED-2723",
+            "score": 0.7353847,
+            "is_relevant": true
           }
         ]
       },
       {
-        "query_id": "PLAIN-6",
-        "query_text": "How Fruits and Vegetables Can Treat Asthma",
+        "query_id": "PLAIN-44",
+        "query_text": "Who Should be Careful About Curcumin?",
         "top3_retrieved": [
           {
-            "chunk_id": "MED-2458_c0001",
-            "doc_id": "MED-2458",
-            "score": 0.86878717,
+            "chunk_id": "MED-2809_c0000",
+            "doc_id": "MED-2809",
+            "score": 0.7643553,
             "is_relevant": false
           },
           {
-            "chunk_id": "MED-5072_c0000",
-            "doc_id": "MED-5072",
-            "score": 0.83514094,
-            "is_relevant": false
+            "chunk_id": "MED-2800_c0000",
+            "doc_id": "MED-2800",
+            "score": 0.73671436,
+            "is_relevant": true
           },
           {
-            "chunk_id": "MED-2452_c0000",
-            "doc_id": "MED-2452",
-            "score": 0.82635707,
-            "is_relevant": false
-          }
-        ]
-      },
-      {
-        "query_id": "PLAIN-7",
-        "query_text": "How Fruits and Vegetables Can Prevent Asthma",
-        "top3_retrieved": [
-          {
-            "chunk_id": "MED-2458_c0001",
-            "doc_id": "MED-2458",
-            "score": 0.8717242,
-            "is_relevant": false
-          },
-          {
-            "chunk_id": "MED-2452_c0000",
-            "doc_id": "MED-2452",
-            "score": 0.84358525,
-            "is_relevant": false
-          },
-          {
-            "chunk_id": "MED-2464_c0000",
-            "doc_id": "MED-2464",
-            "score": 0.83534145,
+            "chunk_id": "MED-2815_c0000",
+            "doc_id": "MED-2815",
+            "score": 0.73612225,
             "is_relevant": false
           }
         ]
@@ -176,13 +176,13 @@
             "chunk_id": "10520_c0000",
             "doc_id": "10520",
             "score": 0.72431386,
-            "is_relevant": false
+            "is_relevant": true
           },
           {
             "chunk_id": "2816539_c0000",
             "doc_id": "2816539",
             "score": 0.7185708,
-            "is_relevant": false
+            "is_relevant": true
           },
           {
             "chunk_id": "1030991_c0000",
@@ -200,7 +200,7 @@
             "chunk_id": "33022480_c0000",
             "doc_id": "33022480",
             "score": 0.7112726,
-            "is_relevant": false
+            "is_relevant": true
           },
           {
             "chunk_id": "5554002_c0000",
@@ -224,7 +224,7 @@
             "chunk_id": "18974107_c0000",
             "doc_id": "18974107",
             "score": 0.7009295,
-            "is_relevant": false
+            "is_relevant": true
           },
           {
             "chunk_id": "15799399_c0000",
@@ -248,13 +248,13 @@
             "chunk_id": "20395866_c0000",
             "doc_id": "20395866",
             "score": 0.7242613,
-            "is_relevant": false
+            "is_relevant": true
           },
           {
             "chunk_id": "9421721_c0000",
             "doc_id": "9421721",
             "score": 0.7006807,
-            "is_relevant": false
+            "is_relevant": true
           },
           {
             "chunk_id": "11915550_c0000",
@@ -272,7 +272,7 @@
             "chunk_id": "41146297_c0000",
             "doc_id": "41146297",
             "score": 0.764905,
-            "is_relevant": false
+            "is_relevant": true
           },
           {
             "chunk_id": "634064_c0000",

@@ -25,7 +25,7 @@ from adaptive_retriever.ingest.chunkers import chunk_recursive_512
 from adaptive_retriever.ingest.parsers import ParsedDocument
 from adaptive_retriever.models import Chunk
 from adaptive_retriever.vectorstore import VectorStore, stable_point_id
-from adaptive_retriever.benchmarks.beir import is_relevant_beir, get_qrel_score_beir
+from adaptive_retriever.benchmarks.beir import is_relevant_beir, get_qrel_score_beir, verify_beir_benchmark_harness
 from qdrant_client.http import models as rest
 
 logging.basicConfig(level=logging.INFO)
@@ -262,6 +262,10 @@ def index_corpus(dataset_name: str, corpus_records: list[dict], queries: list[di
     embed_time_s = t1_embed - t0_embed
     logger.info(f"Indexed {total_points} points in {embed_time_s:.2f} s ({total_points/embed_time_s:.1f} pts/sec).")
     
+    # 4.5 Run Harness Startup Guard (Task R-06a-fix F5)
+    logger.info(f"Running BEIR harness startup guard for {dataset_name}...")
+    verify_beir_benchmark_harness(queries, qrels, vs, cfg)
+
     # 5. Sanity Retrievals (5 queries, dense-only, top-3)
     sanity_retrievals = []
     sample_queries = queries[:5]
@@ -277,7 +281,7 @@ def index_corpus(dataset_name: str, corpus_records: list[dict], queries: list[di
         for rep_id, payload, score in search_hits:
             chunk_id = payload.get("chunk_id", "")
             doc_id = payload.get("doc_id", "")
-            is_rel = is_relevant_beir(qid, doc_id, qrels)
+            is_rel = is_relevant_beir(payload, qid, qrels)
             retrieved_items.append({
                 "chunk_id": chunk_id,
                 "doc_id": doc_id,
@@ -327,9 +331,10 @@ def main():
     # 1. Prepare NFCorpus
     nf_dir = download_and_extract("nfcorpus")
     nf_corpus_records = load_jsonl(nf_dir / "corpus.jsonl")
-    nf_queries = load_jsonl(nf_dir / "queries.jsonl")
+    nf_queries_all = load_jsonl(nf_dir / "queries.jsonl")
     nf_qrels = load_qrels_tsv(nf_dir / "qrels" / "test.tsv")
-    logger.info(f"NFCorpus documents count: {len(nf_corpus_records)}, queries count: {len(nf_queries)}")
+    nf_queries = [q for q in nf_queries_all if str(q["_id"]) in nf_qrels]
+    logger.info(f"NFCorpus documents count: {len(nf_corpus_records)}, test queries count: {len(nf_queries)}")
     
     # 2. Prepare HotpotQA via Hugging Face Hub Parquet Streaming
     hp_subsampled_records, hp_queries_500, hp_qrels = prepare_hotpotqa_hf()

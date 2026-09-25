@@ -44,3 +44,53 @@ def is_relevant_beir(retrieved_chunk: Any, query_id: str, qrels: Dict[str, Dict[
     query's qrels with score >= 1.
     """
     return get_qrel_score_beir(retrieved_chunk, query_id, qrels) >= 1
+
+
+def verify_beir_benchmark_harness(
+    queries: list,
+    qrels: Dict[str, Dict[str, int]],
+    vs: Any,
+    cfg: Any,
+    sample_size: int = 50,
+) -> None:
+    """Startup Guard for BEIR Harness (Task R-06a-fix F5).
+    
+    Validates:
+    1. Every loaded query id exists in qrels.
+    2. At least 20% of queries retrieve >= 1 gold document in top-50 dense retrieval.
+    """
+    if not queries:
+        raise ValueError("BEIR Harness Guard Failure: queries list is empty!")
+    if not qrels:
+        raise ValueError("BEIR Harness Guard Failure: qrels dictionary is empty!")
+
+    # Check 1: Query ID membership in qrels
+    missing_qids = [str(q["_id"]) for q in queries if str(q["_id"]) not in qrels]
+    if missing_qids:
+        raise AssertionError(
+            f"BEIR Harness Guard Failure: {len(missing_qids)} queries missing from qrels! "
+            f"Sample missing IDs: {missing_qids[:5]}"
+        )
+
+    # Check 2: At least 20% queries retrieve >= 1 gold doc in top-50 dense retrieval
+    from adaptive_retriever.funnel.baseline import run_baseline
+    eval_sample = queries[:sample_size]
+    hits = 0
+    for q in eval_sample:
+        qid = str(q["_id"])
+        cands, _ = run_baseline(q["text"], vs, cfg, limit=50)
+        has_gold = any(is_relevant_beir(c, qid, qrels) for c in cands)
+        if has_gold:
+            hits += 1
+
+    hit_rate = hits / float(len(eval_sample))
+    if hit_rate < 0.20:
+        raise AssertionError(
+            f"BEIR Harness Guard Failure: Only {hits}/{len(eval_sample)} ({hit_rate:.1%}) queries "
+            f"retrieved >= 1 gold document in top-50 dense retrieval! Required minimum is 20.0%."
+        )
+
+    print(
+        f"BEIR Harness Guard PASSED: 100% of {len(queries)} query IDs present in qrels; "
+        f"{hits}/{len(eval_sample)} ({hit_rate:.1%}) sample queries retrieved >= 1 gold doc in top-50."
+    )
