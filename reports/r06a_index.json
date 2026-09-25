@@ -1,0 +1,300 @@
+{
+  "task": "R-06a",
+  "nfcorpus": {
+    "ingest_config_hash": "2e6f1c8d91f5f3fcb733d298b373f1bbb77a9468e8e601eac5c242b1f8a8873a",
+    "collection_name": "beir_nfcorpus_2e6f1c8d",
+    "total_documents": 3633,
+    "total_chunks": 4476,
+    "total_points": 4476,
+    "max_tokens_asserted": 480,
+    "token_distribution": {
+      "min": 4,
+      "p50": 321.0,
+      "p95": 480.0,
+      "p99": 480.0,
+      "max": 480
+    },
+    "char_distribution": {
+      "min": 11,
+      "p50": 1479.0,
+      "p95": 2093.0,
+      "p99": 2323.25,
+      "max": 2685
+    },
+    "indexing_wall_clock_seconds": 177.87,
+    "sanity_retrievals": [
+      {
+        "query_id": "PLAIN-3",
+        "query_text": "Breast Cancer Cells Feed on Cholesterol",
+        "top3_retrieved": [
+          {
+            "chunk_id": "MED-2434_c0000",
+            "doc_id": "MED-2434",
+            "score": 0.84535193,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-2439_c0000",
+            "doc_id": "MED-2439",
+            "score": 0.82004833,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-2440_c0001",
+            "doc_id": "MED-2440",
+            "score": 0.8128379,
+            "is_relevant": false
+          }
+        ]
+      },
+      {
+        "query_id": "PLAIN-4",
+        "query_text": "Using Diet to Treat Asthma and Eczema",
+        "top3_retrieved": [
+          {
+            "chunk_id": "MED-2456_c0000",
+            "doc_id": "MED-2456",
+            "score": 0.85107934,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-2452_c0000",
+            "doc_id": "MED-2452",
+            "score": 0.84136367,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-2476_c0000",
+            "doc_id": "MED-2476",
+            "score": 0.83121395,
+            "is_relevant": false
+          }
+        ]
+      },
+      {
+        "query_id": "PLAIN-5",
+        "query_text": "Treating Asthma With Plants vs. Pills",
+        "top3_retrieved": [
+          {
+            "chunk_id": "MED-2472_c0000",
+            "doc_id": "MED-2472",
+            "score": 0.8030188,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-2458_c0001",
+            "doc_id": "MED-2458",
+            "score": 0.78576577,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-5072_c0000",
+            "doc_id": "MED-5072",
+            "score": 0.7773396,
+            "is_relevant": false
+          }
+        ]
+      },
+      {
+        "query_id": "PLAIN-6",
+        "query_text": "How Fruits and Vegetables Can Treat Asthma",
+        "top3_retrieved": [
+          {
+            "chunk_id": "MED-2458_c0001",
+            "doc_id": "MED-2458",
+            "score": 0.86878717,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-5072_c0000",
+            "doc_id": "MED-5072",
+            "score": 0.83514094,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-2452_c0000",
+            "doc_id": "MED-2452",
+            "score": 0.82635707,
+            "is_relevant": false
+          }
+        ]
+      },
+      {
+        "query_id": "PLAIN-7",
+        "query_text": "How Fruits and Vegetables Can Prevent Asthma",
+        "top3_retrieved": [
+          {
+            "chunk_id": "MED-2458_c0001",
+            "doc_id": "MED-2458",
+            "score": 0.8717242,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-2452_c0000",
+            "doc_id": "MED-2452",
+            "score": 0.84358525,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "MED-2464_c0000",
+            "doc_id": "MED-2464",
+            "score": 0.83534145,
+            "is_relevant": false
+          }
+        ]
+      }
+    ]
+  },
+  "hotpotqa": {
+    "ingest_config_hash": "2e6f1c8d91f5f3fcb733d298b373f1bbb77a9468e8e601eac5c242b1f8a8873a",
+    "collection_name": "beir_hotpotqa_2e6f1c8d",
+    "total_documents": 20000,
+    "total_chunks": 20002,
+    "total_points": 20002,
+    "max_tokens_asserted": 480,
+    "token_distribution": {
+      "min": 3,
+      "p50": 56.0,
+      "p95": 152.0,
+      "p99": 215.0,
+      "max": 480
+    },
+    "char_distribution": {
+      "min": 16,
+      "p50": 243.0,
+      "p95": 688.0,
+      "p99": 996.0,
+      "max": 2460
+    },
+    "indexing_wall_clock_seconds": 259.05,
+    "sanity_retrievals": [
+      {
+        "query_id": "5a8b57f25542995d1e6f1371",
+        "query_text": "Were Scott Derrickson and Ed Wood of the same nationality?",
+        "top3_retrieved": [
+          {
+            "chunk_id": "10520_c0000",
+            "doc_id": "10520",
+            "score": 0.72431386,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "2816539_c0000",
+            "doc_id": "2816539",
+            "score": 0.7185708,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "1030991_c0000",
+            "doc_id": "1030991",
+            "score": 0.5983987,
+            "is_relevant": false
+          }
+        ]
+      },
+      {
+        "query_id": "5a8c7595554299585d9e36b6",
+        "query_text": "What government position was held by the woman who portrayed Corliss Archer in the film Kiss and Tell?",
+        "top3_retrieved": [
+          {
+            "chunk_id": "33022480_c0000",
+            "doc_id": "33022480",
+            "score": 0.7112726,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "5554002_c0000",
+            "doc_id": "5554002",
+            "score": 0.6329615,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "3356_c0000",
+            "doc_id": "3356",
+            "score": 0.6218892,
+            "is_relevant": false
+          }
+        ]
+      },
+      {
+        "query_id": "5a85ea095542994775f606a8",
+        "query_text": "What science fantasy young adult series, told in first person, has a set of companion books narrating the stories of enslaved worlds and alien species?",
+        "top3_retrieved": [
+          {
+            "chunk_id": "18974107_c0000",
+            "doc_id": "18974107",
+            "score": 0.7009295,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "15799399_c0000",
+            "doc_id": "15799399",
+            "score": 0.6548364,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "475751_c0000",
+            "doc_id": "475751",
+            "score": 0.65006894,
+            "is_relevant": false
+          }
+        ]
+      },
+      {
+        "query_id": "5adbf0a255429947ff17385a",
+        "query_text": "Are the Laleli Mosque and Esma Sultan Mansion located in the same neighborhood?",
+        "top3_retrieved": [
+          {
+            "chunk_id": "20395866_c0000",
+            "doc_id": "20395866",
+            "score": 0.7242613,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "9421721_c0000",
+            "doc_id": "9421721",
+            "score": 0.7006807,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "11915550_c0000",
+            "doc_id": "11915550",
+            "score": 0.5811317,
+            "is_relevant": false
+          }
+        ]
+      },
+      {
+        "query_id": "5a8e3ea95542995a26add48d",
+        "query_text": "The director of the romantic comedy \"Big Stone Gap\" is based in what New York city?",
+        "top3_retrieved": [
+          {
+            "chunk_id": "41146297_c0000",
+            "doc_id": "41146297",
+            "score": 0.764905,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "634064_c0000",
+            "doc_id": "634064",
+            "score": 0.6076112,
+            "is_relevant": false
+          },
+          {
+            "chunk_id": "293165_c0000",
+            "doc_id": "293165",
+            "score": 0.60368127,
+            "is_relevant": false
+          }
+        ]
+      }
+    ],
+    "subsampling_rule": "500 test queries gold docs + random distractors (seed 42) = 20,000 docs total"
+  },
+  "corpus_a_integrity": {
+    "collection_name": "retriever_chunks_2e6f1c8d",
+    "expected_points": 47034,
+    "actual_points": 47034,
+    "status": "PASSED"
+  }
+}

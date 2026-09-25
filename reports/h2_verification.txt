@@ -1,0 +1,62 @@
+================================================================================
+REQUEST ID: 48ad8e503dd60e9b
+CHUNK ID: 97fd272f1fdfc186_c0163
+REPRESENTATION TEXT (question):
+  What is 65360 plus 16204?
+--------------------------------------------------------------------------------
+FULL SOURCE CHUNK TEXT (len=829 chars):
+||`Context` _→_|`Q: What is 65360 plus 16204?`<br>`A:`|
+|---|---|---|
+|`Target `|`Completion` _→_|`81564`|
+|||**Figure G.51:** Formatted dataset example for Arithmetic 5D+|
+
+
+
+62 
+
+# **H Results on All Tasks for All Model Sizes** 
+
+||||||||Zero-Shot||One-Shot|||Few-Shot||
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+|Name|Metric|Split|Fine-tun<br>SOTA|e<br>K|Small|Med Large|XL 2.7B 6.7B 13B 175B|Small Med Large|XL 2.7B 6.7B 13B 175B|Small|Med Larg|e XL 2.7B 6.7B 13B 175B<br>(|175B<br>test server)|
+|HellaSwag<br>|acc|dev<br>|85.6<br>|20<br>|33.7<br>|43.6 51.0<br>|54.7 62.8 67.4 70.9 78.9<br>|33.0<br>42.9 50.5<br><br>|53.5 61.9 66.5 70.0 78.1<br>|33.5<br>|43.1 51.3<br>|54.9 62.9 67.3 71.3 79.3<br>||
+|LAMBADA<br>LAMBADA|acc<br>ppl|test<br>test|68.0<br>8.63|15<br>15|42.7<br>18.6|54.3 60.4<br>9.09 6.53|63.6 67
+--------------------------------------------------------------------------------
+VERBATIM FRACTION: 1.0000 (5/5 words)
+MATCHED N-GRAMS (>=5 words): ['what is 65360 plus 16204']
+================================================================================
+================================================================================
+REQUEST ID: 5a8c972b63cbfa77
+CHUNK ID: ad07e47cedf437a4_c0079
+REPRESENTATION TEXT (question):
+  Why was Joey surprised the morning he woke up for breakfast?
+--------------------------------------------------------------------------------
+FULL SOURCE CHUNK TEXT (len=1477 chars):
+13: </b>Their fur was wet, and the breeze chilled them.<br><b>Sent 14: </b>When
+they got home, they dried off, and Jimmy put on his favorite purple shirt.<br><b>Sent
+15: </b>Joey put on a blue shirt with red and green dots.<br><b>Sent 16:
+</b>The two squirrels ate some food that Joey’s mom, Jasmine, made and went
+off to bed.<br>
+Question: Why was Joey surprised the morning he woke up for breakfast?
+Processed input: multirc question: Why was Joey surprised the morning he woke
+up for breakfast?
+answer: There was only pie to eat, rather than traditional
+breakfast foods paragraph: <b>Sent 1: </b>Once upon a time, there was a squirrel
+named Joey.<br><b>Sent 2: </b>Joey loved to go outside and play with his cousin
+Jimmy.<br><b>Sent 3: </b>Joey and Jimmy played silly games together, and were
+always laughing.<br><b>Sent 4: </b>One day, Joey and Jimmy went swimming together
+50
+
+Exploring the Limits of Transfer Learning
+at their Aunt Julie’s pond.<br><b>Sent 5: </b>Joey woke up early in the morning
+to eat some food before they left.<br><b>Sent 6: </b>He couldn’t find anything
+to eat except for pie!<br><b>Sent 7: </b>Usually, Joey would eat cereal, fruit
+(a pear), or oatmeal for breakfast.<br><b>Sent 8: </b>After he ate, he and
+Jimmy went to the pond.<br><b>Sent 9: </b>On their way there they saw their
+friend Jack Rabbit.<br><b>Sent 10: </b>They dove into the water and swam for
+several hours.<br><b>Sent 11: </b>The sun was out, but the breeze was cold.<br><b>Sent
+
+--------------------------------------------------------------------------------
+VERBATIM FRACTION: 1.0000 (11/11 words)
+MATCHED N-GRAMS (>=5 words): ['why was joey surprised the morning he woke up for breakfast', 'why was joey surprised the morning he woke up for', 'was joey surprised the morning he woke up for breakfast', 'why was joey surprised the morning he woke up', 'was joey surprised the morning he woke up for', 'joey surprised the morning he woke up for breakfast', 'why was joey surprised the morning he woke', 'was joey surprised the morning he woke up', 'joey surprised the morning he woke up for', 'surprised the morning he woke up for breakfast', 'why was joey surprised the morning he', 'was joey surprised the morning he woke', 'joey surprised the morning he woke up', 'surprised the morning he woke up for', 'the morning he woke up for breakfast', 'why was joey surprised the morning', 'was joey surprised the morning he', 'joey surprised the morning he woke', 'surprised the morning he woke up', 'the morning he woke up for', 'morning he woke up for breakfast', 'why was joey surprised the', 'was joey surprised the morning', 'joey surprised the morning he', 'surprised the morning he woke', 'the morning he woke up', 'morning he woke up for', 'he woke up for breakfast']
+================================================================================

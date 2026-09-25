@@ -149,7 +149,7 @@ try:
     # Check for stale collections not matching current ingest_config_hash
     with urllib.request.urlopen(f"{url}/collections", timeout=8) as r:
         all_cols = json.loads(r.read())["result"]["collections"]
-    stale_cols = [c["name"] for c in all_cols if c["name"] != collection]
+    stale_cols = [c["name"] for c in all_cols if c["name"] != collection and not c["name"].startswith("beir_")]
     line("stale collections", "None" if not stale_cols else f"FOUND: {stale_cols}", not stale_cols)
     if stale_cols:
         fails.append(f"Qdrant contains collections that do not match ingest_config_hash '{EXPECTED_HASH}': {stale_cols}")

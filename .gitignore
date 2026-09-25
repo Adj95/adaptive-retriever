@@ -37,3 +37,6 @@ reports/low_confidence_fingerprints.jsonl
 # regenerable experiment artifacts
 reports/*_raw.jsonl
 reports/*cache*.json
+data/
+.venv/
+**/__pycache__/
