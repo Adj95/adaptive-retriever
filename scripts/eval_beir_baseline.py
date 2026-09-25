@@ -26,6 +26,7 @@ from adaptive_retriever.benchmarks.beir import (
     extract_doc_id,
     get_qrel_score_beir,
     is_relevant_beir,
+    verify_beir_benchmark_harness,
 )
 from adaptive_retriever.eval.metrics import bootstrap_ci, bootstrap_difference_ci
 
@@ -100,6 +101,31 @@ def compute_beir_query_metrics(
     }
 
 
+def compute_gold_set_density(queries: List[Dict[str, Any]], qrels: Dict[str, Dict[str, int]]) -> Dict[str, Any]:
+    """Compute min, p50, p95, max gold set sizes across queries."""
+    gold_sizes = []
+    for q in queries:
+        qid = str(q["_id"])
+        query_qrels = qrels.get(qid, {})
+        rel_docs = [did for did, score in query_qrels.items() if score >= 1]
+        gold_sizes.append(len(rel_docs))
+
+    g_min = int(np.min(gold_sizes)) if gold_sizes else 0
+    g_p50 = float(np.percentile(gold_sizes, 50)) if gold_sizes else 0.0
+    g_p95 = float(np.percentile(gold_sizes, 95)) if gold_sizes else 0.0
+    g_max = int(np.max(gold_sizes)) if gold_sizes else 0
+
+    implied_max_rec10 = min(10.0, g_p50) / g_p50 if g_p50 > 0 else 0.0
+
+    return {
+        "min": g_min,
+        "p50": g_p50,
+        "p95": g_p95,
+        "max": g_max,
+        "implied_max_recall10_at_p50": round(implied_max_rec10, 4),
+    }
+
+
 def eval_corpus_arms(
     corpus_name: str,
     cfg_path: str,
@@ -115,6 +141,13 @@ def eval_corpus_arms(
 
     vs = VectorStore.from_config(cfg, collection_base_name=f"beir_{corpus_name}")
     
+    # Z6: Run harness guard FIRST before evaluation
+    logger.info(f"Running Z6 startup harness guard for {corpus_name}...")
+    verify_beir_benchmark_harness(queries, qrels, vs, cfg, sample_size=50)
+
+    # Compute gold set density
+    density_stats = compute_gold_set_density(queries, qrels)
+
     # Initialize Reranker on CUDA GPU
     reranker = Reranker(device=cfg.raw.get("models", {}).get("llm", {}).get("device", "cuda"))
     reranker.ensure_ready()
@@ -168,7 +201,7 @@ def eval_corpus_arms(
 
     # Compute Bootstrapped Point Estimates and Differences (10,000 resamples, seed 42)
     summary = {}
-    for arm_id, arm_label in [("arm_a", "Arm A (dense-only)"), ("arm_b", "Arm B (hybrid+rerank)"), ("arm_c", "Arm C (hybrid, rerank off)")]:
+    for arm_id in ["arm_a", "arm_b", "arm_c"]:
         arm_summary = {}
         for k in metrics_keys:
             vals = per_query_results[arm_id][k]
@@ -188,7 +221,7 @@ def eval_corpus_arms(
             ci=0.95,
             seed=42,
         )
-        pass_b_a = bool(lo_b_a > 0 or hi_b_a < 0)  # Significant at alpha=0.005 if 0 outside CI
+        pass_b_a = bool(lo_b_a > 0 or hi_b_a < 0)  # Significant if 0 outside CI
         diff_b_minus_a[k] = {
             "diff_mean": round(pe_b_a, 4),
             "ci_95": [round(lo_b_a, 4), round(hi_b_a, 4)],
@@ -212,6 +245,7 @@ def eval_corpus_arms(
 
     return {
         "num_queries": len(queries),
+        "gold_density": density_stats,
         "arms": summary,
         "diff_b_minus_a": diff_b_minus_a,
         "diff_c_minus_b": diff_c_minus_b,
@@ -264,13 +298,17 @@ def main():
         "task": "R-06b",
         "nfcorpus": {
             "num_queries": nf_results["num_queries"],
+            "gold_density": nf_results["gold_density"],
+            "primary_metric": "nDCG@10 (graded, qrel score as gain). Recall@10 is capped by gold set size.",
             "arms": nf_results["arms"],
             "diff_b_minus_a": nf_results["diff_b_minus_a"],
             "diff_c_minus_b": nf_results["diff_c_minus_b"],
         },
         "hotpotqa": {
             "num_queries": hp_results["num_queries"],
+            "gold_density": hp_results["gold_density"],
             "subsampling_caveat": "Subsampled pool of 20,000 documents (996 gold + 19,004 distractors, seed 42). Not comparable to published 5.2M corpus numbers.",
+            "primary_metric": "nDCG@10 (graded, qrel score as gain).",
             "arms": hp_results["arms"],
             "diff_b_minus_a": hp_results["diff_b_minus_a"],
             "diff_c_minus_b": hp_results["diff_c_minus_b"],
