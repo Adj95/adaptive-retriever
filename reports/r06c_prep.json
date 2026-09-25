@@ -1,0 +1,95 @@
+{
+  "task": "R-06c-prep",
+  "p1_corpus_a_correction": {
+    "provenance": "The 0.7320 / 0.8140 values reported in the R-06b summary table were untraceable text artifacts from prior draft output and are formally withdrawn.",
+    "canonical_corpus_a": {
+      "source_file": "reports/experiment_001_3arms.json",
+      "arm_a_ndcg10": 0.4311,
+      "arm_b_ndcg10": 0.528,
+      "b_minus_a_diff_ndcg10": 0.0969,
+      "b_minus_a_ci95_ndcg10": [
+        0.0437,
+        0.151
+      ],
+      "arm_a_mrr": 0.3922,
+      "arm_b_mrr": 0.4949,
+      "b_minus_a_diff_mrr": 0.1027
+    },
+    "corrected_three_corpus_table": [
+      {
+        "corpus": "Corpus A (Shipped)",
+        "arm_a_ndcg10": 0.4311,
+        "arm_b_ndcg10": 0.528,
+        "advantage_ndcg10": 0.0969,
+        "arm_a_mrr": 0.3922,
+        "arm_b_mrr": 0.4949,
+        "advantage_mrr": 0.1027,
+        "recall_density_note": "Gold set density ~1.0; Recall uncapped."
+      },
+      {
+        "corpus": "NFCorpus (BEIR Test)",
+        "arm_a_ndcg10": 0.353,
+        "arm_b_ndcg10": 0.3667,
+        "advantage_ndcg10": 0.0137,
+        "arm_a_mrr": 0.5343,
+        "arm_b_mrr": 0.5812,
+        "advantage_mrr": 0.0469,
+        "recall_density_note": "Dense qrels (p50=16.0 gold/query); Recall@10 capped at 0.625."
+      },
+      {
+        "corpus": "HotpotQA 20k (BEIR Subsample)",
+        "arm_a_ndcg10": 0.9201,
+        "arm_b_ndcg10": 0.9451,
+        "advantage_ndcg10": 0.025,
+        "arm_a_mrr": 0.976,
+        "arm_b_mrr": 0.9967,
+        "advantage_mrr": 0.0207,
+        "recall_density_note": "Sparse qrels (2 gold/query); uncapped at k=10."
+      }
+    ],
+    "corrected_shrinkage_multiples": {
+      "nfcorpus_reduction": "0.0969 / 0.0137 = 7.07x (~7x fall in nDCG@10 advantage)",
+      "hotpotqa_20k_reduction": "0.0969 / 0.0250 = 3.88x (~4x fall in nDCG@10 advantage)"
+    }
+  },
+  "p2_hotpotqa_100k": {
+    "collection_name": "beir_hotpotqa_100k_2e6f1c8d",
+    "sampled_documents": 100000,
+    "projected_chunks": 100000,
+    "projected_indexing_time_sec": 240.0,
+    "actual_chunks": 100018,
+    "actual_points": 100018,
+    "actual_indexing_time_sec": 1805.81,
+    "arm_a": {
+      "ndcg_10": 0.8686503559333439,
+      "ndcg_5": 0.8554969726295649,
+      "recall_5": 0.978,
+      "recall_10": 0.986,
+      "mrr": 0.9519555555555556
+    },
+    "arm_b": {
+      "ndcg_10": 0.8686503559333439,
+      "ndcg_5": 0.8554969726295649,
+      "recall_5": 0.978,
+      "recall_10": 0.986,
+      "mrr": 0.9519555555555556
+    },
+    "advantage_b_minus_a_ndcg10": 0.0
+  },
+  "p3_headroom_verdict": {
+    "verdicts": [
+      "NFCorpus: Arm A nDCG@10 = 0.3530. Headroom: yes.",
+      "HotpotQA 20k: Arm A nDCG@10 = 0.9201. Headroom: no - ceiling effect, excluded from R-06c.",
+      "HotpotQA 100k: Arm A nDCG@10 = 0.8687. Headroom: no - ceiling effect (nDCG@10 = 0.8687 > 0.85). Pool is still too easy."
+    ],
+    "r06c_eval_suite_corpora": [
+      "NFCorpus"
+    ]
+  },
+  "corpus_a_integrity": {
+    "collection_name": "retriever_chunks_2e6f1c8d",
+    "expected_points": 47034,
+    "actual_points": 47034,
+    "status": "PASSED"
+  }
+}
