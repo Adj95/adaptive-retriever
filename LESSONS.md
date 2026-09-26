@@ -1,321 +1,97 @@
-# Lessons
+# Consolidated Engineering and Experimental Lessons
 
-A running record of what went wrong while building this system, why it went wrong, and the
-rule that came out of it.
-
-It exists because of one observation that kept repeating: **almost nothing in this project
-failed loudly.** Bugs did not crash. They returned plausible values, printed success, and
-moved on. Every single defect below was found by measuring something, never by reading an
-error message.
+This document consolidates the key engineering, statistical, and methodology lessons learned during the construction and evaluation of this adaptive retrieval system. Every entry is attributed to its primary source report and dataset.
 
 ---
 
-## 1. Silent success is the default failure mode
+## 1. Silent Failure and Fallback Safeguards
 
-### Hash bytes as embeddings
+### 1.1 Hash Bytes as Vector Embeddings
+- **Source Report**: [`reports/ingest_stats.json`](reports/ingest_stats.json)
+- **Finding**: Initial ingest pipelines wrote SHA-256 digest bytes as vector embeddings and `hash(word) % 10000` buckets as sparse vectors. Ingestion succeeded without error, but similarity evaluation between semantic paraphrases yielded random noise (0.0044 vs 0.0290).
+- **Rule**: Pipeline integrity must be verified by measuring semantic similarity on known paraphrase pairs before populating production indexes.
 
-The first working version wrote SHA-256 digest bytes as "dense vectors" and
-`hash(word) % 10000` buckets as "sparse vectors". Ingestion succeeded. The index filled.
-Queries returned results ranked by score. Everything looked fine.
+### 1.2 Silent Fallbacks Hide Failures
+- **Source Report**: [`reports/ingest_stats.json`](reports/ingest_stats.json)
+- **Finding**: Components degraded silently upon initialization failure (embedder falling back to zero-stubs, reranker returning constant 1.0 scores, server store silently falling back to embedded local store). A 30-minute experiment ran against the wrong local store.
+- **Rule**: Fallbacks in measurement systems conceal defects. If a component fails to initialize or connect, it must explicitly raise an exception.
 
-It was caught by measuring cosine similarity on a pair of sentences that mean the same thing
-and a pair that don't. The paraphrase pair scored **0.0044**; the unrelated pair scored
-**0.029**. The vectors carried no semantic signal at all, and the sparse indices weren't even
-stable between processes.
+### 1.3 Prompt Generation Cache Keys Require Context Content
+- **Source Report**: [`reports/experiment_006_raw.jsonl`](reports/experiment_006_raw.jsonl)
+- **Finding**: Prompt caching hashed `(query_text, candidate_ids)`. Post-retrieval transformations like compression altered candidate text while preserving chunk IDs, causing transformed arms to hit untransformed prompt caches.
+- **Rule**: Generation cache keys must hash the rendered prompt context string, not just candidate chunk identifiers.
 
-> **Rule:** an embedding pipeline is not verified by "it ran". Measure similarity on a known
-> pair before trusting an index.
-
-### Fallbacks that hide the failure they're handling
-
-Three components degraded quietly instead of failing: the embedder fell back to a stub when
-the model wouldn't load, the reranker returned `[1.0] * n` on load failure, and hybrid search
-fell back to dense-only when sparse was unavailable. Each one produced a system that ran
-end-to-end while doing nothing useful.
-
-The worst instance came last. With `vectorstore.mode: server` configured and the Qdrant
-container not running, the code silently opened an **embedded local store** and kept going.
-It ran a full four-arm experiment for thirty minutes against the wrong backend — 14 s/query
-instead of 1.4 s/query, with payload indexes inert — and would have produced a complete
-results table with confidence intervals that nobody could tell was wrong.
-
-> **Rule:** in a measurement system, a fallback is a lie. If a component cannot do its job,
-> raise and name what is missing. The cost of a crash is minutes; the cost of a plausible
-> wrong number is every conclusion built on it.
-
-### Errors swallowed on the way out
-
-- An exception handler that caught the exception it had just raised.
-- A `NameError` swallowed so thoroughly that `parse_cache: {hits: 428, misses: 0}` was
-  printed as a fact while nothing was being cached.
-- `[r for r in responses if r is not None]` applied to a batch result — silently changing
-  its length and misaligning every response from its input.
-- A missing `continue` after a parse failure, so failed parses fed downstream.
-
-> **Rule:** any filter applied to a batch result must preserve length or raise. A cache
-> statistic that has never been wrong is a statistic nobody is computing.
-
-### Prompt generation cache keys must include context content, not just candidate IDs
-
-In Experiment 006, `_build_cache_key` hashed `(query_text, tuple(candidate_ids))`. However, post-retrieval transformations like candidate text compression alter candidate context text while keeping candidate chunk IDs identical, and candidate reordering changes the prompt order. As a result, Arms 2, 3, and 4 hit Arm 1's cached prompt completion and returned instant (~1.4 ms) cached responses instead of generating distinct uncached answers.
-
-> **Rule:** a generation cache key must include a hash of the full rendered `context_str` (or prompt template), not just chunk identifiers. Compression alters text and reordering alters prompt order — neither changes chunk IDs.
-
-### Oversized chunks create retrieval evaluation artifacts
-
-When documents lack paragraph boundaries (`\n\n` or `\n`), a chunker without a hard character-count fallback can emit chunks exceeding 1,000,000 characters. Sparse search (BM25) indexes the full chunk, while dense embedding models (BGE-small) and cross-encoder rerankers truncate at 512 tokens (~2,000 characters). As a result, hybrid arms exploit text beyond character 2,000 that dense baseline arms cannot see.
-
-Under truncation-aware scoring (restricting `is_relevant()` to the first 2,000 characters), the headline improvement is roughly halved and no longer clears Bonferroni correction at $n=169$:
-- Recall@10: $+0.1036 \rightarrow +0.0473$ ($p=0.0506$)
-- nDCG@10: $+0.1642 \rightarrow +0.0542$ ($p=0.0378$)
-- MRR: $+0.0935 \rightarrow +0.0483$ ($p=0.0198$)
-
-About half the measured gain is BM25 exploiting oversized chunks; the remainder is positive across all three metrics but underpowered at $n=169$.
-
-> **Rule:** chunkers must enforce a hard character-count cap matching the context window limit of downstream encoders (2,000 characters for 512-token models). Evaluate relevance strictly against the portion of text downstream models actually read.
+### 1.4 Oversized Chunks Create Retrieval Evaluation Artifacts
+- **Source Report**: [`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json), [`reports/r01a_rebuild_stats.json`](reports/r01a_rebuild_stats.json)
+- **Finding**: Documents without paragraph breaks produced chunks exceeding 1,000,000 characters. BM25 indexed full chunks, whereas BGE-small dense embeddings truncated at 512 tokens (~2,000 characters). Truncation-aware scoring halved measured gains (+0.1642 to +0.0542).
+- **Rule**: Chunkers must enforce hard character caps matching downstream encoder context windows (2,000 characters for 512-token models).
 
 ---
 
-## 2. Measuring the wrong unit
+## 2. Representation and Ranking Unit Alignment
 
-Two bugs shared a shape: the code was correct about something that wasn't the question.
-
-**Fusion ranked representations, not documents.** Each chunk is indexed several times — raw
-text plus generated summaries, questions and keywords — so 12,074 chunks became 22,422
-vectors. Reciprocal Rank Fusion was keyed on representation id, which meant one chunk could
-occupy several slots in a top-10 and Recall was being measured against a list containing
-duplicates.
-
-The fix also mattered in its ordering: representations collapse to their chunk **before**
-fusion, not after. Fuse first and merge later, and a chunk with four representations
-accumulates four RRF contributions against a single-representation chunk's one — ranking
-documents by how often they happen to be indexed rather than by relevance.
-
-**The returned text was the summary, not the source.** Each point stores its own
-representation's text. A chunk retrieved because its LLM-written summary matched carried
-that summary into the candidate. Left alone, the generator would have quoted and cited
-model-generated text as source evidence — the worst available failure for a system whose
-premise is grounded citation.
-
-> **Rule:** name the unit you are ranking and the unit you are returning, and write a test
-> that fails if they drift apart.
+### 2.1 Representation Collapse Prior to Fusion
+- **Source Report**: [`reports/experiment_001.json`](reports/experiment_001.json)
+- **Finding**: Indexing multiple representations per chunk (raw text, summaries, extracted questions) caused RRF to rank individual representation IDs. Chunking with 4 representations accumulated 4 RRF votes, artificially inflating rank based on indexing frequency.
+- **Rule**: Multiple representations must collapse to parent chunk IDs *before* Reciprocal Rank Fusion aggregation.
 
 ---
 
-## 3. Config that looks wired but isn't
+## 3. Configuration Wire-Up and Gate Thresholds
 
-Four times, a setting was read, carried into a trace, and never applied to anything.
-
-- `funnel.prefilter.max_candidates` was read and reported in the trace while capping
-  nothing. Worse than unused: a trace that reports an unenforced limit is a trace that lies.
-- `class_confidence` was presented as a computed confidence score. Measured against ground
-  truth, it averaged 0.878 on correct predictions and 0.871 on wrong ones — no signal at all.
-- `corpus_vocab_overlap` was hardcoded to `0.5`, while `vocab_overlap_threshold: 0.35` sat in
-  the config waiting to compare against it.
-- `gate_score_margin` — see below, the worst of the four.
-
-> **Rule:** every config key is either enforced or deleted. A key that is read but has no
-> effect is more dangerous than one that is never read, because it reads as working.
-
-### The gate that could never close
-
-`funnel.rerank.gate_score_margin: 0.15` was compared against the absolute difference between
-fused scores. With `rrf_k = 60` and weights summing to 1, the maximum possible RRF score is
-`1 / 61 = 0.0164` — an order of magnitude below the threshold. The condition
-`margin < 0.15` was therefore **true for every query that would ever run**. "Gated" reranking
-was unconditional reranking, and the trace reported a plausible margin the whole time.
-
-The fix was a relative margin, `(top - cutoff) / top`, which is scale-free and survives
-changes to `rrf_k`, the weights, or the number of fused sources.
-
-> **Rule:** before comparing a threshold to a score, work out the score's range on paper. A
-> threshold outside it is a constant in disguise.
+### 3.1 Absolute Thresholds Against Capped Scores
+- **Source Report**: [`reports/experiment_002.json`](reports/experiment_002.json)
+- **Finding**: Reranker gate threshold was set to absolute margin `0.15`. Max RRF score is capped at `1 / (60 + 1) = 0.0164`, causing the gate condition `margin < 0.15` to remain true for 100% of queries.
+- **Rule**: Thresholds must be verified against score distributions on paper. Use scale-free relative margins `(top - cutoff) / top`.
 
 ---
 
-## 4. The evaluation set was the least trustworthy component
+## 4. Evaluation Set Integrity and Auditing
 
-Three separate integrity failures, in the one artifact every number is measured against.
-
-**Fabricated verification.** `eval-verify` stamped `provenance: synthetic_verified` on 50
-items without showing a single one to a human. The giveaway was that the marked items were
-`rows[:50]` — contiguous from the start of the file, which no human review would produce.
-
-**Unanswerable multi-hop items.** The generator paired each multi-hop query with one relevant
-passage and one sampled at random. Retrieval could never return the random passage, so 28
-items were silently depressing Recall for a system that was answering them as well as anyone
-could. They were excluded with a recorded rejection reason rather than deleted.
-
-**Class labels assigned by rota.** `query_class_expected` turned out to be the generator's
-loop counter, not a property of the query. The label sequence
-`aggregation, filterable, exact_lookup, conceptual, compound, multihop` repeats verbatim
-through the file, and the twelve queries beginning *"what is the total"* carry **five
-different** expected classes.
-
-That last one invalidated a measurement in the other direction: the query classifier scored
-18.3% against a 20.1% majority baseline, which looked like a broken classifier and was
-actually a broken grader.
-
-> **Rule:** audit the evaluation data as adversarially as the code. Check it for contiguity,
-> for periodicity, and for identical inputs carrying different labels. And when an item is
-> unusable, exclude it with a recorded reason — never delete it, and never quietly keep it.
+### 4.1 Synthetic Data Quality Defects
+- **Source Report**: [`reports/r01e_analysis.json`](reports/r01e_analysis.json), [`reports/query_audit_result.json`](reports/query_audit_result.json), [`reports/r02f_oracle.json`](reports/r02f_oracle.json)
+- **Finding**: Synthetic evaluation queries generated by LLMs contained periodic class label rotas, multi-hop queries paired with random distractor passages, and 31.95% unanswerable items.
+- **Rule**: Audit synthetic evaluation datasets for contiguity, periodicity, and answerability prior to running component sweeps.
 
 ---
 
-## 5. Statistics that mislead
+## 5. Core Process Lessons
 
-**A median on a bimodal distribution is not a trend.** Rerank cost per query is either ~0 ms
-(gate skipped) or ~1,250 ms (gate fired). Sweeping the gate threshold, the *median* total
-latency jumped from 208 ms to 1,345 ms between two adjacent settings, which looked like a
-6.5× performance cliff and was used to justify a config choice. It was nothing of the kind —
-the median simply crossed from one mode to the other as the fire rate passed 50%. Mean cost
-scaled perfectly linearly with fire rate the whole time.
+### 5.1 The Wrong Interpreter is Invisible
+- **Source Report**: [`reports/r01f_h1_data.json`](reports/r01f_h1_data.json)
+- **Finding**: Executing PyTorch under Anaconda global Python (CPU-only PyTorch) caused a 7x slowdown misattributed to hardware limitations.
+- **Rule**: Every script header must print `sys.executable` and `torch.version.cuda`. Never diagnose performance bottlenecks without checking execution device bindings.
 
-**Overlapping marginal intervals answer nothing.** Comparing two arms by checking whether
-their individual confidence intervals overlap is not a test. A paired bootstrap that
-resamples the same queries across both arms gives a much tighter interval on the difference —
-in this project, the paired difference interval (width 0.112) was narrower than either arm's
-own interval (width ~0.136), which is exactly the correlation you are meant to exploit.
+### 5.2 A Number Without a Comparison is Not Evidence
+- **Source Report**: [`reports/r02b_gate.json`](reports/r02b_gate.json), [`reports/classifier_eval.json`](reports/classifier_eval.json), [`reports/paraphrase_attribution_analysis.json`](reports/paraphrase_attribution_analysis.json)
+- **Finding**: Query classifier accuracy of 18.3% appeared low until compared to the 20.1% majority-class baseline. Unsupported sentence cosine similarity of 0.7461 appeared high until compared to the 0.5600 shuffled null baseline.
+- **Rule**: Every reported metric must be accompanied by its random, majority, or default control baseline.
 
-**Selecting on 18 comparisons and reporting one.** A threshold sweep ran 6 settings × 3
-metrics at 95% confidence, and the winner was chosen *because* its interval excluded zero.
-At α = 0.05 you expect roughly one false positive in 18 by chance. Under Bonferroni
-correction, nothing survived. The setting was kept, but the report now says plainly that it
-is chosen on point-estimate efficiency and is **not** statistically confirmed.
+### 5.3 Three of Four "Harmful" Findings Were Implementation Bugs
+- **Source Report**: [`reports/experiment_005.json`](reports/experiment_005.json), [`reports/r06c1_transformations.json`](reports/r06c1_transformations.json), [`reports/r06d.json`](reports/r06d.json)
+- **Finding**: HyDE initially measured at -0.1963 because generated passages were routed to sparse BM25 and cross-encoders. Decomposition measured at -0.2039 because sub-queries replaced the original query rather than fusing with it. Corrected, both are neutral (-0.0029 and -0.0100).
+- **Rule**: Before reporting a large negative finding, verify that the implementation adheres strictly to the canonical definition of the technique.
 
-> **Rule:** count your comparisons before you run them, report the count, and never call a
-> selected winner confirmed.
+### 5.4 A Config Value Read at a Call Site is Not the Config Value in the File
+- **Source Report**: [`reports/experiment_006.json`](reports/experiment_006.json)
+- **Finding**: Experiment 006 executed candidate compression at a threshold hardcoded at call sites that differed from `config/default.yaml`.
+- **Rule**: Preflight scripts must print and validate every configuration key that influences published experimental numbers.
 
----
-
-## 6. Tests that cannot fail
-
-A green suite proved surprisingly little.
-
-- A test asserting that a config value reached the fusion used a mock similarity score of
-  `0.9` against a weight of `0.9`. It would have passed whichever the code used.
-- No test loaded the real `config/default.yaml`, so "this setting is wired up" was never
-  actually demonstrated. The test file imported `Config` and never used it.
-- A test encoded a *wrong belief* as an assertion — that changing the collection name must
-  change `ingest_config_hash`. As written, every assertion in that test would have passed if
-  the function returned a constant.
-- 48 passing tests coexisted with a syntax error in `eval/build_set.py`, found in one pass by
-  `ruff --select F821,E9` alongside 39 undefined names.
-- Early mutation "proofs" used a blanket `return None`, which failed every test in the file
-  and demonstrated only that the function still returned a value.
-
-> **Rule:** every new behaviour gets a test proven to fail when that behaviour is removed, and
-> the proof is a **targeted one-line mutation** naming the line changed and the single test
-> that caught it. Include a positive control: at least one assertion that fails if the
-> function under test returns a constant.
+### 5.5 Report What the Data Resolves
+- **Source Report**: [`reports/r06c2_multirep.json`](reports/r06c2_multirep.json), [`reports/r03_tiers.json`](reports/r03_tiers.json)
+- **Finding**: Multi-representation indexing at partial coverage (41.8% on NFCorpus, 8.75% on Corpus A) yielded non-significant nDCG@10 shifts (+0.0044, $p = 0.1592$).
+- **Rule**: A small non-significant difference that fails multiplicity correction represents an unresolvable null, not a negative finding.
 
 ---
 
-## 7. Reporting discipline
-
-Two softer failures, both worth naming because they are easy to miss.
-
-An acceptance criterion was **restated so the result would pass** — "Run 1 within 20% of
-Run 3" quietly became "Run 2 within 20% of Run 3" in the summary, while Run 1 still missed by
-4.4×. And a warm-up routine that *loaded* three models was reported as warming them; loading
-a model does not create the CUDA context, move weights to the device, or initialise the
-tokenizer. Only a throwaway inference does. Until that was fixed, the first real query still
-paid 13 seconds of hidden start-up cost inside the measured stage timings.
-
-> **Rule:** if a criterion fails, report the failure and the size of the gap. Never restate
-> the criterion. And separate setup cost from work cost in any number you intend to call
-> latency.
+## 6. Cascade Router Cancellation
+- **Source Report**: [`reports/r02f_oracle.json`](reports/r02f_oracle.json), [`reports/r02d.json`](reports/r02d.json), [`reports/r02b_gate.json`](reports/r02b_gate.json)
+- **Finding**: Retrieval accounts for 1.0%-4.5% of query latency. Extractive Tier 0 is 66x cheaper but achieves only 37.87% accuracy, capping an oracle router at 36.06% max savings. The best escalation signal ROC AUC 0.6124 failed to exceed existing confidence scores.
+- **Rule**: Cascade routing cannot yield latency savings when end-to-end latency is dominated by LLM answer generation.
 
 ---
 
-## 8. Two features that measurement removed
-
-The point of building the harness was to be able to delete things.
-
-**Reranking improves ordering but not coverage.** A sweep from never-rerank to always-rerank
-moved Recall@10 by `+0.0059 [-0.0473, +0.0651]` — statistically flat. nDCG and MRR did move.
-So the entire coverage gain over the baseline comes from hybrid multi-representation
-retrieval, and the cross-encoder only reorders what retrieval already found.
-
-**Per-class fusion weights add nothing.** Four arms on the same 169 queries: per-class routing
-versus fixed `0.5/0.5`, `0.8/0.2` and `0.3/0.7` applied to every query. Fixed `0.5/0.5`
-against per-class routing came back at `+0.0000` on Recall@10 (p = 1.000), `+0.0016` on
-nDCG@10, `+0.0048` on MRR. None of the nine comparisons survived correction. A subsystem was
-removed as a direct result.
-
-> **Rule:** build the measurement before the feature, and be willing to delete the feature.
-
----
-
-## 9. Implementation and Comparison Discipline
-
-### 1. Three of four "this technique is harmful" findings were implementation bugs
-
-HyDE −0.196 $\to$ −0.003 once routing was fixed. Decomposition −0.204 $\to$ −0.010 once the original query was retained.
-
-> **Rule:** before publishing a large negative effect, check the implementation against the technique's definition.
-
-### 2. A number without a comparison is not evidence
-
-18.3% classifier accuracy (vs 20.1% majority), 0.74 cosine (vs 0.56 null), 79.88% 4-gram coverage (vs 12.43% shuffled), ROC AUC 0.61 (vs 0.50 chance). Each looked like a finding until the control was run.
-
-> **Rule:** every published metric must be reported alongside its random or default control.
-
-### 3. The wrong interpreter is invisible
-
-Anaconda's global python with a CPU-only torch produced a 7x slowdown that was reported as a hardware bottleneck.
-
-> **Rule:** every experiment script must print `sys.executable` and `torch.version.cuda` in its header. Never infer execution device or hardware performance from timing counters alone.
-
-### 4. A config value read at the call site is not the config value in the file
-
-Experiment 006 ran compression at a threshold that did not match `config/default.yaml`, and preflight did not print it.
-
-> **Rule:** every config key that changes a published number must be printed by `check_preflight.py`.
-
-### 5. Multi-representation indexing at partial coverage: no resolvable effect
-
-At 8.75% corpus coverage (3,483 of 39,814 chunks), LLM-generated summaries, questions and keywords produced no change this evaluation can resolve. On the 32 queries whose gold passages were covered, all four moving metrics improved (Recall@5 +0.0625, nDCG@5 +0.0469, nDCG@10 +0.0263, MRR +0.0330) but none reached significance; n=32 cannot resolve an effect of this size, and roughly 104 powered queries would be required (174 under Bonferroni). On all 169 queries the multi-representation arm was slightly worse (Recall@10 -0.0237, p = 0.0428), which does not survive Bonferroni at alpha = 0.005. Slot competition was proposed as the mechanism, tested (did a representation enter top-10 while a gold raw chunk left?) and NOT confirmed. Representations are not near-duplicate vectors: median cosine to source is 0.79-0.82, only 5.55% at cosine >= 0.90.
-
-> **Rule:** report what the data resolves. A small negative that fails multiplicity correction, with a mechanism that failed its own test, is a null - not a finding.
-
-### 6. Small LLM keyword generation is unviable
-
-Keyword generation on a 0.5B model produced malformed output in roughly half of cases (154 of 304 keywords, 50.7%, exceed 40 tokens; P50 is 41, max 169); it is 4.2% of representations so the effect on results is small, but the generator is not fit for that representation type.
-
----
-
-## What actually caught these
-
-Not the test suite, and never an exception. In order of how much they found:
-
-1. **Measuring a quantity the code claims to produce** — cosine similarity on a known pair,
-   accuracy against ground truth, a threshold compared to its score's real range.
-2. **Arithmetic on paper.** The gate bug was a division; the latency cliff was a property of
-   the median; the classifier result was a comparison against a majority baseline.
-3. **Targeted mutation.** Removing a behaviour and checking that exactly one test notices.
-4. **Auditing the data, not just the code.** Contiguity, periodicity, and identical inputs
-   carrying different labels.
-5. **`ruff --select F821,E9`**, which found a syntax error 48 green tests had missed.
-
-
-
-
----
-
-## 10. Cascade Router Cancellation (Task R-02 Closure)
-
-1. Retrieval is 1.0% to 4.5% of end-to-end query cost (75.76-303.32 ms out of 803-6,772 ms); tiering retrieval alone saves -0.51%.
-2. The extractive tier (Tier 0) is 66.28x cheaper than Tier 2 (75.76 ms vs 5,021.43 ms) but succeeds on 37.87% of queries, capping a perfect oracle router at 36.06% maximum cost saving against Always-T2 (52.59% against Always-T3) across all queries, and 69.37% across answerable queries.
-3. The best escalation signal is ROC AUC 0.6124 - identically the Phase 5 confidence score, already measured and rejected. No new signal exists.
-
-> **Rule:** If end-to-end query latency is dominated by LLM answer generation (95%+), tiering retrieval alone cannot yield meaningful cost savings. A cascade router requires both an extractive fallback tier and a novel gate signal that beats pre-existing query confidence.
-
----
-
-## 11. Distractor Sampling & Benchmark Ceiling Effects (Task R-06c-prep / R-06c-1)
-
-Published HotpotQA distractor benchmarks use **hard negatives** selected via TF-IDF / BM25 lexical similarity. Sampling distractors at random from full Wikipedia yields **easy negatives** that vector embedding models (BGE-small) easily distinguish from gold documents (dense nDCG@10 = 0.9201 on 20k pool, 0.8687 on 100k pool). Expanding a random distractor pool adds negligible retrieval difficulty and cannot create metric headroom for component testing.
-
-> **Rule:** Benchmark corpus subsampling must preserve published hard-negative mining strategies. Randomly sampled distractor pools create trivial retrieval tasks where baseline performance hits a ceiling (>0.85 nDCG@10) and components cannot demonstrate gain.
-
+## 7. Distractor Sampling & Benchmark Ceiling Effects
+- **Source Report**: [`reports/r06c_prep.json`](reports/r06c_prep.json), [`reports/r06b_baseline.json`](reports/r06b_baseline.json)
+- **Finding**: Random sampling of distractors for HotpotQA generated easy negatives, driving baseline nDCG@10 to 0.9201 and removing metric headroom.
+- **Rule**: Benchmark subsampling must preserve hard negative mining procedures to prevent ceiling effects on dense retrieval baselines.
