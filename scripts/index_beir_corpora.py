@@ -14,9 +14,9 @@ import random
 import time
 import logging
 from pathlib import Path
+import argparse
 import numpy as np
 import requests
-import pyarrow.parquet as pq
 from huggingface_hub import hf_hub_download
 from transformers import AutoTokenizer
 
@@ -100,6 +100,7 @@ def chunk_beir_doc(doc_id: str, title: str, text: str) -> list[Chunk]:
     return chunks
 
 def prepare_hotpotqa_hf() -> tuple[list[dict], list[dict], dict]:
+    import pyarrow.parquet as pq
     logger.info("Preparing HotpotQA dataset via HuggingFace hub parquet streaming...")
     p_corp = hf_hub_download(repo_id="BeIR/hotpotqa", filename="corpus/corpus-00000-of-00001.parquet", repo_type="dataset")
     p_q = hf_hub_download(repo_id="BeIR/hotpotqa", filename="queries/queries-00000-of-00001.parquet", repo_type="dataset")
@@ -326,24 +327,29 @@ def index_corpus(dataset_name: str, corpus_records: list[dict], queries: list[di
     }
 
 def main():
+    parser = argparse.ArgumentParser(description="BEIR Indexing Script")
+    parser.add_argument("--corpus", choices=["nfcorpus", "hotpotqa", "all"], default="all", help="Corpus to index")
+    args = parser.parse_args()
+
     logger.info("=== TASK R-06a BEIR INDEXING ===")
     
-    # 1. Prepare NFCorpus
-    nf_dir = download_and_extract("nfcorpus")
-    nf_corpus_records = load_jsonl(nf_dir / "corpus.jsonl")
-    nf_queries_all = load_jsonl(nf_dir / "queries.jsonl")
-    nf_qrels = load_qrels_tsv(nf_dir / "qrels" / "test.tsv")
-    nf_queries = [q for q in nf_queries_all if str(q["_id"]) in nf_qrels]
-    logger.info(f"NFCorpus documents count: {len(nf_corpus_records)}, test queries count: {len(nf_queries)}")
-    
-    # 2. Prepare HotpotQA via Hugging Face Hub Parquet Streaming
-    hp_subsampled_records, hp_queries_500, hp_qrels = prepare_hotpotqa_hf()
+    nf_stats = None
+    hp_stats = None
 
-    # 3. Index NFCorpus
-    nf_stats = index_corpus("nfcorpus", nf_corpus_records, nf_queries, nf_qrels, "config/beir_nfcorpus.yaml")
-    
-    # 4. Index HotpotQA
-    hp_stats = index_corpus("hotpotqa", hp_subsampled_records, hp_queries_500, hp_qrels, "config/beir_hotpotqa.yaml")
+    if args.corpus in ["nfcorpus", "all"]:
+        # 1. Prepare NFCorpus
+        nf_dir = download_and_extract("nfcorpus")
+        nf_corpus_records = load_jsonl(nf_dir / "corpus.jsonl")
+        nf_queries_all = load_jsonl(nf_dir / "queries.jsonl")
+        nf_qrels = load_qrels_tsv(nf_dir / "qrels" / "test.tsv")
+        nf_queries = [q for q in nf_queries_all if str(q["_id"]) in nf_qrels]
+        logger.info(f"NFCorpus documents count: {len(nf_corpus_records)}, test queries count: {len(nf_queries)}")
+        nf_stats = index_corpus("nfcorpus", nf_corpus_records, nf_queries, nf_qrels, "config/beir_nfcorpus.yaml")
+
+    if args.corpus in ["hotpotqa", "all"]:
+        # 2. Prepare HotpotQA via Hugging Face Hub Parquet Streaming
+        hp_subsampled_records, hp_queries_500, hp_qrels = prepare_hotpotqa_hf()
+        hp_stats = index_corpus("hotpotqa", hp_subsampled_records, hp_queries_500, hp_qrels, "config/beir_hotpotqa.yaml")
 
     # 5. Check Corpus A integrity
     cfg_a = Config.load("config/default.yaml")
@@ -364,10 +370,7 @@ def main():
     report = {
         "task": "R-06a",
         "nfcorpus": nf_stats,
-        "hotpotqa": {
-            **hp_stats,
-            "subsampling_rule": "500 test queries gold docs + random distractors (seed 42) = 20,000 docs total"
-        },
+        "hotpotqa": ({**hp_stats, "subsampling_rule": "500 test queries gold docs + random distractors (seed 42) = 20,000 docs total"} if hp_stats else None),
         "corpus_a_integrity": corpus_a_integrity
     }
 
