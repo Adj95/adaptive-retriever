@@ -37,6 +37,7 @@ from adaptive_retriever.models import Chunk, Representation, RepresentationKind
 from adaptive_retriever.ingest.parsers import ParsedDocument
 from adaptive_retriever.ingest.chunkers import chunk_recursive_512
 from adaptive_retriever.ingest.representations import (
+    GenerationRequest,
     evaluate_chunk_density,
     plan_representations,
     post_process_representation,

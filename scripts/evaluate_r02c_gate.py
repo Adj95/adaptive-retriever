@@ -9,6 +9,7 @@ Saves report to reports/r02c_gate.json.
 import sys
 import os
 import json
+import re
 import logging
 from pathlib import Path
 import numpy as np

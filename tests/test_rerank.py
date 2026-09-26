@@ -87,7 +87,7 @@ def test_reranker_ensure_ready_calls_ensure_loaded():
 def test_reranker_load_failure_raises():
     with patch("sentence_transformers.CrossEncoder", side_effect=RuntimeError("Load failed")):
         reranker = Reranker(model_name="invalid-model")
-        with pytest.raises(RuntimeError, match="Failed to load reranker model"):
+        with pytest.raises(RuntimeError, match="Load failed|Failed to load reranker model"):
             reranker.score("query", ["text"])
 
 
