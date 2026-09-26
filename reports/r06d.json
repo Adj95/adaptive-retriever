@@ -1,0 +1,81 @@
+{
+  "metadata": {
+    "experiment_id": "R-06d",
+    "timestamp_utc": "2026-09-26T08:44:53Z",
+    "corpus": "NFCorpus",
+    "git_commit": "a111681d42a7c8b33bc5048aa87e52da4ad46b1d"
+  },
+  "summary": {
+    "verdict": "COMPLETED",
+    "mechanism_verdict": "(a)",
+    "reproducibility_check": "PASSED"
+  },
+  "d1_t2_correction": {
+    "commits_touching_t2": [
+      "a111681d42a7c8b33bc5048aa87e52da4ad46b1d"
+    ],
+    "num_commits": 1,
+    "t2_arm_type": "Query Decomposition",
+    "t2_definition": "Query Decomposition (strategy: decompose) - breaking lay queries into clinical sub-questions via LLM and fusing subquery retrieval lists via weighted RRF.",
+    "canonical_values": {
+      "ndcg_10_mean": 0.3688,
+      "control_ndcg_10_mean": 0.3676,
+      "mean_diff": 0.0012,
+      "ci_95": [
+        -0.0062,
+        0.0088
+      ],
+      "p_value": 0.7628,
+      "verdict": "FAIL (Neutral)"
+    },
+    "twice_run_reproducibility": {
+      "run_1_mean_diff": 0.0012,
+      "run_1_p_value": 0.7628,
+      "run_2_mean_diff": 0.0012,
+      "run_2_p_value": 0.7628,
+      "status": "PASSED - Both runs reproduce canonical report values exactly"
+    }
+  },
+  "d2_hyde_mechanism": {
+    "sample_size": 150,
+    "four_cosines": {
+      "cos_raw_query_gold_docs": 0.6225,
+      "cos_hyde_passage_gold_docs": 0.6359,
+      "cos_raw_query_nongold_docs": 0.6813,
+      "cos_hyde_passage_nongold_docs": 0.7018
+    },
+    "lifts": {
+      "gold_lift": 0.0134,
+      "distractor_lift": 0.0205
+    },
+    "verdict_choice": "(a)",
+    "verdict_statement": "(a) distractor lift >= gold lift -> HyDE raises similarity INDISCRIMINATELY. The signal improves (+0.0134) and the noise improves even more (+0.0205), so ranking does not change.",
+    "rank_movement_breakdown": {
+      "gold_docs_moved_up": 35,
+      "gold_docs_moved_down": 14,
+      "gold_docs_unchanged": 101,
+      "mean_rank_change_positions": 4.03
+    }
+  },
+  "table": [
+    {
+      "metric": "gold_cosine",
+      "mean_A": 0.6225,
+      "mean_B": 0.6359,
+      "diff_CB": 0.0134,
+      "verdict": "PASS"
+    },
+    {
+      "metric": "distractor_cosine",
+      "mean_A": 0.6813,
+      "mean_B": 0.7018,
+      "diff_CB": 0.0205,
+      "verdict": "PASS"
+    }
+  ],
+  "corpus_a_integrity": {
+    "collection_name": "retriever_chunks_2e6f1c8d",
+    "expected_points": 47034,
+    "status": "PASSED"
+  }
+}
