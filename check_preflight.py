@@ -11,6 +11,7 @@ Reads only. Writes nothing. Exits non-zero on any FAIL.
 """
 import json
 import os
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 import subprocess
 import sys
 import urllib.request
@@ -128,10 +129,11 @@ print()
 print(SEP)
 print("QDRANT")
 print(SEP)
-url = (cfg.raw.get("vectorstore", {}).get("url") if "cfg" in dir() else None) or "http://localhost:6333"
+url = (cfg.raw.get("vectorstore", {}).get("url") if "cfg" in dir() else None) or "http://127.0.0.1:6333"
+url_req = url.replace("localhost", "127.0.0.1")
 collection = f"retriever_chunks_{EXPECTED_HASH}"
 try:
-    with urllib.request.urlopen(f"{url}/collections/{collection}", timeout=8) as r:
+    with urllib.request.urlopen(f"{url_req}/collections/{collection}", timeout=8) as r:
         info = json.loads(r.read())["result"]
     pts = info.get("points_count")
     line("url", url, True)
@@ -146,13 +148,28 @@ try:
     if missing:
         fails.append(f"payload indexes missing: {sorted(missing)}")
 
-    # Check for stale collections not matching current ingest_config_hash
-    with urllib.request.urlopen(f"{url}/collections", timeout=8) as r:
+    # Check for stale collections not matching current ingest_config_hash and empty collections
+    with urllib.request.urlopen(f"{url_req}/collections", timeout=8) as r:
         all_cols = json.loads(r.read())["result"]["collections"]
     stale_cols = [c["name"] for c in all_cols if c["name"] != collection and not c["name"].startswith("beir_")]
+    empty_cols = []
+    for c in all_cols:
+        c_name = c["name"]
+        try:
+            with urllib.request.urlopen(f"{url_req}/collections/{c_name}", timeout=8) as cr:
+                c_pts = json.loads(cr.read())["result"].get("points_count", 0)
+                if c_pts == 0:
+                    empty_cols.append(c_name)
+        except Exception:
+            pass
+
     line("stale collections", "None" if not stale_cols else f"FOUND: {stale_cols}", not stale_cols)
     if stale_cols:
         fails.append(f"Qdrant contains collections that do not match ingest_config_hash '{EXPECTED_HASH}': {stale_cols}")
+
+    line("empty collections", "None" if not empty_cols else f"FOUND: {empty_cols}", not empty_cols)
+    if empty_cols:
+        fails.append(f"Qdrant contains empty collections with 0 points: {empty_cols}")
 except Exception as exc:  # noqa: BLE001
     line("url", f"{url}  UNREACHABLE: {type(exc).__name__}", False)
     fails.append("Qdrant server unreachable")
