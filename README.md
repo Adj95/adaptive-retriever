@@ -4,7 +4,7 @@
 A hybrid retrieval system in which every optional component is gated behind a measurement on the target corpus. Rather than assuming that query expansion, hypothetical document embeddings, structured pre-filtering, or cascade routing automatically improve retrieval performance, each component is evaluated against a fixed baseline and control on the specific dataset. Gains are modest and strongly corpus-dependent: a technique that yields measurable improvements on one domain may yield neutral or negative results on another. Consequently, optional components ship disabled by default and are enabled only when supported by empirical evidence on the target corpus.
 
 ## Results
-Three corpora were evaluated using nDCG@10 as the primary comparable metric across fixed dense baselines (`BAAI/bge-small-en-v1.5`) and hybrid dense+sparse Reciprocal Rank Fusion (RRF) with gated cross-encoder reranking (`BAAI/bge-reranker-small`):
+Three corpora were evaluated using nDCG@10 as the primary comparable metric across fixed dense baselines (`BAAI/bge-small-en-v1.5`) and hybrid dense+sparse Reciprocal Rank Fusion (RRF) with gated cross-encoder reranking (`cross-encoder/ms-marco-MiniLM-L-6-v2`):
 
 | Corpus | Description | Sample Size ($n$) | Fixed Dense Baseline | Hybrid + Rerank | Difference | Verdict ($\alpha_{\text{Bonferroni}} = 0.01$) |
 |---|---|:---:|:---:|:---:|:---:|:---:|
@@ -15,12 +15,12 @@ Three corpora were evaluated using nDCG@10 as the primary comparable metric acro
 The hybrid retrieval advantage is strongly corpus-dependent: the measured nDCG@10 gain falls by roughly $7\times$ on NFCorpus (+0.0137) compared to Corpus A (+0.0969), where query relevance judgments are human-annotated rather than synthetically generated. For all three corpora, statistical significance was evaluated against a Bonferroni-corrected threshold of $\alpha = 0.01$ (5 metric comparisons at global $\alpha = 0.05$). Note that the HotpotQA evaluation uses a 20k document random subsample with easy negatives and is not directly comparable to published figures on full benchmark suites.
 
 ## External validation
-On NFCorpus, the dense-only baseline achieved an nDCG@10 of 0.3530 ([`reports/r06b_baseline.json`](reports/r06b_baseline.json)), comparing closely against the published BGE-small-en-v1.5 figure of approximately 0.34 on the BEIR benchmark. This confirms that the measurement harness reproduces expected baseline retrieval behavior within standard variation attributable to document chunking and indexing parameters. However, these figures are not directly comparable to published BEIR benchmark scores because this system evaluates retrieval over chunked document segments, whereas standard BEIR evaluations process un-chunked full documents.
+On NFCorpus, the dense-only baseline achieved an nDCG@10 of 0.3530 ([`reports/r06b_baseline.json`](reports/r06b_baseline.json)), comparing closely against the published BGE-small-en-v1.5 figure of approximately 0.34 on the BEIR benchmark (Thakur et al., 2021, *BEIR: A Heterogeneous Benchmark for Zero-shot Evaluation of Information Retrieval Models* / BAAI BGE Model Card). This confirms that the measurement harness reproduces expected baseline retrieval behavior within standard variation attributable to document chunking and indexing parameters. However, these figures are not directly comparable to published BEIR benchmark scores because this system evaluates retrieval over chunked document segments, whereas standard BEIR evaluations process un-chunked full documents.
 
 ## What ships
 The core architecture ships with the following components verified and enabled:
 - **Hybrid Dense + Sparse RRF with Collapse-Before-Fusion**: Dense vector search (`BAAI/bge-small-en-v1.5`) combined with BM25 sparse retrieval via Reciprocal Rank Fusion, collapsing multiple chunk representations to their parent chunk prior to score aggregation to eliminate indexing frequency bias.
-- **Cross-Encoder Reranking**: Gated post-retrieval reordering (`BAAI/bge-reranker-small`) applied to candidate pools to refine result ordering.
+- **Cross-Encoder Reranking**: Gated post-retrieval reordering (`cross-encoder/ms-marco-MiniLM-L-6-v2`) applied to candidate pools to refine result ordering.
 - **Post-Hoc Span Attribution**: Deterministic verbatim $n$-gram ($n \ge 8$ words) sentence attribution to trace generated answer spans back to retrieved candidate context.
 - **Qdrant Server Integration**: Server-mode vector store with 7 indexed payload fields (`doc_class`, `contains_table`, `entities`, `date_refs`, `access_tags`, `kind`, `tier`).
 - **Evaluation Harness**: Statistical evaluation pipeline including paired bootstrap resampling (10,000 iterations), shuffled controls, Bonferroni multiplicity correction, and automated report verification via `scripts/verify_report.py`.
@@ -30,12 +30,12 @@ All optional adaptive components measured in this project failed to clear their 
 
 | Component | Measured Effect | Primary Report Source |
 |---|---|---|
-| **per-class fusion weights** | +0.0000 on Recall@10, $p = 1.000$ | [`reports/experiment_002.json`](reports/experiment_002.json) |
+| **per-class fusion weights** | +0.0000 on Recall@10 | [`reports/experiment_002.json`](reports/experiment_002.json) |
 | **self-query prefiltering** | -0.0461 on Corpus A; NOT APPLICABLE on NFCorpus (no metadata schema) - never fairly tested | [`reports/experiment_003.json`](reports/experiment_003.json), [`reports/r06c1_transformations.json`](reports/r06c1_transformations.json) |
 | **HyDE** | -0.0029 (Corpus A) / -0.0026 (NFCorpus) | [`reports/experiment_005.json`](reports/experiment_005.json), [`reports/r06c1_transformations.json`](reports/r06c1_transformations.json) |
 | **query decomposition** | -0.0100 (Corpus A) / +0.0012 (NFCorpus) | [`reports/experiment_005.json`](reports/experiment_005.json), [`reports/r06c1_transformations.json`](reports/r06c1_transformations.json), [`reports/r06d.json`](reports/r06d.json) |
-| **LLM extractor tier** | 174 candidates fired, 3 held gold | [`reports/r02d.json`](reports/r02d.json) |
-| **compression + reorder** | failed Bonferroni ($\alpha = 0.008333$); difference traced to a whitespace confound | [`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json) |
+| **LLM extractor tier** | 174 candidates fired, 3 held gold | [`reports/three_items_pre_task_c.json`](reports/three_items_pre_task_c.json) |
+| **compression + reorder** | failed Bonferroni ($\alpha = 0.004167$); difference traced to a whitespace confound | [`reports/experiment_006_corrected.json`](reports/experiment_006_corrected.json) |
 | **multi-representation indexing** | +0.0044, $p = 0.1592$ at 41.8% coverage on NFCorpus; no resolvable effect on Corpus A at 8.75% | [`reports/r06c2_multirep.json`](reports/r06c2_multirep.json), [`reports/r03_tiers.json`](reports/r03_tiers.json) |
 | **cascade router** | cancelled before implementation - three reasons, see below | [`reports/r02f_oracle.json`](reports/r02f_oracle.json) |
 
@@ -54,7 +54,7 @@ Every component implementation remains fully intact in the codebase behind confi
 - **Hardware & Model Scoping**: Offline generation and transformations were executed using `Qwen2.5-0.5B-Instruct` in FP32 precision on an NVIDIA GTX 1650 GPU ([`reports/r06c1_transformations.json`](reports/r06c1_transformations.json)). All measured nulls are scoped strictly to this generator setup; HyDE performance with larger LLM architectures was not evaluated.
 - **NFCorpus Recall Ceiling**: NFCorpus query recall is capped by high gold-document density (median $p50 = 16$ gold documents per query), limiting top-$k$ recall ceilings ([`reports/r06b_baseline.json`](reports/r06b_baseline.json)).
 - **Subsampled Benchmark Headroom**: HotpotQA evaluation uses a 500-query random subsample with easy negative distractors. Baseline dense retrieval hits an nDCG@10 ceiling of 0.9201; expanding the random distractor pool $5\times$ (from 20k to 100k) did not lower the ceiling ([`reports/r06c_prep.json`](reports/r06c_prep.json)).
-- **Relevance Match Boilerplate**: The `is_relevant()` matching function can trigger on repeated table delimiters (e.g., `"| | | | |"`), flagging 4 of 169 Corpus A queries as `boilerplate_suspect` ([`reports/experiment_001.json`](reports/experiment_001.json)).
+- **Relevance Match Boilerplate**: The `is_relevant()` matching function can trigger on repeated table delimiters (e.g., `"| | | | |"`), flagging Corpus A items with boilerplate table rows.
 - **Pre-Rebuild Index Scope**: All Phase 5 post-retrieval pipeline measurements were conducted on the legacy pre-rebuild index (collection `retriever_chunks_a5d51992`).
 - **Prompt Token Context Discrepancy**: Measured prompt token counts indicate that the answer generator received approximately one-third of the context implied by tier configuration definitions ([`reports/r02c_gate.json`](reports/r02c_gate.json)).
 
@@ -81,12 +81,14 @@ To reproduce the measurements and verify report integrity:
    python scripts/verify_report.py reports/r06d.json
    ```
 
-Verified Collection Hashes:
+Verified Collection Hashes and Active Point Counts (Qdrant Server):
 - Corpus A (Rebuilt): `retriever_chunks_2e6f1c8d` (47,034 points)
-- Corpus A (Legacy Pre-rebuild): `retriever_chunks_a5d51992` (22,422 points)
-- NFCorpus Standard Index: `beir_nfcorpus_raw_a5d51992` (4,476 points)
+- NFCorpus Standard Index: `beir_nfcorpus_2e6f1c8d` (4,476 points)
 - NFCorpus Multi-Rep Index: `beir_nfcorpus_multirep_cb65e1ba` (10,046 points)
-- HotpotQA 20k Subsample Index: `beir_hotpotqa_20k_a5d51992` (116,911 points)
+- HotpotQA 20k Subsample Index: `beir_hotpotqa_2e6f1c8d` (20,002 points)
+- HotpotQA 100k Subsample Index: `beir_hotpotqa_100k_2e6f1c8d` (100,018 points)
+
+*Note on Legacy Index*: The legacy pre-rebuild collection `retriever_chunks_a5d51992` was dropped during the R-01a-fix2 rebuild and no longer exists in the Qdrant vector store server.
 
 ## Architecture
 The retrieval architecture consists of an ingest parser, Qdrant hybrid vector store, gated cross-encoder reranker, and verbatim sentence attribution engine. Detailed component wiring and pipeline stage parameters are defined in [`config/default.yaml`](config/default.yaml).
@@ -96,5 +98,5 @@ query
   │
   ├─ stage 1  structured pre-filter    (optional metadata payload filtering)
   ├─ stage 2  hybrid retrieval         (dense BGE-small + BM25 sparse, RRF fusion)
-  └─ stage 3  gated cross-encoder      (BGE-reranker-small score-margin gating)
+  └─ stage 3  gated cross-encoder      (ms-marco-MiniLM-L-6-v2 score-margin gating)
 ```

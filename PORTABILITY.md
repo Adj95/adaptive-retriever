@@ -3,7 +3,7 @@
 This document outlines the protocol for porting and deploying this retrieval system on a new target corpus.
 
 ## Default Configuration Notice
-The default pipeline configuration (`funnel.hybrid.weights: {dense: 0.5, sparse: 0.5}`, `query.transformation.strategy: none`, gated cross-encoder reranking) represents the baseline configuration empirically justified across our reference corpora. It is **not** a general recommendation or guarantee of optimality for unmeasured domains. Every optional component must be evaluated against target corpus controls prior to production enablement.
+The default pipeline configuration (`funnel.hybrid.weights: {dense: 0.5, sparse: 0.5}`, `query.transformation.strategy: none`, gated cross-encoder reranking with `cross-encoder/ms-marco-MiniLM-L-6-v2`) represents the baseline configuration empirically justified across our reference corpora. It is **not** a general recommendation or guarantee of optimality for unmeasured domains. Every optional component must be evaluated against target corpus controls prior to production enablement.
 
 ---
 
@@ -31,8 +31,8 @@ The table below summarizes measured performance across reference corpora and pro
 | Component | Reference Measurements | Primary Source Reports | When Component is Likely to Earn Its Place |
 |---|---|---|---|
 | **Hybrid RRF Search** | Corpus A: +0.0969 (PASS)<br>NFCorpus: +0.0137 (FAIL)<br>HotpotQA: +0.0250 (PASS) | [`reports/experiment_001.json`](reports/experiment_001.json)<br>[`reports/r06b_baseline.json`](reports/r06b_baseline.json) | High vocabulary mismatch between queries and corpus documents (e.g., lay queries searching technical literature). |
-| **Cross-Encoder Reranking** | nDCG@10: +0.0738 (PASS)<br>Recall@10: +0.0059 (FAIL) | [`reports/experiment_002.json`](reports/experiment_002.json) | High candidate pool size where initial retrieval places relevant items in top-100 but misorders top-10. |
-| **Per-Class Fusion Weights** | +0.0000 on Recall@10, $p = 1.000$ | [`reports/experiment_002.json`](reports/experiment_002.json) | Distinct query classes with starkly different structural characteristics (e.g., pure keyword lookups vs complex semantic QA) and a highly accurate classifier ($>90\%$ accuracy). |
+| **Cross-Encoder Reranking** | nDCG@10: +0.0737 (PASS)<br>Recall@10: +0.0059 (FAIL) | [`reports/experiment_002.json`](reports/experiment_002.json) | High candidate pool size where initial retrieval places relevant items in top-100 but misorders top-10. |
+| **Per-Class Fusion Weights** | +0.0000 on Recall@10 | [`reports/experiment_002.json`](reports/experiment_002.json) | Distinct query classes with starkly different structural characteristics (e.g., pure keyword lookups vs complex semantic QA) and a highly accurate classifier ($>90\%$ accuracy). |
 | **Self-Query Prefiltering** | Corpus A: -0.0461 (Harmful)<br>NFCorpus: N/A (No schema) | [`reports/experiment_003.json`](reports/experiment_003.json)<br>[`reports/r06c1_transformations.json`](reports/r06c1_transformations.json) | Corpora with 100% structured payload metadata coverage and strict multi-attribute query constraints where filter extraction precision approaches 1.0. |
 | **HyDE (Hypothetical Embeddings)** | Corpus A: -0.0029<br>NFCorpus: -0.0026 | [`reports/experiment_005.json`](reports/experiment_005.json)<br>[`reports/r06c1_transformations.json`](reports/r06c1_transformations.json) | Abstract or conceptual queries where gold documents sit far from raw queries in vector space and distractor density is low. |
 | **Query Decomposition** | Corpus A: -0.0100<br>NFCorpus: +0.0012 | [`reports/experiment_005.json`](reports/experiment_005.json)<br>[`reports/r06c1_transformations.json`](reports/r06c1_transformations.json), [`reports/r06d.json`](reports/r06d.json) | Complex, multi-part, multi-hop queries requiring explicit sub-question extraction, provided original query context is preserved during fusion. |
