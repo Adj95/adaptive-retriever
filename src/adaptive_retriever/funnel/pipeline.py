@@ -21,8 +21,8 @@ from adaptive_retriever.query.transform import transform_query
 logger = logging.getLogger(__name__)
 
 
-def warm_up(vs: VectorStore, reranker: Optional[Reranker] = None) -> float:
-    """Warm up embedding, sparse, Qdrant client connection, and reranker models.
+def warm_up(vs: VectorStore, reranker: Optional[Reranker] = None, llm: Optional[Any] = None) -> float:
+    """Warm up embedding, sparse, Qdrant client connection, reranker, and LLM models.
 
     Initializes tokenizer, CUDA context, device transfers, and Qdrant gRPC/HTTP
     connections on the EXACT model instances used by the pipeline so real queries
@@ -49,7 +49,17 @@ def warm_up(vs: VectorStore, reranker: Optional[Reranker] = None) -> float:
 
     # 4. Warm cross-encoder reranker
     if reranker is not None:
-        _ = reranker.score("warm", ["warm"])
+        _ = reranker.score("warmup query text", ["warmup candidate text passage"] * 10)
+
+    # 5. Warm LLM generator
+    if llm is not None:
+        if hasattr(llm, "_ensure_loaded"):
+            llm._ensure_loaded()
+        try:
+            if hasattr(llm, "complete"):
+                _ = llm.complete("warmup query", max_tokens=1)
+        except Exception:
+            pass
 
     t1 = time.perf_counter()
     warmup_ms = round((t1 - t0) * 1000, 2)

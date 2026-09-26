@@ -1,5 +1,5 @@
-# version: 1
-Answer the question based strictly on the provided context below. Cite every fact using the exact bracketed chunk ID like [chunk_id]. If the context is insufficient to answer the question, state explicitly that the context is insufficient.
+# version: 2
+Answer the question based strictly on the provided context below. Do not include chunk IDs, bracketed citations, or chunk prefixes in your answer text. Write a concise, natural response based only on the facts in the context. If the context is insufficient to answer the question, state explicitly that the context is insufficient.
 
 Context:
 {context}

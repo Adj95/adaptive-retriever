@@ -21,6 +21,39 @@ python scripts/demo.py
 ### What it looks like
 
 ```
+QUERY     Why Deep Fried Foods May Cause Cancer
+          (NFCorpus test query PLAIN-1, 0 gold documents)
+
+RETRIEVED top 5 of 10
+  1   MED-2418_c0000   score 7.015    gold: no
+  2   MED-4070_c0000   score 3.865    gold: no
+  3   MED-5269_c0001   score 0.060    gold: no
+  4   MED-4818_c0000   score -0.132   gold: no
+  5   MED-5033_c0000   score -0.470   gold: no
+  rerank fired: yes (top-1 margin 0.28 < 0.30)
+
+ANSWER
+  Deep fried foods may cause cancer because they contain high levels of
+  harmful substances like aldehydes, acrolein, heterocyclic amines, polycyclic
+  aromatic hydrocarbons, and acrylamide. These compounds can form potentially
+  carcinogenic agents when heated, which increases the risk of developing
+  cancer. Additionally, studies show that frying meat at higher temperatures
+  can lead to the formation of certain chemicals that can damage cells and
+  contribute to cancer development.
+
+GROUNDING 0 of 3 sentences matched >= 8-gram verbatim to retrieved context
+  sentence 1  ungrounded
+  sentence 2  ungrounded
+  sentence 3  ungrounded
+
+COST      retrieval 6,033 ms | rerank 2,133 ms | generation 6,771 ms | total 16,554 ms
+```
+
+### When the generator gets it wrong
+
+The 0.5B model produced a self-contradicting answer ("Yes... statins decrease the risk") and the grounding engine correctly flagged all 3 sentences as ungrounded (0 of 3 matched).
+
+```
 QUERY     Do cholesterol statin drugs cause breast cancer?
           (NFCorpus test query PLAIN-2, 24 gold documents)
 
@@ -33,21 +66,19 @@ RETRIEVED top 5 of 10
   rerank fired: yes (top-1 margin 0.19 < 0.30)
 
 ANSWER
-  Based on the information provided:  [chunk_id] MED-14_c0000: Statin use
-  after diagnosis of breast cancer and survival: a population-based cohort
-  study  The study mentions that "Preclinical studies have shown that statins,
-  particularly simvastatin, can prevent growth in breast cancer cell lines and
-  animal models." Therefore, it is reasonable to conclude that statins used
-  after breast cancer diagnosis do reduce the risk of breast cancer and its
-  specific mortality.  So, the answer to the question "Do cholesterol statin
-  drugs cause breast cancer? " is yes.
+  Yes, cholesterol statin drugs do cause breast cancer. According to the
+  context provided, "Emerging evidence suggests that statins' may decrease the
+  risk of cancers." However, the study does not provide specific information
+  about the link between statin use and breast cancer. Therefore, it's
+  insufficient to determine if cholesterol statin drugs cause breast cancer
+  based solely on the given information.
 
-GROUNDING 1 of 3 sentences matched >= 8-gram verbatim to retrieved context
-  sentence 1  grounded   -> MED-14_c0000
+GROUNDING 0 of 3 sentences matched >= 8-gram verbatim to retrieved context
+  sentence 1  ungrounded
   sentence 2  ungrounded
   sentence 3  ungrounded
 
-COST      retrieval 727 ms | rerank 1,785 ms | generation 12 ms | total 2,819 ms
+COST      retrieval 5,882 ms | rerank 1,803 ms | generation 5,138 ms | total 18,918 ms
 ```
 
 ## Results
@@ -79,7 +110,7 @@ All optional adaptive components measured in this project failed to clear their 
 
 | Component | Measured Effect | Primary Report Source |
 |---|---|---|
-| **per-class fusion weights** | +0.0000 on Recall@10 | [`reports/experiment_002.json`](reports/experiment_002.json) |
+| **per-class fusion weights** | +0.0000 on Recall@10 | [`reports/experiment_001.json`](reports/experiment_001.json) |
 | **self-query prefiltering** | -0.0461 on Corpus A; NOT APPLICABLE on NFCorpus (no metadata schema) - never fairly tested | [`reports/experiment_003.json`](reports/experiment_003.json), [`reports/r06c1_transformations.json`](reports/r06c1_transformations.json) |
 | **HyDE** | -0.0029 (Corpus A) / -0.0026 (NFCorpus) | [`reports/experiment_005.json`](reports/experiment_005.json), [`reports/r06c1_transformations.json`](reports/r06c1_transformations.json) |
 | **query decomposition** | -0.0100 (Corpus A) / +0.0012 (NFCorpus) | [`reports/experiment_005.json`](reports/experiment_005.json), [`reports/r06c1_transformations.json`](reports/r06c1_transformations.json), [`reports/r06d.json`](reports/r06d.json) |
@@ -101,9 +132,19 @@ Every component implementation remains fully intact in the codebase behind confi
 
 Components are currently enabled or disabled by hand, using the measurements in `reports/`. The natural next step is to make that decision automatic and reproducible for a new corpus.
 
-The design would be fixed-sequence testing rather than the Bonferroni correction used throughout this project. Components would be ordered by cost in advance, tested one at a time against the current configuration, and the sequence stopped at the first failure. Because the order is fixed before seeing data and testing stops at the first non-rejection, each stage can be tested at full alpha = 0.05 while still controlling family-wise error - roughly nine times the power of the corrected tests reported here.
+The procedure would use fixed-sequence testing rather than Bonferroni correction:
+1. Rank candidate components by expected ROI (or cost, ascending).
+2. Test the first component against the baseline on a calibration split of the target corpus at $\alpha = 0.05$.
+3. If it passes, keep it and test the next component against the new pipeline.
+4. Stop at the first failure. Do not test remaining components.
 
-Two things it would need to be honest: the ordering must be registered before any measurement, and the selected configuration must be confirmed on a held-out split of the evaluation set, since selecting and reporting on the same queries produces optimistic results. It is not implemented, and the reported numbers here come from the fixed configuration rather than from any selection procedure.
+Because testing stops at the first non-rejection, fixed-sequence testing controls family-wise error rate at $\alpha = 0.05$ across the entire pipeline without penalty for multiple comparisons. On a 9-component pool, every tested component gets the full $\alpha = 0.05$ budget rather than the Bonferroni-corrected $\alpha = 0.0056$ - a $9\times$ statistical power advantage for early components.
+
+Two requirements make this procedure rigorous:
+- **Pre-registered sequence**: Component test order must be committed before observing target corpus metrics.
+- **Held-out validation split**: The final calibrated pipeline configuration must be evaluated on an untouched validation split. Reporting calibration-split numbers as system performance produces optimistic bias.
+
+This procedure is not implemented in the current codebase; pipeline decisions in `reports/` were made using parallel evaluation with Bonferroni correction.
 
 ## Reproducibility
 

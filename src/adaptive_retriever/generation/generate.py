@@ -76,8 +76,18 @@ def attribute_sentence_to_chunks(
 
     for cand in candidates:
         cand_norm = re.sub(r"\s+", " ", cand.text.strip().lower())
+        has_any = False
+        for start in range(len(words) - required_n + 1):
+            if " ".join(words[start : start + required_n]) in cand_norm:
+                has_any = True
+                break
+        if not has_any:
+            continue
+
         cand_max_n = 0
         for window_len in range(len(words), required_n - 1, -1):
+            if cand_max_n >= window_len:
+                break
             found_match = False
             for start in range(len(words) - window_len + 1):
                 ngram_str = " ".join(words[start : start + window_len])
@@ -115,6 +125,7 @@ def generate_answer(
     cfg: Optional[Any] = None,
     llm: Optional[Any] = None,
     confidence: Optional[float] = None,
+    ignore_cache: bool = False,
 ) -> GeneratedAnswer:
     """Generate a grounded answer with verified citations based strictly on candidate context."""
     trace: Dict[str, Any] = {
@@ -190,16 +201,17 @@ def generate_answer(
 
     # 4. Cache check
     cache_key = _build_cache_key(query, ordered_chunk_ids, prompt_version, model_name, citation_mode, context_str=context_str)
-    cached_val = cache_get(cache_key)
-    if cached_val is not None and isinstance(cached_val, dict):
-        trace["cache_hit"] = True
-        return GeneratedAnswer(
-            text=cached_val["text"],
-            citations=cached_val["citations"],
-            refused=cached_val["refused"],
-            refusal_reason=cached_val.get("refusal_reason"),
-            trace={**trace, "cached": True},
-        )
+    if not ignore_cache:
+        cached_val = cache_get(cache_key)
+        if cached_val is not None and isinstance(cached_val, dict):
+            trace["cache_hit"] = True
+            return GeneratedAnswer(
+                text=cached_val["text"],
+                citations=cached_val["citations"],
+                refused=cached_val["refused"],
+                refusal_reason=cached_val.get("refusal_reason"),
+                trace={**trace, "cached": True},
+            )
 
     trace["cache_hit"] = False
 
@@ -218,15 +230,24 @@ def generate_answer(
         )
 
     try:
-        if hasattr(llm, "complete"):
-            res = llm.complete(formatted_prompt, prompt_version=prompt_version, stage="generation")
-            raw_response = res.text if hasattr(res, "text") else str(res)
-        elif hasattr(llm, "generate"):
-            raw_response = llm.generate(formatted_prompt)
-        elif callable(llm):
-            raw_response = llm(formatted_prompt)
-        else:
-            raise AttributeError("LLM client does not support complete() or generate()")
+        old_llm_cache_get = None
+        if ignore_cache and hasattr(llm, "cache") and llm.cache is not None and hasattr(llm.cache, "get"):
+            old_llm_cache_get = llm.cache.get
+            llm.cache.get = lambda k: None
+
+        try:
+            if hasattr(llm, "complete"):
+                res = llm.complete(formatted_prompt, prompt_version=prompt_version, stage="generation")
+                raw_response = res.text if hasattr(res, "text") else str(res)
+            elif hasattr(llm, "generate"):
+                raw_response = llm.generate(formatted_prompt)
+            elif callable(llm):
+                raw_response = llm(formatted_prompt)
+            else:
+                raise AttributeError("LLM client does not support complete() or generate()")
+        finally:
+            if old_llm_cache_get is not None:
+                llm.cache.get = old_llm_cache_get
         text_ans = raw_response.strip()
     except Exception as err:
         logger.warning("LLM generation failed: %s", err)
@@ -244,6 +265,11 @@ def generate_answer(
             refusal_reason="LLM produced an empty response string.",
             trace=trace,
         )
+
+    # Clean leaked bracketed chunk IDs if citation_mode is attribution
+    if citation_mode == "attribution":
+        text_ans = re.sub(r"\[[a-zA-Z0-9_\-\.:]+\]:?", "", text_ans)
+        text_ans = re.sub(r"\s+", " ", text_ans).strip()
 
     # Check for explicit refusal string produced by LLM
     if "context is insufficient" in text_ans.lower():

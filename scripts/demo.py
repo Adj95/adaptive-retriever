@@ -24,8 +24,8 @@ from adaptive_retriever.models import RetrievalCandidate
 from adaptive_retriever.vectorstore import VectorStore
 
 
-DEFAULT_QUERY_ID = "PLAIN-2"
-DEFAULT_QUERY_TEXT = "Do cholesterol statin drugs cause breast cancer?"
+DEFAULT_QUERY_ID = "PLAIN-1"
+DEFAULT_QUERY_TEXT = "Why Deep Fried Foods May Cause Cancer"
 COLLECTION_NAME = "beir_nfcorpus_2e6f1c8d"
 
 
@@ -37,13 +37,18 @@ def get_resolved_device() -> str:
 
 
 def check_collection_exists(qdrant_url: str, collection_name: str) -> bool:
-    url_req = qdrant_url.replace("localhost", "127.0.0.1")
     try:
-        with urllib.request.urlopen(f"{url_req}/collections/{collection_name}", timeout=5) as r:
-            res = json.loads(r.read())
-            pts = res.get("result", {}).get("points_count", 0)
-            return pts > 0
-    except Exception:
+        from qdrant_client import QdrantClient
+        client = QdrantClient(url=qdrant_url, timeout=60.0, check_compatibility=False)
+        if not client.collection_exists(collection_name):
+            return False
+        info = client.get_collection(collection_name)
+        cnt = getattr(info, "points_count", None)
+        if cnt is None:
+            cnt = getattr(info, "vectors_count", 0)
+        return (cnt or 0) > 0
+    except Exception as e:
+        print(f"Warning: check_collection_exists check failed: {e}", file=sys.stderr)
         return False
 
 
@@ -192,15 +197,17 @@ def run_demo(query_text: Optional[str] = None) -> str:
 
     vs = VectorStore.from_config(cfg, collection_base_name="beir_nfcorpus")
     llm = get_llm_client(cfg)
+    reranker = Reranker(device=cfg.raw.get("models", {}).get("llm", {}).get("device", "auto"))
+    reranker.ensure_ready()
 
     # Warm up models
-    _ = warm_up(vs)
+    _ = warm_up(vs, reranker=reranker, llm=llm)
 
     t_start = time.perf_counter()
 
     # Stage 1 & 2 & 3: Retrieval & Gated Rerank
     t0_ret = time.perf_counter()
-    candidates, trace = run_funnel(query_text, vs, cfg, llm=llm)
+    candidates, trace = run_funnel(query_text, vs, cfg, reranker=reranker, llm=llm)
     t1_ret = time.perf_counter()
     retrieval_total_ms = (t1_ret - t0_ret) * 1000.0
 
@@ -210,7 +217,7 @@ def run_demo(query_text: Optional[str] = None) -> str:
 
     # Stage 4: Generation
     t0_gen = time.perf_counter()
-    gen_ans = generate_answer(query_text, candidates, cfg=cfg, llm=llm)
+    gen_ans = generate_answer(query_text, candidates, cfg=cfg, llm=llm, ignore_cache=True)
     t1_gen = time.perf_counter()
     gen_ms = (t1_gen - t0_gen) * 1000.0
 
