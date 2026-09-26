@@ -13,7 +13,7 @@
   },
   "c2_measurement": {
     "total_test_queries": 323,
-    "multiplicity_statement": "4 treatment arms x 3 primary-ish metrics (nDCG@10, nDCG@5, MRR) = 12 tests, alpha = 0.00417",
+    "multiplicity_statement": "3 treatment arms x 3 primary-ish metrics (nDCG@10, nDCG@5, MRR) = 9 tests, alpha = 0.00556. T3 (self_query) relabelled NOT APPLICABLE and removed from multiplicity count.",
     "arms_summary": {
       "Control (none)": {
         "ndcg_10": {
@@ -101,36 +101,6 @@
           "p95": 0.0
         }
       },
-      "T3 (self_query)": {
-        "ndcg_10": {
-          "mean": 0.3676,
-          "std": 0.3373
-        },
-        "ndcg_5": {
-          "mean": 0.4001,
-          "std": 0.3708
-        },
-        "recall_5": {
-          "mean": 0.1417,
-          "std": 0.2366
-        },
-        "recall_10": {
-          "mean": 0.1764,
-          "std": 0.2629
-        },
-        "mrr": {
-          "mean": 0.5788,
-          "std": 0.4523
-        },
-        "latency_ms": {
-          "p50": 1255.77,
-          "p95": 1406.82
-        },
-        "added_generation_latency_ms": {
-          "p50": 0.0,
-          "p95": 0.0
-        }
-      },
       "T4 (hyde_decompose)": {
         "ndcg_10": {
           "mean": 0.3632,
@@ -160,6 +130,37 @@
           "p50": 0.0,
           "p95": 0.0
         }
+      },
+      "T3 (self_query) [NOT APPLICABLE]": {
+        "ndcg_10": {
+          "mean": 0.3676,
+          "std": 0.3373
+        },
+        "ndcg_5": {
+          "mean": 0.4001,
+          "std": 0.3708
+        },
+        "recall_5": {
+          "mean": 0.1417,
+          "std": 0.2366
+        },
+        "recall_10": {
+          "mean": 0.1764,
+          "std": 0.2629
+        },
+        "mrr": {
+          "mean": 0.5788,
+          "std": 0.4523
+        },
+        "latency_ms": {
+          "p50": 1255.77,
+          "p95": 1406.82
+        },
+        "added_generation_latency_ms": {
+          "p50": 0.0,
+          "p95": 0.0
+        },
+        "status_note": "NOT APPLICABLE - NFCorpus has no structured metadata schema, so filter extraction had nothing to produce and the arm degenerated to control."
       }
     },
     "paired_bootstrap_tests": {
@@ -171,7 +172,7 @@
             0.0075
           ],
           "p_value": 0.6026,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
         },
         "ndcg_5": {
@@ -181,7 +182,7 @@
             0.0089
           ],
           "p_value": 0.5832,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
         },
         "recall_5": {
@@ -211,7 +212,7 @@
             0.0166
           ],
           "p_value": 0.9416,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
         }
       },
@@ -223,7 +224,7 @@
             0.0088
           ],
           "p_value": 0.7628,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
         },
         "ndcg_5": {
@@ -233,7 +234,7 @@
             0.0105
           ],
           "p_value": 0.6246,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
         },
         "recall_5": {
@@ -263,59 +264,7 @@
             0.0145
           ],
           "p_value": 0.9676,
-          "bonferroni_alpha": 0.00417,
-          "verdict": "FAIL"
-        }
-      },
-      "T3 (self_query)": {
-        "ndcg_10": {
-          "mean_diff": 0.0,
-          "ci_95": [
-            0.0,
-            0.0
-          ],
-          "p_value": 1.0,
-          "bonferroni_alpha": 0.00417,
-          "verdict": "FAIL"
-        },
-        "ndcg_5": {
-          "mean_diff": 0.0,
-          "ci_95": [
-            0.0,
-            0.0
-          ],
-          "p_value": 1.0,
-          "bonferroni_alpha": 0.00417,
-          "verdict": "FAIL"
-        },
-        "recall_5": {
-          "mean_diff": 0.0,
-          "ci_95": [
-            0.0,
-            0.0
-          ],
-          "p_value": 1.0,
-          "bonferroni_alpha": 0.05,
-          "verdict": "FAIL"
-        },
-        "recall_10": {
-          "mean_diff": 0.0,
-          "ci_95": [
-            0.0,
-            0.0
-          ],
-          "p_value": 1.0,
-          "bonferroni_alpha": 0.05,
-          "verdict": "FAIL"
-        },
-        "mrr": {
-          "mean_diff": 0.0,
-          "ci_95": [
-            0.0,
-            0.0
-          ],
-          "p_value": 1.0,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
         }
       },
@@ -327,7 +276,7 @@
             0.0062
           ],
           "p_value": 0.4236,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
         },
         "ndcg_5": {
@@ -337,7 +286,7 @@
             0.0075
           ],
           "p_value": 0.4768,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
         },
         "recall_5": {
@@ -367,8 +316,60 @@
             0.008
           ],
           "p_value": 0.2774,
-          "bonferroni_alpha": 0.00417,
+          "bonferroni_alpha": 0.00556,
           "verdict": "FAIL"
+        }
+      },
+      "T3 (self_query) [NOT APPLICABLE]": {
+        "ndcg_10": {
+          "mean_diff": 0.0,
+          "ci_95": [
+            0.0,
+            0.0
+          ],
+          "p_value": 1.0,
+          "bonferroni_alpha": null,
+          "verdict": "N/A"
+        },
+        "ndcg_5": {
+          "mean_diff": 0.0,
+          "ci_95": [
+            0.0,
+            0.0
+          ],
+          "p_value": 1.0,
+          "bonferroni_alpha": null,
+          "verdict": "N/A"
+        },
+        "recall_5": {
+          "mean_diff": 0.0,
+          "ci_95": [
+            0.0,
+            0.0
+          ],
+          "p_value": 1.0,
+          "bonferroni_alpha": null,
+          "verdict": "N/A"
+        },
+        "recall_10": {
+          "mean_diff": 0.0,
+          "ci_95": [
+            0.0,
+            0.0
+          ],
+          "p_value": 1.0,
+          "bonferroni_alpha": null,
+          "verdict": "N/A"
+        },
+        "mrr": {
+          "mean_diff": 0.0,
+          "ci_95": [
+            0.0,
+            0.0
+          ],
+          "p_value": 1.0,
+          "bonferroni_alpha": null,
+          "verdict": "N/A"
         }
       }
     },
@@ -411,7 +412,7 @@
   ],
   "c4_verdict": {
     "verdict_choice": "(b)",
-    "one_sentence_summary": "Nothing clears on either corpus -> the components do not help at this model scale on either domain, which is a stronger null than corpus A alone could support."
+    "one_sentence_summary": "At 0.5B generator scale, no query transformation cleared Bonferroni on either corpus. HyDE measured -0.0029 on corpus A and -0.0026 on NFCorpus - effectively identical across a synthetic lexical corpus with heuristic relevance and a medical benchmark with human judgments. The replication suggests the null is a property of the method at this model scale rather than of the corpus. It does NOT establish that HyDE fails with a larger generator, which was not tested."
   },
   "corpus_a_integrity": {
     "collection_name": "retriever_chunks_2e6f1c8d",

@@ -1,0 +1,358 @@
+{
+  "metadata": {
+    "experiment_id": "R-06c-2",
+    "timestamp_utc": "2026-09-26T08:33:25Z",
+    "corpus": "NFCorpus",
+    "git_commit": "780aa89d845656bbbbcb73fdb67446f7696cb30c"
+  },
+  "summary": {
+    "verdict": "COMPLETED",
+    "coverage_pct": 41.82,
+    "total_gen_requests": 5616
+  },
+  "corpus_coverage": {
+    "total_documents": 3633,
+    "total_raw_chunks": 4476,
+    "high_tier_chunks": 1872,
+    "low_tier_chunks": 2604,
+    "coverage_percentage": 41.82,
+    "tiering_rule": "min_word_floor=40, min_token_count=55, min_uniqueness_ratio=0.52",
+    "comparison_to_corpus_a": "NFCorpus achieved 41.82% coverage vs Corpus A's 8.75% coverage."
+  },
+  "d3_quality_assertions": {
+    "1_raw_invariance": {
+      "passed": true,
+      "detail": "0 raw text mutations/truncations across all 4,476 chunks"
+    },
+    "2_post_processing_cleanliness": {
+      "passed": true,
+      "detail": "0 preamble leaks, 0 meta-commentary leaks"
+    },
+    "3_representation_failure_rate": {
+      "passed": true,
+      "detail": "Failure rate = 0.82% (46 / 5616, budget = 5.0%)"
+    },
+    "4_llm_truncation_budget": {
+      "passed": true,
+      "detail": "All representation kinds completed within allocated max_new_tokens budgets"
+    }
+  },
+  "table_full": [
+    {
+      "metric": "ndcg_10",
+      "mean_A": 0.3676,
+      "mean_B": 0.372,
+      "diff_CB": 0.0044,
+      "ci_95": [
+        -0.0017,
+        0.0111
+      ],
+      "p_value": 0.1592,
+      "verdict": "FAIL"
+    },
+    {
+      "metric": "ndcg_5",
+      "mean_A": 0.4001,
+      "mean_B": 0.4057,
+      "diff_CB": 0.0056,
+      "ci_95": [
+        -0.0017,
+        0.0137
+      ],
+      "p_value": 0.1422,
+      "verdict": "FAIL"
+    },
+    {
+      "metric": "recall_5",
+      "mean_A": 0.1417,
+      "mean_B": 0.1425,
+      "diff_CB": 0.0008,
+      "ci_95": [
+        -0.0014,
+        0.0037
+      ],
+      "p_value": 0.5218,
+      "verdict": "FAIL"
+    },
+    {
+      "metric": "recall_10",
+      "mean_A": 0.1764,
+      "mean_B": 0.1801,
+      "diff_CB": 0.0037,
+      "ci_95": [
+        -0.0013,
+        0.0118
+      ],
+      "p_value": 0.2272,
+      "verdict": "FAIL"
+    },
+    {
+      "metric": "mrr",
+      "mean_A": 0.5788,
+      "mean_B": 0.5888,
+      "diff_CB": 0.01,
+      "ci_95": [
+        -0.0032,
+        0.0243
+      ],
+      "p_value": 0.1362,
+      "verdict": "FAIL"
+    }
+  ],
+  "table_powered": [
+    {
+      "metric": "ndcg_10",
+      "mean_A": 0.3764,
+      "mean_B": 0.3801,
+      "diff_CB": 0.0037,
+      "ci_95": [
+        -0.0027,
+        0.0108
+      ],
+      "p_value": 0.2706,
+      "verdict": "FAIL"
+    },
+    {
+      "metric": "ndcg_5",
+      "mean_A": 0.4119,
+      "mean_B": 0.4179,
+      "diff_CB": 0.006,
+      "ci_95": [
+        -0.002,
+        0.0153
+      ],
+      "p_value": 0.151,
+      "verdict": "FAIL"
+    },
+    {
+      "metric": "recall_5",
+      "mean_A": 0.1288,
+      "mean_B": 0.1297,
+      "diff_CB": 0.0009,
+      "ci_95": [
+        -0.0015,
+        0.0041
+      ],
+      "p_value": 0.526,
+      "verdict": "FAIL"
+    },
+    {
+      "metric": "recall_10",
+      "mean_A": 0.1668,
+      "mean_B": 0.1675,
+      "diff_CB": 0.0007,
+      "ci_95": [
+        -0.0019,
+        0.004
+      ],
+      "p_value": 0.6434,
+      "verdict": "FAIL"
+    },
+    {
+      "metric": "mrr",
+      "mean_A": 0.6001,
+      "mean_B": 0.6105,
+      "diff_CB": 0.0104,
+      "ci_95": [
+        -0.0039,
+        0.0265
+      ],
+      "p_value": 0.1608,
+      "verdict": "FAIL"
+    }
+  ],
+  "evaluation_full_set": {
+    "num_queries": 323,
+    "raw_only_summary": {
+      "ndcg_10": {
+        "mean": 0.3676,
+        "std": 0.3373
+      },
+      "ndcg_5": {
+        "mean": 0.4001,
+        "std": 0.3708
+      },
+      "recall_5": {
+        "mean": 0.1417,
+        "std": 0.2366
+      },
+      "recall_10": {
+        "mean": 0.1764,
+        "std": 0.2629
+      },
+      "mrr": {
+        "mean": 0.5788,
+        "std": 0.4523
+      }
+    },
+    "multi_rep_summary": {
+      "ndcg_10": {
+        "mean": 0.372,
+        "std": 0.3361
+      },
+      "ndcg_5": {
+        "mean": 0.4057,
+        "std": 0.3691
+      },
+      "recall_5": {
+        "mean": 0.1425,
+        "std": 0.2362
+      },
+      "recall_10": {
+        "mean": 0.1801,
+        "std": 0.2662
+      },
+      "mrr": {
+        "mean": 0.5888,
+        "std": 0.4499
+      }
+    },
+    "paired_bootstrap_tests": {
+      "ndcg_10": {
+        "mean_diff": 0.0044,
+        "ci_95": [
+          -0.0017,
+          0.0111
+        ],
+        "p_value": 0.1592,
+        "verdict": "FAIL"
+      },
+      "ndcg_5": {
+        "mean_diff": 0.0055,
+        "ci_95": [
+          -0.0017,
+          0.0137
+        ],
+        "p_value": 0.1422,
+        "verdict": "FAIL"
+      },
+      "recall_5": {
+        "mean_diff": 0.0009,
+        "ci_95": [
+          -0.0014,
+          0.0037
+        ],
+        "p_value": 0.5218,
+        "verdict": "FAIL"
+      },
+      "recall_10": {
+        "mean_diff": 0.0038,
+        "ci_95": [
+          -0.0013,
+          0.0118
+        ],
+        "p_value": 0.2272,
+        "verdict": "FAIL"
+      },
+      "mrr": {
+        "mean_diff": 0.01,
+        "ci_95": [
+          -0.0032,
+          0.0243
+        ],
+        "p_value": 0.1362,
+        "verdict": "FAIL"
+      }
+    }
+  },
+  "evaluation_powered_subset": {
+    "num_powered_queries": 295,
+    "percentage_of_test_queries": 91.33,
+    "raw_only_summary": {
+      "ndcg_10": {
+        "mean": 0.3764,
+        "std": 0.3319
+      },
+      "ndcg_5": {
+        "mean": 0.4119,
+        "std": 0.368
+      },
+      "recall_5": {
+        "mean": 0.1288,
+        "std": 0.2157
+      },
+      "recall_10": {
+        "mean": 0.1668,
+        "std": 0.2485
+      },
+      "mrr": {
+        "mean": 0.6001,
+        "std": 0.4462
+      }
+    },
+    "multi_rep_summary": {
+      "ndcg_10": {
+        "mean": 0.3801,
+        "std": 0.3311
+      },
+      "ndcg_5": {
+        "mean": 0.4179,
+        "std": 0.3659
+      },
+      "recall_5": {
+        "mean": 0.1297,
+        "std": 0.2153
+      },
+      "recall_10": {
+        "mean": 0.1675,
+        "std": 0.2481
+      },
+      "mrr": {
+        "mean": 0.6105,
+        "std": 0.4435
+      }
+    },
+    "paired_bootstrap_tests": {
+      "ndcg_10": {
+        "mean_diff": 0.0037,
+        "ci_95": [
+          -0.0027,
+          0.0108
+        ],
+        "p_value": 0.2706,
+        "verdict": "FAIL"
+      },
+      "ndcg_5": {
+        "mean_diff": 0.0061,
+        "ci_95": [
+          -0.002,
+          0.0153
+        ],
+        "p_value": 0.151,
+        "verdict": "FAIL"
+      },
+      "recall_5": {
+        "mean_diff": 0.0009,
+        "ci_95": [
+          -0.0015,
+          0.0041
+        ],
+        "p_value": 0.526,
+        "verdict": "FAIL"
+      },
+      "recall_10": {
+        "mean_diff": 0.0008,
+        "ci_95": [
+          -0.0019,
+          0.004
+        ],
+        "p_value": 0.6434,
+        "verdict": "FAIL"
+      },
+      "mrr": {
+        "mean_diff": 0.0105,
+        "ci_95": [
+          -0.0039,
+          0.0265
+        ],
+        "p_value": 0.1608,
+        "verdict": "FAIL"
+      }
+    }
+  },
+  "corpus_a_integrity": {
+    "collection_name": "retriever_chunks_2e6f1c8d",
+    "expected_points": 47034,
+    "status": "PASSED"
+  }
+}
