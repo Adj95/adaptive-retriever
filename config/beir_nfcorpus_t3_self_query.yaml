@@ -1,0 +1,151 @@
+seed: 42
+strict_mode: true
+
+paths:
+  corpus_dir: data/beir/nfcorpus
+  registry_db: data/beir/nfcorpus/registry.db
+  cache_dir: data/cache
+  eval_set: data/beir/nfcorpus/queries.jsonl
+  reports_dir: reports
+  canonical_dir: data/beir/nfcorpus/canonical
+
+models:
+  dense_embedding: BAAI/bge-small-en-v1.5
+  sparse_model: Qdrant/bm25
+  reranker: cross-encoder/ms-marco-MiniLM-L-6-v2
+  llm:
+    provider: local_transformers
+    model: Qwen/Qwen2.5-0.5B-Instruct
+    device: cuda
+    dtype: float32
+    batch_size: 16
+    max_new_tokens: 128
+    truncation_retry: false
+    max_new_tokens_by_kind:
+      summary: 128
+      question: 64
+      keywords: 48
+    temperature: 0.0
+    price_per_1k_in: 0.0015
+    price_per_1k_out: 0.002
+
+vectorstore:
+  mode: server
+  url: http://localhost:6333
+  collection: beir_nfcorpus
+  dense_dim: 384
+  storage_path: data/qdrant_storage
+
+ingest:
+  max_chunks_per_document: 500
+  ocr_max_pages: 15
+  profiler:
+    enabled: true
+  parser_router:
+    enabled: true
+    fixed_parser: pymupdf
+    mapping:
+      digital_prose: pymupdf
+      table_heavy: docling
+      scanned: docling
+      html: trafilatura
+      code: passthrough
+      transcript: pymupdf
+      unknown: pymupdf
+  chunk_router:
+    enabled: true
+    fixed_chunker: recursive_512
+    mapping:
+      digital_prose: recursive_512
+      table_heavy: table_preserving
+      scanned: recursive_512
+      html: structural
+      code: syntax_aware
+      transcript: speaker_turn
+      unknown: recursive_512
+    params:
+      recursive_512: {chunk_size: 512, chunk_overlap: 64, max_tokens: 480, tokenizer_model: "BAAI/bge-small-en-v1.5"}
+      structural: {max_tokens: 800, min_tokens: 120}
+      table_preserving: {max_tokens: 1200}
+      syntax_aware: {max_tokens: 600}
+      speaker_turn: {max_turns: 8}
+  representations:
+    tiering_enabled: true
+    high_tier_kinds: [raw, summary, question, keywords]
+    low_tier_kinds: [raw]
+    questions_per_chunk: 1
+    contextual_prefix: true
+    value_classifier:
+      min_word_floor: 40
+      min_token_count: 55
+      min_uniqueness_ratio: 0.52
+      require_any: [contains_table, section_path_nonempty, high_entity_density]
+
+offline_generation:
+  requests_path: data/generation/requests.jsonl
+  results_path: data/generation/results.jsonl
+
+query:
+  profiler:
+    enabled: true
+    use_llm: false
+  transformation:
+    enabled: true
+    fixed: none
+    strategy: self_query
+
+funnel:
+  prefilter:
+    enabled: true
+  hybrid:
+    enabled: true
+    dense_limit: 100
+    sparse_limit: 100
+    fusion: rrf
+    rrf_k: 60
+    weights: {dense: 0.5, sparse: 0.5}
+  rerank:
+    mode: gated
+    gate_score_margin: 0.30
+    input_size: 100
+    output_size: 10
+
+escalation:
+  enabled: true
+  confidence:
+    method: score_margin
+    threshold: 0.25
+  ladder: [enable_rerank, apply_transformation, ircot_hop]
+  max_hops: 3
+  cost_ceiling_usd: 0.05
+  latency_ceiling_ms: 8000
+
+postretrieval:
+  compression:
+    mode: embeddings
+    embeddings_threshold: 0.40
+    llm_extractor_if_below: 0.5
+  reorder:
+    enabled: true
+
+generation:
+  enabled: true
+  cite_chunks: true
+  refuse_if_confidence_below: 0.15
+  citation_mode: attribution
+
+riskgate:
+  enabled: true
+  flag_on:
+    low_confidence_below: 0.3
+    contradictory_sources: true
+    escalation_exhausted: true
+
+eval:
+  bootstrap_samples: 10000
+  ci: 0.95
+  judge:
+    enabled: true
+    position_swap: true
+    length_control: true
+    trials_per_pair: 2

@@ -310,3 +310,12 @@ Not the test suite, and never an exception. In order of how much they found:
 3. The best escalation signal is ROC AUC 0.6124 - identically the Phase 5 confidence score, already measured and rejected. No new signal exists.
 
 > **Rule:** If end-to-end query latency is dominated by LLM answer generation (95%+), tiering retrieval alone cannot yield meaningful cost savings. A cascade router requires both an extractive fallback tier and a novel gate signal that beats pre-existing query confidence.
+
+---
+
+## 11. Distractor Sampling & Benchmark Ceiling Effects (Task R-06c-prep / R-06c-1)
+
+Published HotpotQA distractor benchmarks use **hard negatives** selected via TF-IDF / BM25 lexical similarity. Sampling distractors at random from full Wikipedia yields **easy negatives** that vector embedding models (BGE-small) easily distinguish from gold documents (dense nDCG@10 = 0.9201 on 20k pool, 0.8687 on 100k pool). Expanding a random distractor pool adds negligible retrieval difficulty and cannot create metric headroom for component testing.
+
+> **Rule:** Benchmark corpus subsampling must preserve published hard-negative mining strategies. Randomly sampled distractor pools create trivial retrieval tasks where baseline performance hits a ceiling (>0.85 nDCG@10) and components cannot demonstrate gain.
+
