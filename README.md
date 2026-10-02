@@ -21,40 +21,46 @@ python scripts/demo.py
 ### What it looks like
 
 ```
-QUERY     Why Deep Fried Foods May Cause Cancer
-          (NFCorpus test query PLAIN-1, 0 gold documents)
+QUERY     Are Avocados Good for You?
+          (NFCorpus test query PLAIN-3131, 6 gold documents)
 
 RETRIEVED top 5 of 10
-  1   MED-2418_c0000   score 7.015    gold: no
-  2   MED-4070_c0000   score 3.865    gold: no
-  3   MED-5269_c0001   score 0.060    gold: no
-  4   MED-4818_c0000   score -0.132   gold: no
-  5   MED-5033_c0000   score -0.470   gold: no
-  rerank fired: yes (top-1 margin 0.28 < 0.30)
+  1   MED-5010_c0000   score 0.016    gold: no
+  2   MED-4620_c0000   score 0.016    gold: yes
+  3   MED-4619_c0000   score 0.016    gold: yes
+  4   MED-5011_c0000   score 0.014    gold: no
+  5   MED-4618_c0000   score 0.014    gold: yes
+  rerank fired: no (top-1 margin 0.47 >= 0.30)
 
 ANSWER
-  Deep fried foods may cause cancer because they contain high levels of
-  harmful substances like aldehydes, acrolein, heterocyclic amines, polycyclic
-  aromatic hydrocarbons, and acrylamide. These compounds can form potentially
-  carcinogenic agents when heated, which increases the risk of developing
-  cancer. Additionally, studies show that frying meat at higher temperatures
-  can lead to the formation of certain chemicals that can damage cells and
-  contribute to cancer development.
+  Yes, avocados are generally considered beneficial for health due to their
+  numerous health benefits. They contain healthy fats, fiber, vitamins,
+  minerals, antioxidants, and omega-3 fatty acids. Avocado contains
+  monounsaturated and polyunsaturated fats, which help reduce cholesterol
+  levels and improve heart health. It's rich in potassium, vitamin C, and
+  vitamin E, which support immune function and protect against diseases like
+  cancer. Additionally, avocados are packed with fiber, making them a great
+  source of soluble fiber that helps regulate blood sugar levels and promote
+  digestive health.
 
-GROUNDING 0 of 3 sentences matched >= 8-gram verbatim to retrieved context
+GROUNDING 0 of 5 sentences matched >= 8-gram verbatim to retrieved context
   sentence 1  ungrounded
   sentence 2  ungrounded
   sentence 3  ungrounded
+  sentence 4  ungrounded
+  sentence 5  ungrounded
 
-COST      retrieval 6,033 ms | rerank 2,133 ms | generation 6,771 ms | total 16,554 ms
+(timings omitted - see Results for benchmarked cost figures)
 ```
+
+Timings are from a single run on an RTX 3050 laptop GPU and will vary; the retrieved documents and gold flags are deterministic.
 
 ### When the generator gets it wrong
 
-The 0.5B model produced a self-contradicting answer ("Yes... statins decrease the risk") and the grounding engine correctly flagged all 3 sentences as ungrounded (0 of 3 matched).
+The 0.5B model asserts "Yes, cholesterol statin drugs do cause breast cancer." before contradicting itself in the final sentence ("Therefore, it's insufficient to determine if statin use causes breast cancer based solely on the given information."). The post-hoc grounding engine correctly flags all 3 sentences as ungrounded (0 of 3 matched >= 8-gram verbatim to retrieved context).
 
 ```
-QUERY     Do cholesterol statin drugs cause breast cancer?
+QUERY     Do Cholesterol Statin Drugs Cause Breast Cancer?
           (NFCorpus test query PLAIN-2, 24 gold documents)
 
 RETRIEVED top 5 of 10
@@ -70,15 +76,15 @@ ANSWER
   context provided, "Emerging evidence suggests that statins' may decrease the
   risk of cancers." However, the study does not provide specific information
   about the link between statin use and breast cancer. Therefore, it's
-  insufficient to determine if cholesterol statin drugs cause breast cancer
-  based solely on the given information.
+  insufficient to determine if statin use causes breast cancer based solely on
+  the given information.
 
 GROUNDING 0 of 3 sentences matched >= 8-gram verbatim to retrieved context
   sentence 1  ungrounded
   sentence 2  ungrounded
   sentence 3  ungrounded
 
-COST      retrieval 5,882 ms | rerank 1,803 ms | generation 5,138 ms | total 18,918 ms
+(timings omitted - see Results for benchmarked cost figures)
 ```
 
 ## Results

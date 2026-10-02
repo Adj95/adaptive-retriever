@@ -24,8 +24,8 @@ from adaptive_retriever.models import RetrievalCandidate
 from adaptive_retriever.vectorstore import VectorStore
 
 
-DEFAULT_QUERY_ID = "PLAIN-1"
-DEFAULT_QUERY_TEXT = "Why Deep Fried Foods May Cause Cancer"
+DEFAULT_QUERY_ID = "PLAIN-3131"
+DEFAULT_QUERY_TEXT = "Are Avocados Good for You?"
 COLLECTION_NAME = "beir_nfcorpus_2e6f1c8d"
 
 
@@ -115,7 +115,6 @@ def format_demo_output(
     top_cands = candidates[:5]
     lines.append(f"RETRIEVED top {len(top_cands)} of {len(candidates)}")
     for rank, cand in enumerate(top_cands, 1):
-        # Extract doc_id from candidate metadata or chunk_id
         doc_id = cand.metadata.get("doc_id") or cand.chunk_id.split("_c")[0]
         score_str = f"score {cand.score:.3f}"
         if known_info:
@@ -163,14 +162,25 @@ def format_demo_output(
     rr_ms = timings.get("rerank_ms", 0.0)
     gen_ms = timings.get("generation_ms", 0.0)
     tot_ms = timings.get("total_ms", 0.0)
-    lines.append(
-        f"COST      retrieval {ret_ms:,.0f} ms | rerank {rr_ms:,.0f} ms | generation {gen_ms:,.0f} ms | total {tot_ms:,.0f} ms"
-    )
+
+    if "other_ms" in timings:
+        other_ms = timings.get("other_ms", 0.0)
+        lines.append("COST --- wall-clock for this run (single run on this machine, not a benchmark) ---")
+        lines.append(f"  retrieval    {ret_ms:,.0f} ms")
+        lines.append(f"  rerank       {rr_ms:,.0f} ms")
+        lines.append(f"  generation   {gen_ms:,.0f} ms")
+        lines.append(f"  other        {other_ms:,.0f} ms")
+        lines.append("  -----------------------")
+        lines.append(f"  total        {tot_ms:,.0f} ms")
+    else:
+        lines.append(
+            f"COST      retrieval {ret_ms:,.0f} ms | rerank {rr_ms:,.0f} ms | generation {gen_ms:,.0f} ms | total {tot_ms:,.0f} ms"
+        )
 
     return "\n".join(lines)
 
 
-def run_demo(query_text: Optional[str] = None) -> str:
+def run_demo(query_input: Optional[str] = None) -> str:
     print(f"Device: {get_resolved_device()}", flush=True)
 
     config_path = "config/beir_nfcorpus.yaml"
@@ -190,29 +200,47 @@ def run_demo(query_text: Optional[str] = None) -> str:
 
     queries, qrels = load_nfcorpus_qrels()
 
-    if not query_text:
-        query_text = DEFAULT_QUERY_TEXT
+    target_qid: Optional[str] = None
+    if not query_input:
+        target_qid = DEFAULT_QUERY_ID
+        query_text = queries.get(DEFAULT_QUERY_ID, DEFAULT_QUERY_TEXT)
+    elif query_input in queries or query_input in qrels:
+        target_qid = query_input
+        query_text = queries.get(query_input, query_input)
+    else:
+        known = find_known_query_info(query_input, queries, qrels)
+        if known:
+            target_qid, _ = known
+            query_text = queries.get(target_qid, query_input)
+        else:
+            query_text = query_input
 
-    known_info = find_known_query_info(query_text, queries, qrels)
+    if target_qid and target_qid in qrels:
+        known_info = (target_qid, qrels[target_qid])
+    else:
+        known_info = find_known_query_info(query_text, queries, qrels)
 
+    print("warming up models (not timed)...", flush=True)
     vs = VectorStore.from_config(cfg, collection_base_name="beir_nfcorpus")
     llm = get_llm_client(cfg)
     reranker = Reranker(device=cfg.raw.get("models", {}).get("llm", {}).get("device", "auto"))
     reranker.ensure_ready()
 
-    # Warm up models
     _ = warm_up(vs, reranker=reranker, llm=llm)
+
+    # Throwaway retrieval and throwaway generation
+    throwaway_cands, _ = run_funnel("warmup throwaway query text", vs, cfg, reranker=reranker, llm=llm)
+    if throwaway_cands:
+        _ = generate_answer("warmup throwaway query text", throwaway_cands[:2], cfg=cfg, llm=llm, ignore_cache=True)
+    print("warm-up complete", flush=True)
 
     t_start = time.perf_counter()
 
     # Stage 1 & 2 & 3: Retrieval & Gated Rerank
-    t0_ret = time.perf_counter()
     candidates, trace = run_funnel(query_text, vs, cfg, reranker=reranker, llm=llm)
-    t1_ret = time.perf_counter()
-    retrieval_total_ms = (t1_ret - t0_ret) * 1000.0
 
     stages = trace.get("stages", {})
-    hy_ms = stages.get("hybrid_search", {}).get("elapsed_ms", retrieval_total_ms)
+    hy_ms = stages.get("hybrid_search", {}).get("elapsed_ms", 0.0)
     rr_ms = stages.get("rerank", {}).get("elapsed_ms", 0.0)
 
     # Stage 4: Generation
@@ -222,7 +250,10 @@ def run_demo(query_text: Optional[str] = None) -> str:
     gen_ms = (t1_gen - t0_gen) * 1000.0
 
     t_end = time.perf_counter()
-    total_ms = (t_end - t_start) * 1000.0
+    tot_ms = (t_end - t_start) * 1000.0
+
+    other_ms = tot_ms - (hy_ms + rr_ms + gen_ms)
+    assert abs((hy_ms + rr_ms + gen_ms + other_ms) - tot_ms) < 1.0, f"cost lines do not sum: {hy_ms + rr_ms + gen_ms + other_ms} vs {tot_ms}"
 
     # Stage 5: Post-hoc Attribution
     sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", gen_ans.text) if s.strip()]
@@ -235,7 +266,8 @@ def run_demo(query_text: Optional[str] = None) -> str:
         "retrieval_ms": hy_ms,
         "rerank_ms": rr_ms,
         "generation_ms": gen_ms,
-        "total_ms": total_ms,
+        "other_ms": other_ms,
+        "total_ms": tot_ms,
     }
 
     output = format_demo_output(
@@ -255,12 +287,16 @@ def main():
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="Adaptive Retriever Demo Script")
-    parser.add_argument("--query", type=str, default=None, help="Query text to execute")
+    parser.add_argument("--query", type=str, default=None, help="Query text or query ID to execute")
+    parser.add_argument("--query-id", type=str, default=None, help="Query ID to execute")
     args = parser.parse_args()
 
-    output = run_demo(args.query)
+    q_input = args.query_id or args.query
+    output = run_demo(q_input)
     print(output)
 
 
 if __name__ == "__main__":
     main()
+
+
