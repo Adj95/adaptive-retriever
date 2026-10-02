@@ -24,8 +24,8 @@ from adaptive_retriever.models import RetrievalCandidate
 from adaptive_retriever.vectorstore import VectorStore
 
 
-DEFAULT_QUERY_ID = "PLAIN-3131"
-DEFAULT_QUERY_TEXT = "Are Avocados Good for You?"
+DEFAULT_QUERY_ID = "PLAIN-33"
+DEFAULT_QUERY_TEXT = "What's Driving America's Obesity Problem?"
 COLLECTION_NAME = "beir_nfcorpus_2e6f1c8d"
 
 
@@ -114,15 +114,18 @@ def format_demo_output(
     # 2. RETRIEVED Section
     top_cands = candidates[:5]
     lines.append(f"RETRIEVED top {len(top_cands)} of {len(candidates)}")
+    top_rrf = candidates[0].fused_score if candidates and candidates[0].fused_score is not None else 1.0
     for rank, cand in enumerate(top_cands, 1):
         doc_id = cand.metadata.get("doc_id") or cand.chunk_id.split("_c")[0]
-        score_str = f"score {cand.score:.3f}"
+        rrf_score = cand.fused_score if cand.fused_score is not None else cand.score
+        gate_score_val = (cand.fused_score / top_rrf) if (cand.fused_score is not None and top_rrf > 0) else 1.0
+        score_str = f"rrf {rrf_score:.4f}   gate_score {gate_score_val:.2f}"
         if known_info:
             _, gold_set = known_info
             is_gold = "yes" if doc_id in gold_set or cand.chunk_id in gold_set else "no"
-            lines.append(f"  {rank:<2}  {cand.chunk_id:<16} {score_str:<12}   gold: {is_gold}")
+            lines.append(f"  {rank:<2}  {cand.chunk_id:<16} {score_str}   gold: {is_gold}")
         else:
-            lines.append(f"  {rank:<2}  {cand.chunk_id:<16} {score_str:<12}")
+            lines.append(f"  {rank:<2}  {cand.chunk_id:<16} {score_str}")
 
     rr_stage = trace.get("stages", {}).get("rerank", {})
     decision = rr_stage.get("decision", "skipped")
@@ -188,6 +191,11 @@ def run_demo(query_input: Optional[str] = None) -> str:
         config_path = "config/default.yaml"
 
     cfg = Config.load(config_path)
+    sys_dev = get_resolved_device()
+    if "cpu" in sys_dev:
+        if "models" in cfg.raw and "llm" in cfg.raw["models"]:
+            cfg.raw["models"]["llm"]["device"] = "cpu"
+
     qdrant_url = cfg.raw.get("vectorstore", {}).get("url", "http://localhost:6333")
 
     if not check_collection_exists(qdrant_url, COLLECTION_NAME):
@@ -221,7 +229,15 @@ def run_demo(query_input: Optional[str] = None) -> str:
         known_info = find_known_query_info(query_text, queries, qrels)
 
     print("warming up models (not timed)...", flush=True)
-    vs = VectorStore.from_config(cfg, collection_base_name="beir_nfcorpus")
+    vs = VectorStore.from_config(cfg, collection_base_name="beir_nfcorpus", timeout=300.0)
+    try:
+        import httpx
+        if hasattr(vs.client, "http") and hasattr(vs.client.http, "api_client"):
+            vs.client.http.api_client.client.timeout = httpx.Timeout(300.0)
+        if hasattr(vs.client, "_client") and hasattr(vs.client._client, "http"):
+            vs.client._client.http.api_client.client.timeout = httpx.Timeout(300.0)
+    except Exception:
+        pass
     llm = get_llm_client(cfg)
     reranker = Reranker(device=cfg.raw.get("models", {}).get("llm", {}).get("device", "auto"))
     reranker.ensure_ready()

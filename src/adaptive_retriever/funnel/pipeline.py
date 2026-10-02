@@ -49,7 +49,7 @@ def warm_up(vs: VectorStore, reranker: Optional[Reranker] = None, llm: Optional[
 
     # 4. Warm cross-encoder reranker
     if reranker is not None:
-        _ = reranker.score("warmup query text", ["warmup candidate text passage"] * 10)
+        _ = reranker.score("warm", ["warm"])
 
     # 5. Warm LLM generator
     if llm is not None:

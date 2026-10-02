@@ -21,34 +21,22 @@ python scripts/demo.py
 ### What it looks like
 
 ```
-QUERY     Are Avocados Good for You?
-          (NFCorpus test query PLAIN-3131, 6 gold documents)
+QUERY     What's Driving America's Obesity Problem?
+          (NFCorpus test query PLAIN-33, 32 gold documents)
 
 RETRIEVED top 5 of 10
-  1   MED-5010_c0000   score 0.016    gold: no
-  2   MED-4620_c0000   score 0.016    gold: yes
-  3   MED-4619_c0000   score 0.016    gold: yes
-  4   MED-5011_c0000   score 0.014    gold: no
-  5   MED-4618_c0000   score 0.014    gold: yes
+  1   MED-1335_c0000   rrf 0.0164   gate_score 1.00   gold: yes
+  2   MED-1336_c0000   rrf 0.0161   gate_score 0.98   gold: yes
+  3   MED-1337_c0000   rrf 0.0152   gate_score 0.93   gold: yes
+  4   MED-4620_c0000   rrf 0.0129   gate_score 0.79   gold: no
+  5   MED-5010_c0000   rrf 0.0118   gate_score 0.72   gold: no
   rerank fired: no (top-1 margin 0.47 >= 0.30)
 
 ANSWER
-  Yes, avocados are generally considered beneficial for health due to their
-  numerous health benefits. They contain healthy fats, fiber, vitamins,
-  minerals, antioxidants, and omega-3 fatty acids. Avocado contains
-  monounsaturated and polyunsaturated fats, which help reduce cholesterol
-  levels and improve heart health. It's rich in potassium, vitamin C, and
-  vitamin E, which support immune function and protect against diseases like
-  cancer. Additionally, avocados are packed with fiber, making them a great
-  source of soluble fiber that helps regulate blood sugar levels and promote
-  digestive health.
+  The primary driver of America's obesity problem is the consumption of ultra-processed foods high in added sugars, refined grains, and unhealthy fats.
 
-GROUNDING 0 of 5 sentences matched >= 8-gram verbatim to retrieved context
-  sentence 1  ungrounded
-  sentence 2  ungrounded
-  sentence 3  ungrounded
-  sentence 4  ungrounded
-  sentence 5  ungrounded
+GROUNDING 1 of 1 sentences matched >= 8-gram verbatim to retrieved context
+  sentence 1  grounded   -> MED-1335_c0000
 
 (timings omitted - see Results for benchmarked cost figures)
 ```
@@ -64,11 +52,11 @@ QUERY     Do Cholesterol Statin Drugs Cause Breast Cancer?
           (NFCorpus test query PLAIN-2, 24 gold documents)
 
 RETRIEVED top 5 of 10
-  1   MED-14_c0000     score 4.554    gold: yes
-  2   MED-2429_c0000   score 4.097    gold: yes
-  3   MED-10_c0000     score 3.304    gold: yes
-  4   MED-2431_c0000   score 3.289    gold: yes
-  5   MED-4827_c0000   score 2.246    gold: no
+  1   MED-14_c0000     rrf 4.5540   gate_score 1.00   gold: yes
+  2   MED-2429_c0000   rrf 4.0970   gate_score 0.90   gold: yes
+  3   MED-10_c0000     rrf 3.3040   gate_score 0.73   gold: yes
+  4   MED-2431_c0000   rrf 3.2890   gate_score 0.72   gold: yes
+  5   MED-4827_c0000   rrf 2.2460   gate_score 0.49   gold: no
   rerank fired: yes (top-1 margin 0.19 < 0.30)
 
 ANSWER
@@ -196,6 +184,7 @@ Verified Collection Hashes and Active Point Counts (Qdrant Server):
 - **Relevance Match Boilerplate**: The `is_relevant()` matching function can trigger on repeated table delimiters (e.g., `"| | | | |"`), flagging Corpus A items with boilerplate table rows.
 - **Pre-Rebuild Index Scope**: All Phase 5 post-retrieval pipeline measurements were conducted on the legacy pre-rebuild index (collection `retriever_chunks_a5d51992`).
 - **Prompt Token Context Discrepancy**: Measured prompt token counts indicate that the answer generator received approximately one-third of the context implied by tier configuration definitions ([`reports/r02c_gate.json`](reports/r02c_gate.json)).
+- **Post-Hoc Grounding Limitation**: The post-hoc grounding check uses verbatim >= 8-gram overlap. On 13 of 25 NFCorpus test queries the 0.5B generator produced no 8-gram verbatim overlap with the retrieved context. The check therefore functions as a detector of paraphrase rather than a validator of factual support.
 
 ## Architecture
 The retrieval architecture consists of an ingest parser, Qdrant hybrid vector store, gated cross-encoder reranker, and verbatim sentence attribution engine. Detailed component wiring and pipeline stage parameters are defined in [`config/default.yaml`](config/default.yaml).
