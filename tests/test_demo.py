@@ -57,7 +57,8 @@ def test_format_demo_output_contains_all_four_sections():
     assert "RETRIEVED top 2 of 2" in out
     assert "MED-10_c0000" in out
     assert "gold: yes" in out
-    assert "rerank fired: yes (top-1 margin 0.11 < 0.30)" in out
+    assert "GATE  margin =" in out
+    assert "-> rerank fired" in out
     assert "ANSWER" in out
     assert "Statins do not increase breast cancer risk" in out
     assert "GROUNDING 1 of 2 sentences matched >= 8-gram verbatim to retrieved context" in out

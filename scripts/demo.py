@@ -113,28 +113,50 @@ def format_demo_output(
 
     # 2. RETRIEVED Section
     top_cands = candidates[:5]
-    lines.append(f"RETRIEVED top {len(top_cands)} of {len(candidates)}")
-    top_rrf = candidates[0].fused_score if candidates and candidates[0].fused_score is not None else 1.0
+    rr_stage = trace.get("stages", {}).get("rerank", {})
+    decision = rr_stage.get("decision", "skipped")
+    fired = (decision == "reranked")
+
+    ordered_by = "cross-encoder" if fired else "RRF fusion"
+    lines.append(f"RETRIEVED top {len(top_cands)} of {len(candidates)}   [ordered by: {ordered_by}]")
+
+    # Monotonicity check
+    if fired:
+        sort_keys = [c.rerank_score for c in top_cands if c.rerank_score is not None]
+    else:
+        sort_keys = [c.fused_score for c in top_cands if c.fused_score is not None]
+
+    assert all(sort_keys[i] >= sort_keys[i + 1] for i in range(len(sort_keys) - 1)), (
+        f"Monotonicity sort assertion failed for ordered by {ordered_by}: {sort_keys}"
+    )
+
     for rank, cand in enumerate(top_cands, 1):
         doc_id = cand.metadata.get("doc_id") or cand.chunk_id.split("_c")[0]
-        rrf_score = cand.fused_score if cand.fused_score is not None else cand.score
-        gate_score_val = (cand.fused_score / top_rrf) if (cand.fused_score is not None and top_rrf > 0) else 1.0
-        score_str = f"rrf {rrf_score:.4f}   gate_score {gate_score_val:.2f}"
+        rrf_val = cand.fused_score if cand.fused_score is not None else (cand.score or 0.0)
+        if fired:
+            ce_val = cand.rerank_score if cand.rerank_score is not None else 0.0
+            score_str = f"ce {ce_val:.2f}   rrf {rrf_val:.4f}"
+        else:
+            score_str = f"rrf {rrf_val:.4f}"
+
         if known_info:
             _, gold_set = known_info
             is_gold = "yes" if doc_id in gold_set or cand.chunk_id in gold_set else "no"
-            lines.append(f"  {rank:<2}  {cand.chunk_id:<16} {score_str}   gold: {is_gold}")
+            lines.append(f"  {rank:<2}  {cand.chunk_id:<16} {score_str:<24}   gold: {is_gold}")
         else:
             lines.append(f"  {rank:<2}  {cand.chunk_id:<16} {score_str}")
 
-    rr_stage = trace.get("stages", {}).get("rerank", {})
-    decision = rr_stage.get("decision", "skipped")
-    fired = "yes" if decision == "reranked" else "no"
     gate_info = rr_stage.get("gate", {})
     margin = gate_info.get("margin", 0.0)
     thresh = gate_info.get("threshold", 0.30)
-    comp = "<" if fired == "yes" else ">="
-    lines.append(f"  rerank fired: {fired} (top-1 margin {margin:.2f} {comp} {thresh:.2f})")
+    top_s = gate_info.get("top_score", 0.0)
+    cut_s = gate_info.get("cutoff_score", 0.0)
+    op = "<" if fired else ">="
+    action = "rerank fired" if fired else "rerank skipped"
+
+    lines.append(
+        f"GATE  margin = ({top_s:.4f} - {cut_s:.4f}) / {top_s:.4f} = {margin:.2f}  {op}  {thresh:.2f}  -> {action}"
+    )
     lines.append("")
 
     # 3. ANSWER Section

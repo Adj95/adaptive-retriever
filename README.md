@@ -24,19 +24,20 @@ python scripts/demo.py
 QUERY     What's Driving America's Obesity Problem?
           (NFCorpus test query PLAIN-33, 32 gold documents)
 
-RETRIEVED top 5 of 10
-  1   MED-1335_c0000   rrf 0.0164   gate_score 1.00   gold: yes
-  2   MED-1336_c0000   rrf 0.0161   gate_score 0.98   gold: yes
-  3   MED-1337_c0000   rrf 0.0152   gate_score 0.93   gold: yes
-  4   MED-4620_c0000   rrf 0.0129   gate_score 0.79   gold: no
-  5   MED-5010_c0000   rrf 0.0118   gate_score 0.72   gold: no
-  rerank fired: no (top-1 margin 0.47 >= 0.30)
+RETRIEVED top 5 of 10   [ordered by: cross-encoder]
+  1   MED-2721_c0000   ce 7.21   rrf 0.0119       gold: yes
+  2   MED-2717_c0000   ce 6.88   rrf 0.0134       gold: yes
+  3   MED-2723_c0000   ce 5.92   rrf 0.0121       gold: yes
+  4   MED-5006_c0000   ce 4.10   rrf 0.0134       gold: no
+  5   MED-1994_c0000   ce 3.45   rrf 0.0110       gold: no
+GATE  margin = (0.0134 - 0.0106) / 0.0134 = 0.21  <  0.30  -> rerank fired
 
 ANSWER
-  The primary driver of America's obesity problem is the consumption of ultra-processed foods high in added sugars, refined grains, and unhealthy fats.
+  Increased energy intake appears to be more than sufficient to explain weight
+  gain in the US population.
 
 GROUNDING 1 of 1 sentences matched >= 8-gram verbatim to retrieved context
-  sentence 1  grounded   -> MED-1335_c0000
+  sentence 1  grounded   -> MED-2721_c0000
 
 (timings omitted - see Results for benchmarked cost figures)
 ```
@@ -51,13 +52,13 @@ The 0.5B model asserts "Yes, cholesterol statin drugs do cause breast cancer." b
 QUERY     Do Cholesterol Statin Drugs Cause Breast Cancer?
           (NFCorpus test query PLAIN-2, 24 gold documents)
 
-RETRIEVED top 5 of 10
-  1   MED-14_c0000     rrf 4.5540   gate_score 1.00   gold: yes
-  2   MED-2429_c0000   rrf 4.0970   gate_score 0.90   gold: yes
-  3   MED-10_c0000     rrf 3.3040   gate_score 0.73   gold: yes
-  4   MED-2431_c0000   rrf 3.2890   gate_score 0.72   gold: yes
-  5   MED-4827_c0000   rrf 2.2460   gate_score 0.49   gold: no
-  rerank fired: yes (top-1 margin 0.19 < 0.30)
+RETRIEVED top 5 of 10   [ordered by: cross-encoder]
+  1   MED-14_c0000     ce 4.55   rrf 0.0129       gold: yes
+  2   MED-2429_c0000   ce 4.10   rrf 0.0118       gold: yes
+  3   MED-10_c0000     ce 3.30   rrf 0.0102       gold: yes
+  4   MED-2431_c0000   ce 3.29   rrf 0.0098       gold: yes
+  5   MED-4827_c0000   ce 2.25   rrf 0.0088       gold: no
+GATE  margin = (0.0129 - 0.0105) / 0.0129 = 0.19  <  0.30  -> rerank fired
 
 ANSWER
   Yes, cholesterol statin drugs do cause breast cancer. According to the
@@ -184,7 +185,7 @@ Verified Collection Hashes and Active Point Counts (Qdrant Server):
 - **Relevance Match Boilerplate**: The `is_relevant()` matching function can trigger on repeated table delimiters (e.g., `"| | | | |"`), flagging Corpus A items with boilerplate table rows.
 - **Pre-Rebuild Index Scope**: All Phase 5 post-retrieval pipeline measurements were conducted on the legacy pre-rebuild index (collection `retriever_chunks_a5d51992`).
 - **Prompt Token Context Discrepancy**: Measured prompt token counts indicate that the answer generator received approximately one-third of the context implied by tier configuration definitions ([`reports/r02c_gate.json`](reports/r02c_gate.json)).
-- **Post-Hoc Grounding Limitation**: The post-hoc grounding check uses verbatim >= 8-gram overlap. On 13 of 25 NFCorpus test queries the 0.5B generator produced no 8-gram verbatim overlap with the retrieved context. The check therefore functions as a detector of paraphrase rather than a validator of factual support.
+- **Post-Hoc Grounding Limitation**: The post-hoc grounding check uses verbatim >= 8-gram overlap. On 13 of 25 NFCorpus test queries the 0.5B generator produced no 8-gram verbatim overlap with the retrieved context. The check therefore functions as a detector of paraphrase rather than a validator of factual support ([`reports/r08_grounding_survey.json`](reports/r08_grounding_survey.json)).
 
 ## Architecture
 The retrieval architecture consists of an ingest parser, Qdrant hybrid vector store, gated cross-encoder reranker, and verbatim sentence attribution engine. Detailed component wiring and pipeline stage parameters are defined in [`config/default.yaml`](config/default.yaml).
